@@ -44,7 +44,7 @@ final class PostController
         $posts = $this->postManager->showAll();
 
         $this->view->render([
-            'template' => 'posts',
+            'template' => 'home',
             'data' => ['posts' => $posts],
         ]);
 

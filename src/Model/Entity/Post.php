@@ -9,7 +9,8 @@ use DateTime;
 final class Post
 {
     private $id;
-    private $title;
+    private $reviewTitle;
+    private $gameTitle;
     private $text;
     private $reviewer;
     private $date;
@@ -26,7 +27,8 @@ final class Post
         $this->date = $date;
         $this->image = $image;*/
         $this->id = (int) $data['id'];
-        $this->title = $data['title'];
+        $this->reviewTitle = $data['review_title'];
+        $this->gameTitle = $data['game_title'];
         $this->text = $data['content'];
         $this->reviewer = $data['reviewer'];
         $this->date = $data['date'];
@@ -39,14 +41,25 @@ final class Post
         return $this->id;
     }
 
-    public function getTitle(): string
+    public function getReviewTitle(): string
     {
-        return $this->title;
+        return $this->reviewTitle;
     }
 
-    public function setTitle(string $title): self
+    public function setReviewTitle(string $reviewTitle): self
     {
-        $this->title = $title;
+        $this->reviewTitle = $reviewTitle;
+        return $this;
+    }
+
+    public function getGameTitle() : string
+    {
+        return $this->gameTitle;
+    }
+
+    public function setGameTitle(string $gameTitle): self
+    {
+        $this->gameTitle = $gameTitle;
         return $this;
     }
 
