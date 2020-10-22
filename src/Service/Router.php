@@ -8,6 +8,7 @@ use App\Controller\Frontoffice\PostController;
 use App\Model\Manager\{CommentManager, PostManager};
 use App\Model\Repository\{CommentRepository, PostRepository};
 use App\View\View;
+use App\Model\Entity\Post;
 
 // cette classe router est un exemple très basic. Cette façon de faire n'est pas optimale
 final class Router

@@ -16,7 +16,7 @@ final class PostManager
         $this->postRepo = $postRepository;
     }
 
-    public function showAll(): ?Post
+    public function showAll(): array
     {
         // renvoie tous les posts
         return $this->postRepo->findByAll();

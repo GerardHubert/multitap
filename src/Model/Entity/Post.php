@@ -8,21 +8,30 @@ use DateTime;
 
 final class Post
 {
-    private /*int*/ $id;
-    private /*string*/ $title;
-    private /*string*/ $text;
+    private $id;
+    private $title;
+    private $text;
     private $reviewer;
     private $date;
     private $image;
+    private $data;
 
-    public function __construct(int $id, string $title, string $text, string $reviewer, string $date, string $image)
+    public function __construct(/*int $id, string $title, string $content, string $reviewer, string $date, string $image*/array $data)
     {
-        $this->id = $id;
+        $this->data = $data;
+        /*$this->id = $id;
         $this->title = $title;
-        $this->text = $text;
+        $this->text = $content;
         $this->reviewer = $reviewer;
         $this->date = $date;
-        $this->image = $image;
+        $this->image = $image;*/
+        $this->id = (int) $data['id'];
+        $this->title = $data['title'];
+        $this->text = $data['content'];
+        $this->reviewer = $data['reviewer'];
+        $this->date = $data['date'];
+        $this->image = $data['image'];
+        
     }
 
     public function getId(): int

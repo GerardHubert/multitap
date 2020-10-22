@@ -43,11 +43,10 @@ final class PostController
     {
         $posts = $this->postManager->showAll();
 
-        /*$this->view->render([
+        $this->view->render([
             'template' => 'posts',
             'data' => ['posts' => $posts],
-        ]);*/
+        ]);
 
-        print_r($posts);
     }
 }

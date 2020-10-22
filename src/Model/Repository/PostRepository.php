@@ -23,16 +23,19 @@ final class PostRepository
         return $data === null ? $data : new Post($data['id'], $data['title'], $data['text'], $data['reviewer'], $data['date'], $data['image']);
     }
 
-    public function findByAll(): void
+    public function findByAll(): array
     {
         // SB ici faire l'hydratation des objets
-        //$data = $this->database->executeSqlDB(null);
+        
+        $objects = [];
         $data = $this->database->prepare('SELECT * FROM reviews');
         $data->execute();
-        $posts = $data->fetchObject();
-        var_dump($posts);
+        $posts = $data->fetchAll(\PDO::FETCH_ASSOC);
+        foreach ($posts as $post) {
+            array_push($objects, new Post($post));
+        }
+        return $objects;
 
-        
         /*if ($data === null) {
             return null;
         }*/
