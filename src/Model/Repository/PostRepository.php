@@ -18,9 +18,19 @@ final class PostRepository
 
     public function findById(int $id): ?Post
     {
-        $data = $this->database->executeSqlDB(['id'=>$id]);
-        // réfléchir à l'hydratation des entités;
-        return $data === null ? $data : new Post($data['id'], $data['title'], $data['text'], $data['reviewer'], $data['date'], $data['image']);
+        $data = $this->database->prepare('SELECT * 
+            FROM reviews
+            WHERE id = :id');
+        $data->bindParam(':id', $id);
+        $data->execute();
+        $post = $data->fetch(\PDO::FETCH_ASSOC);
+        
+        // réfléchir à l'hydratation des entités === on instancie un nouvel objet Post en lui passant les données de la requête;
+        //return $data === null ? $data : new Post($data['id'], $data['title'], $data['text'], $data['reviewer'], $data['date'], $data['image']);
+        if ($post === false) {
+            return null;
+        }
+        return new Post($post);
     }
 
     public function findByAll(): array
@@ -28,7 +38,8 @@ final class PostRepository
         // SB ici faire l'hydratation des objets
         
         $objects = [];
-        $data = $this->database->prepare('SELECT * FROM reviews');
+        $data = $this->database->prepare('SELECT * 
+            FROM reviews');
         $data->execute();
         $posts = $data->fetchAll(\PDO::FETCH_ASSOC);
         foreach ($posts as $post) {

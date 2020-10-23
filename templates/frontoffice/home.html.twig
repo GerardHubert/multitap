@@ -2,7 +2,10 @@
 
 {% block title %}Tous les posts{% endblock %}
 
-
+{% block banner %}
+    <img id="headband" src="images/headband.jpg" alt="Bannière : Figurines de Mario, Luigi et Yoshi" />
+    <h1>Bienvenue sur Multitap, où chaque avis compte !</h1>
+{% endblock %}
 
 {% block content %}
 <section id='latest_reviews'>
@@ -10,7 +13,7 @@
         <div id="cards">
             {% for post in posts %}
                 <section class="card">
-                    <a href='deadcells_mauvais_joueur.html'><img src= 'images/{{ post.image }}' alt= {{ post.image }} class="thumbnail" /></a>
+                    <a href='index.php?action=post&id={{ post.id }}'><img src= 'images/{{ post.image }}' alt= {{ post.image }} class="thumbnail" /></a>
                     <div class='thumbnail_infos'>
                         <h3 class="thumbnail_title">{{ post.reviewTitle }}</h3>
                         <div class="author_comments">

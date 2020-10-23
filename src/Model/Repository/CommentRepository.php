@@ -19,9 +19,21 @@ final class CommentRepository
     public function findAllByPostId(int $idPost): ?array
     {
         // SB ici faire l'hydratation des objets
-        $data =  $this->database->executeSqlDB(['idPost'=>$idPost]);
-        
-        if ($data === null) {
+        $comments = [];
+        $request =  $this->database->prepare('SELECT *
+            FROM comments
+            WHERE review_id = :review_id');
+        $request->bindParam(':review_id', $idPost);
+        $request->execute();
+        $data = $request->fetchAll(\PDO::FETCH_ASSOC);
+
+        foreach ($data as $comment) {
+            $comments[] = new Comment($comment);
+        }
+
+        return $comments;
+
+        /*if ($data === null) {
             return null;
         }
         
@@ -31,7 +43,7 @@ final class CommentRepository
             $comments[] = new Comment((int)$comment['id'], $comment['pseudo'], $comment['text'], (int)$comment['idPost']);
         }
 
-        return $comments;
+        return $comments;*/
     }
 
     public function findByAll(): ?array

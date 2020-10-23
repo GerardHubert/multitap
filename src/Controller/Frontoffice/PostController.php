@@ -23,7 +23,7 @@ final class PostController
     {
         $post = $this->postManager->showOne($id);
         $comments = $commentManager->showAllFromPost($id);
-
+        var_dump($comments);
         if ($post !== null) {
             $this->view->render(
                 [

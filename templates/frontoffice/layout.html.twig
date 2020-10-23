@@ -14,22 +14,20 @@
         <!-- Navigation -->
             <nav>
                 <div class="navbar">
-                    <span><i class="fas fa-home"></i><a href='index.html'>ACCUEIL</a></span>
+                    <span><i class="fas fa-home"></i><a href='index.php'>ACCUEIL</a></span>
                     <span>|</span>
-                    <span><i class="fas fa-gamepad"></i><a href='reviews.html'>LES REVIEWS</a></span>
+                    <span><i class="fas fa-gamepad"></i><a href='index.php?action=posts'>LES REVIEWS</a></span>
                     <span>|</span>
                     <span><i class="fas fa-user"></i><a href='dashboard.html'>SE CONNECTER</a></span>
                     <span>|</span>
                     <span><i class="fas fa-clipboard-list"></i><a href='#'>S'INSCRIRE</a></span>
                 </div>
             </nav>
-
-        <!-- Page Header -->
-    
             <div id="banner">
-                <img id="headband" src="images/headband.jpg" alt="Bannière : Figurines de Mario, Luigi et Yoshi" />
-                <h1>Bienvenue sur Multitap, où chaque avis compte !</h1>
+                {% block banner %}{% endblock %}
             </div>
+
+            {% block reviewTitle %}{% endblock %}
         </header>
 
         <main>

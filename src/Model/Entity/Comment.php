@@ -10,13 +10,19 @@ final class Comment
     private /*string*/ $pseudo;
     private /*string*/ $text;
     private /*int*/ $idPost;
+    private $thumbsUp;
+    private $thumbsDown;
+    private $commentDate;
 
-    public function __construct(int $id, string $pseudo, string $text, int $idPost)
+    public function __construct(array $comments)
     {
-        $this->id = $id;
-        $this->pseudo = $pseudo;
-        $this->text = $text;
-        $this->idPost = $idPost;
+        $this->id = $comments['id'];
+        $this->pseudo = $comments['pseudo'];
+        $this->text = $comments['content'];
+        $this->idPost = $comments['review_id'];
+        $this->thumbsUp = (int) $comments['thumbs_up'];
+        $this->thumbsDown = (int) $comments['thumbs_down'];
+        $this->commentDate = $comments['comment_date'];
     }
 
     public function getId(): int
@@ -49,5 +55,20 @@ final class Comment
     public function getIdPost(): int
     {
         return $this->idPost;
+    }
+
+    public function getThumbsUp(): int
+    {
+        return $this->thumbsUp;
+    }
+
+    public function getThumbsDown(): int
+    {
+        return $this->thumbsDown;
+    }
+
+    public function getCommentDate(): string
+    {
+        return $this->commentDate;
     }
 }
