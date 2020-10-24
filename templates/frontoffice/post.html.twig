@@ -1,6 +1,8 @@
 {% extends "/frontoffice/layout.html.twig" %}
 
-{% block title %}post.title{% endblock %}
+{% block title %}
+    {{ post.reviewTitle }}
+{% endblock %}
 
 {% block banner %}
     <img id='headband' src='images/{{ post.image }}' alt='Image de {{ post.gameTitle }}' />
@@ -18,13 +20,15 @@
         <p>{{ post.text }}</p>
     </div>
     <aside id="game_info">
-        <img src='images/deadcells_icone.png' alt='icone de deadcells' />
+        <h2 class='game_title'></h2>
+        <span id="api_game_id">{{ post.apiGameId }}</span>
+        <img src='images/{{ post.image }}' alt='icone de {{ post.gameTitle }}' />
         <ul>
-            <li>Développeur: Evil Empire</a></li>
-            <li>Sortie le 07 aout 2018</li>
-            <li>Genre: rogue-like</li>
-            <li>Machines: PS4, XBOX, Switch, PC</li>
-            <li>Tags: <a class='tags' href="#">Rogue-like</a>, <a href="#">Dead Cells</a>, <a class='tags' href="#">Mauvais_Joueur</a></li>
+            <li>Développeurs : <span class='developers'></span></li>
+            <li>Sortie : <span class='out'></span></li>
+            <li>Genre : <span class='genre'></span></li>
+            <li>Machines : <span class='platforms'>PS4, XBOX, Switch, PC</span></li>
+            <li>Tags : <a href="#">{{ post.gameTitle }}</a>, <a class='tags' href="#">{{ post.reviewer }}</a></li>
         </ul>
         <iframe width="383.31" height="300" src="https://www.youtube.com/embed/RvGaSPTcTxc" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
     </aside>

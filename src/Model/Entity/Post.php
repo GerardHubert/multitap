@@ -15,6 +15,7 @@ final class Post
     private $reviewer;
     private $date;
     private $image;
+    private $apiGameId;
     private $data;
 
     public function __construct(/*int $id, string $title, string $content, string $reviewer, string $date, string $image*/array $data)
@@ -33,6 +34,7 @@ final class Post
         $this->reviewer = $data['reviewer'];
         $this->date = $data['date'];
         $this->image = $data['image'];
+        $this->apiGameId = (int) $data['api_game_id'];
         
     }
 
@@ -105,5 +107,10 @@ final class Post
     {
         $this->image = $image;
         return $this;
+    }
+
+    public function getApiGameId(): int
+    {
+        return $this->apiGameId;
     }
 }
