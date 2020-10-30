@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3308
--- Généré le :  sam. 24 oct. 2020 à 10:58
+-- Généré le :  ven. 30 oct. 2020 à 22:56
 -- Version du serveur :  8.0.18
 -- Version de PHP :  7.3.12
 
@@ -59,14 +59,14 @@ INSERT INTO `comments` (`id`, `review_id`, `pseudo`, `content`, `thumbs_up`, `th
 DROP TABLE IF EXISTS `reviews`;
 CREATE TABLE IF NOT EXISTS `reviews` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `review_title` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
-  `game_title` varchar(100) NOT NULL,
-  `api_game_id` int(11) NOT NULL,
+  `reviewTitle` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+  `gameTitle` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+  `apiGameId` int(11) NOT NULL,
   `content` longtext NOT NULL,
   `reviewer` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
   `status` int(11) NOT NULL,
   `image` varchar(100) NOT NULL,
-  `date` date NOT NULL,
+  `reviewDate` date NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 
@@ -74,7 +74,7 @@ CREATE TABLE IF NOT EXISTS `reviews` (
 -- Déchargement des données de la table `reviews`
 --
 
-INSERT INTO `reviews` (`id`, `review_title`, `game_title`, `api_game_id`, `content`, `reviewer`, `status`, `image`, `date`) VALUES
+INSERT INTO `reviews` (`id`, `reviewTitle`, `gameTitle`, `apiGameId`, `content`, `reviewer`, `status`, `image`, `reviewDate`) VALUES
 (1, 'Découverte du rogue-like avec Dead Cells', 'Dead Cells', 11726, 'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ipsam alias fugiat recusandae excepturi eos impedit reiciendis libero non unde dignissimos, modi aperiam eaque quo delectus dolorum omnis atque quaerat ad assumenda tempora eveniet totam expedita ratione quasi. Provident veritatis saepe illo, suscipit amet, optio repellat distinctio voluptatum architecto modi exercitationem aspernatur eius ipsam incidunt earum, dolorum reprehenderit? Sed, dicta assumenda consequuntur sequi est provident delectus totam quia, ea ad quae repellat quas at numquam inventore expedita asperiores optio unde, enim tenetur. Provident facere ipsum exercitationem blanditiis pariatur deserunt eum iusto distinctio non quam? Quidem dicta quis ab nam accusamus possimus.', 'Mauvais_Joueur', 1, 'deadcells.jpg', '2020-08-14'),
 (2, 'Enfin un vrai Pokemon sur Switch !', 'Pokemon Epée / Bouclier', 282825, 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus eu dolor euismod, hendrerit dui gravida, finibus arcu. Nullam est ipsum, tristique vel turpis mollis, sagittis scelerisque nisl. In bibendum convallis mauris id rhoncus. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur porttitor dui nec nulla ultricies volutpat. Curabitur ullamcorper mattis arcu eu consequat. Curabitur eget tincidunt est. Vestibulum porttitor ipsum eget risus blandit, eu vestibulum dolor mollis. Donec facilisis ante eget sapien mattis, et iaculis velit efficitur. Maecenas sed sollicitudin felis, id luctus mi. Curabitur at enim gravida, interdum lectus eget, rutrum dui. Sed venenatis aliquet massa, sit amet placerat justo semper sed. Duis tincidunt lacinia nibh non elementum. Mauris sollicitudin, massa id bibendum pharetra, tellus nibh vehicula orci, vitae luctus justo nisi quis urna. Vestibulum non urna ut arcu congue tristique.\r\n\r\nUt sed convallis ipsum. Sed venenatis sapien sit amet finibus aliquet. Vivamus risus elit, maximus tempus imperdiet id, ultricies quis mi. Vestibulum mattis augue quis diam euismod, vel euismod ante gravida. Nulla facilisi. In gravida ligula eu leo faucibus rutrum. Maecenas volutpat tellus tortor, viverra gravida ante vehicula vel. Praesent vel viverra purus, ac vehicula diam. Mauris sodales ultrices tempus. Quisque sodales in velit eget tempor. Phasellus accumsan iaculis quam, sed vehicula magna sagittis ac. In velit tortor, porttitor eget elit eu, consequat vulputate massa. Aenean cursus, diam in fringilla lobortis, arcu velit ultricies quam, a lobortis mi urna a dui. Sed neque ipsum, cursus et eleifend ac, finibus id ipsum.', 'Gérard', 1, 'pokemon.jpg', '2019-12-12'),
 (3, 'Le remake du 1er Zelda déchire', 'Zelda : Link\'s Awakening', 292842, 'Aliquam sit amet egestas sapien. Donec elementum finibus turpis. Maecenas eleifend mattis dolor, cursus pellentesque elit porta ac. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis eget vestibulum justo, et semper mi. Curabitur sed egestas ligula. Aenean rutrum volutpat diam. Donec mauris mi, convallis ut ipsum sit amet, dictum accumsan nunc. Morbi euismod sed turpis sed feugiat. Curabitur congue tempor cursus. Pellentesque ac felis in lorem pharetra rhoncus a quis ex. Pellentesque auctor est id fringilla facilisis. Donec lacinia tempus mattis. Morbi a placerat ex, nec blandit nunc.\r\n\r\nDonec suscipit porta felis, et tempor lorem bibendum nec. Proin in aliquam arcu, sit amet blandit ligula. Nullam ac imperdiet massa, a bibendum erat. Cras varius leo congue, dignissim dolor condimentum, placerat mauris. Nunc at elit lorem. Integer pellentesque scelerisque eleifend. Curabitur non fermentum nibh.\r\n\r\nQuisque eget augue ut lectus rutrum efficitur. Cras nec sagittis dolor. Vestibulum eget velit hendrerit, blandit nisl non, viverra sem. Cras vitae tortor tellus. Vivamus mollis pretium ultrices. In sagittis quis sapien et lobortis. Duis ornare id elit auctor suscipit. Nullam eleifend mi in lacus pretium, vitae auctor nibh pellentesque. Ut congue lectus egestas nisl pellentesque, vitae sodales diam vulputate. Morbi urna enim, cursus vitae maximus eget, eleifend ac arcu.\r\n\r\nDonec tincidunt, lacus volutpat congue pellentesque, leo massa cursus massa, eu porta justo neque quis justo. Vivamus nec aliquam odio. Donec lacinia posuere ultrices. Proin cursus accumsan dignissim. Morbi convallis ante nec massa imperdiet, sed maximus risus vehicula. Mauris egestas ligula sed lobortis varius. Etiam massa nunc, pulvinar in elementum et, aliquet id dui. Vivamus vehicula ac quam id egestas. Donec eros nisl, sodales mollis turpis vestibulum, tristique mattis turpis. Praesent non lorem at orci facilisis lacinia facilisis in ante.\r\n\r\nNulla vulputate sagittis risus, sollicitudin convallis velit tempor id. Proin in rutrum velit. Nam rutrum lacus ac metus porta porta. In sit amet tristique magna, sed finibus nisi. Maecenas eu fermentum tellus. Ut mollis venenatis diam ac cursus. Donec viverra metus ante, tempus viverra dui feugiat et. Cras varius, urna eu faucibus rutrum, nisl lacus facilisis massa, quis pellentesque sapien magna sit amet purus. Phasellus pellentesque massa massa, a molestie justo egestas in. Aenean commodo viverra libero non scelerisque. Praesent urna nibh, iaculis pretium lectus et, convallis porta ipsum. Pellentesque risus urna, scelerisque eget placerat vitae, pretium in enim. Nullam convallis ultrices sem, et vehicula magna convallis non. Fusce egestas nibh magna.', 'Tri-Force_master', 2, 'link.jpg', '2020-05-20'),

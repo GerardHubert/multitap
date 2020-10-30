@@ -1,4 +1,4 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="fr">
     <head>
         <meta charset="utf-8">
@@ -11,12 +11,12 @@
     <body>
 
         <header>
-        <!-- Navigation -->
+            <!-- Navigation -->
             <nav>
                 <div class="navbar">
                     <span><i class="fas fa-home"></i><a href='index.php'>ACCUEIL</a></span>
                     <span>|</span>
-                    <span><i class="fas fa-gamepad"></i><a href='index.php?action=posts'>LES REVIEWS</a></span>
+                    <span><i class="fas fa-gamepad"></i><a href='index.php?action=all_posts'>LES REVIEWS</a></span>
                     <span>|</span>
                     <span><i class="fas fa-user"></i><a href='dashboard.html'>SE CONNECTER</a></span>
                     <span>|</span>
@@ -34,10 +34,13 @@
             {% block content %}{% endblock %}
         </main>
         
-        <footer class="footer text-center">
-            <h3>Copyright Toto</h3>
-        </footer>
-        
         <script src='js/Games.js'></script>
+
     </body>
+
+    <footer class="footer text-center">
+        <h3>Copyright Toto</h3>
+    </footer>
+
+
 </html>

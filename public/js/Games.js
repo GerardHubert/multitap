@@ -29,9 +29,14 @@ class Games {
     displayDetails(data) {
         this.gameTitle.innerHTML = data.name;
 
-        const devList = [];
+        if (data.developers.length === 0) {
+            this.developers.innerHTML = 'Développeur(s) inconnu';
+        }
+            else {
+                const devList = [];
         data.developers.forEach(dev => devList.push(dev.name));
         this.developers.innerHTML = devList.join();
+            }
 
         this.out.innerHTML = data.released;
 

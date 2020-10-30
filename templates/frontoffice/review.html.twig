@@ -10,7 +10,7 @@
 
 {% block reviewTitle %}
     <h1 id="review_title">{{ post.reviewTitle }}</h1>
-    <span id="author_date">De {{ post.reviewer }}, le {{ post.date }}</span>
+    <span id="author_date">De {{ post.reviewer }}, le {{ post.reviewDate }}</span>
 {% endblock %}
 
 {% block content %} 
@@ -28,7 +28,7 @@
             <li>Sortie : <span class='out'></span></li>
             <li>Genre : <span class='genre'></span></li>
             <li>Machines : <span class='platforms'>PS4, XBOX, Switch, PC</span></li>
-            <li>Tags : <a href="#">{{ post.gameTitle }}</a>, <a class='tags' href="#">{{ post.reviewer }}</a></li>
+            <li>Tags : <a class='tags' href="#">{{ post.gameTitle }}</a>, <a class='tags' href="#">{{ post.reviewer }}</a></li>
         </ul>
         <iframe width="383.31" height="300" src="https://www.youtube.com/embed/RvGaSPTcTxc" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
     </aside>

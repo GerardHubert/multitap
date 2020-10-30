@@ -6,41 +6,20 @@ namespace App\Model\Entity;
 
 use DateTime;
 
-final class Post
+final class Review
 {
     private $id;
     private $reviewTitle;
     private $gameTitle;
-    private $text;
+    private $content;
     private $reviewer;
-    private $date;
+    private $reviewDate;
     private $image;
     private $apiGameId;
-    private $data;
-
-    public function __construct(/*int $id, string $title, string $content, string $reviewer, string $date, string $image*/array $data)
-    {
-        $this->data = $data;
-        /*$this->id = $id;
-        $this->title = $title;
-        $this->text = $content;
-        $this->reviewer = $reviewer;
-        $this->date = $date;
-        $this->image = $image;*/
-        $this->id = (int) $data['id'];
-        $this->reviewTitle = $data['review_title'];
-        $this->gameTitle = $data['game_title'];
-        $this->text = $data['content'];
-        $this->reviewer = $data['reviewer'];
-        $this->date = $data['date'];
-        $this->image = $data['image'];
-        $this->apiGameId = (int) $data['api_game_id'];
-        
-    }
 
     public function getId(): int
     {
-        return $this->id;
+        return (int) $this->id;
     }
 
     public function getReviewTitle(): string
@@ -67,12 +46,12 @@ final class Post
 
     public function getText(): string
     {
-        return $this->text;
+        return $this->content;
     }
 
-    public function setText(string $text): self
+    public function setText(string $content): self
     {
-        $this->text = $text;
+        $this->text = $content;
         return $this;
     }
 
@@ -87,14 +66,14 @@ final class Post
         return $this;
     }
 
-    public function getDate(): string
+    public function getReviewDate(): string
     {
-        return $this->date;
+        return $this->reviewDate;
     }
 
-    public function setDate(string $date): self
+    public function setReviewDate(string $reviewDate): self
     {
-        $this->date = $date;
+        $this->date = $reviewDate;
         return $this;
     }
 
@@ -111,6 +90,6 @@ final class Post
 
     public function getApiGameId(): int
     {
-        return $this->apiGameId;
+        return (int) $this->apiGameId;
     }
 }

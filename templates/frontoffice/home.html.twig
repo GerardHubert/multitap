@@ -4,7 +4,6 @@
 
 {% block banner %}
     <img id="headband" src="images/headband.jpg" alt="Bannière : Figurines de Mario, Luigi et Yoshi" />
-    <h1>Bienvenue sur Multitap, où chaque avis compte !</h1>
 {% endblock %}
 
 {% block content %}
@@ -17,13 +16,15 @@
                     <div class='thumbnail_infos'>
                         <h3 class="thumbnail_title">{{ post.reviewTitle }}</h3>
                         <div class="author_comments">
-                            <span class='pseudo_date'>{{ post.reviewer }} | {{ post.date }}</span>
-                            <span class="comments_number"><i class="fas fa-comments"></i>2</span>
+                            <span class='pseudo_date'>{{ post.reviewer }} | {{ post.reviewDate }}</span>
+                            <span class="comments_number"><i class="fas fa-comments"></i>
+                                12
+                            </span>
                         </div>
                     </div>
                 </section>
             {% endfor %}
         </div>
-    <button class="show_all"><a href='reviews.html'>TOUTES LES REVIEWS</a></button>
+    <button class="show_all"><a href='index.php?action=all_posts'>TOUTES LES REVIEWS</a></button>
 </section>
 {% endblock %}
