@@ -162,7 +162,8 @@ nav{
 button{
     width: 20%;
     height: 40px;
-    align-self: flex-end;    border-radius: 15px;
+    align-self: flex-end;
+    border-radius: 15px;
     font-family: 'roboto_bold';
     font-size: 0.9rem;
     background-color: #F97558;

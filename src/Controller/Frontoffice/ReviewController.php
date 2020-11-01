@@ -51,9 +51,16 @@ final class ReviewController
 
     }
 
-    public function displayAllAction(): void
+    public function displayAllAction(int $page): void
     {
-        $reviews = $this->reviewManager->showTen();
-        var_dump($reviews);
+        $reviews = $this->reviewManager->showTwo($page);
+        $this->view->render([
+            'template' => 'allReviews',
+            'data' => [
+                'reviews' => $reviews[0],
+                'totalPages' => $reviews[1],
+                'page' => $page
+            ],
+        ]);
     }
 }

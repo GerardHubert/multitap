@@ -12,7 +12,7 @@
         <div id="cards">
             {% for post in posts %}
                 <section class="card">
-                    <a href='index.php?action=post&id={{ post.id }}'><img src= 'images/{{ post.image }}' alt= {{ post.image }} class="thumbnail" /></a>
+                    <a href='index.php?action=review&id={{ post.id }}'><img src= 'images/{{ post.image }}' alt= {{ post.image }} class="thumbnail" /></a>
                     <div class='thumbnail_infos'>
                         <h3 class="thumbnail_title">{{ post.reviewTitle }}</h3>
                         <div class="author_comments">
@@ -25,6 +25,6 @@
                 </section>
             {% endfor %}
         </div>
-    <button class="show_all"><a href='index.php?action=all_posts'>TOUTES LES REVIEWS</a></button>
+    <button class="show_all"><a href='index.php?action=all_reviews&page=1'>TOUTES LES REVIEWS</a></button>
 </section>
 {% endblock %}

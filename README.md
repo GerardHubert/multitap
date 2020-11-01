@@ -1,11 +1,12 @@
-# PrGoSfad
+multitap.Papajoueur.fr
 
-* Installer composer
-* Mettre en place l'autoloading
-* Installer les packages Whoops et Php-cs-fixer avec composer et en utilisant le flag --dev
-* Installer twig avec composer
+Ce blog de jeux vidéo permet aux membre inscrits de laisser des reviews sur les jeux vidéos de leur choix, tant qu'ils figurent dans l'API RAWG.IO.
+Une fois inscrit, le membre choisit un jeu. Si celui-ci est trouvé, il peut rédiger une review. 
+Cette review est ensuite soumise à la relecture d'un rédacteur en chef avant publication ou demande de modification.
+Chaque review peut être commentée.
+Chaque commentaire peut être liké (pouce en haut) ou disliké (pouce en bas).
 
-* Vérifier que le path de php.exe est bien dans les variables d'environnement https://www.php.net/manual/fr/faq.installation.php#faq.installation.addtopath
-* Pour lancer le serveur PHP depuis la racine du projet => php -S localhost:8000 -t public
+Un certain nombre de pouces en bas entraine la modération du commentaire.
+Signalement du commentaire est aussi possible de via un bouton à cet effet.
 
-* Avant chaque commit faire un vendor/bin/php-cs-fixer fix --diff
+Chaque membre possède son backoffice.

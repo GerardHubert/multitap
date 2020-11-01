@@ -50,11 +50,11 @@ final class Router
             case 'home':
                 $this->reviewController->displayHomeAction();
             break;
-            case 'post':
+            case 'review':
                 empty($this->get['id']) ? $this->reviewController->displayHomeAction() : $this->reviewController->displayOneAction((int) $this->get['id']);
             break;
-            case 'all_posts':
-                $this->reviewController->displayAllAction();
+            case 'all_reviews':
+                $this->reviewController->displayAllAction((int) $this->get['page']);
             break;
         }
 

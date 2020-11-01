@@ -44,12 +44,12 @@ final class Review
         return $this;
     }
 
-    public function getText(): string
+    public function getContent(): string
     {
         return $this->content;
     }
 
-    public function setText(string $content): self
+    public function setContent(string $content): self
     {
         $this->text = $content;
         return $this;

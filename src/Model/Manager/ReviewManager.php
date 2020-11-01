@@ -30,8 +30,13 @@ final class ReviewManager
         return $this->reviewRepo->findById($id);
     }
 
-    public function showTen(): array
+    public function showTwo(int $page): array
     {
-        return $this->reviewRepo->findByOffset();
+        $reviewsPerPage = 3;
+        $pageToDisplay = $page - 1;
+        $offset = $pageToDisplay * $reviewsPerPage;
+        $totalReviews = count($this->reviewRepo->findByAll());
+        $totalPages = ceil($totalReviews / $reviewsPerPage);
+        return [$this->reviewRepo->findByOffset($offset), $totalPages];
     }
 }

@@ -52,14 +52,15 @@ final class ReviewRepository
         return $reviews;
     }
 
-    public function findByOffset() : array
+    public function findByOffset(int $offset) : array
     {
-        $offset = 1;
-        $request = $this->database->prepare('SELECT *
+        $request = $this->database->prepare("SELECT *, substring(content, 1, 300) AS content
             FROM reviews
-            ORDER BY reviews.date');
+            LIMIT 3 OFFSET :offset");
+        $request->bindParam(':offset', $offset, PDO::PARAM_INT);
+        $request->setFetchMode(PDO::FETCH_CLASS, Review::class);
         $request->execute();
-        return $request->fetchAll(\PDO::FETCH_ASSOC);
+        return $request->fetchAll();
     } 
 
     public function create(Review $post) : bool
