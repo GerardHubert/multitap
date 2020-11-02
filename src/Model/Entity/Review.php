@@ -16,6 +16,7 @@ final class Review
     private $reviewDate;
     private $image;
     private $apiGameId;
+    private $video;
 
     public function getId(): int
     {
@@ -51,7 +52,7 @@ final class Review
 
     public function setContent(string $content): self
     {
-        $this->text = $content;
+        $this->content = $content;
         return $this;
     }
 
@@ -71,12 +72,6 @@ final class Review
         return $this->reviewDate;
     }
 
-    public function setReviewDate(string $reviewDate): self
-    {
-        $this->date = $reviewDate;
-        return $this;
-    }
-
     public function getImage(): string
     {
         return $this->image;
@@ -91,5 +86,16 @@ final class Review
     public function getApiGameId(): int
     {
         return (int) $this->apiGameId;
+    }
+
+    public function getVideo(): string
+    {
+        return $this->video;
+    }
+
+    public function setVideo(string $videoLink): self
+    {
+        $this->video = $videoLink;
+        return $this;
     }
 }

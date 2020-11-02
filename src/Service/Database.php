@@ -3,6 +3,7 @@
 declare(strict_types=1);
 // class pour gérer la connection à la base de donnée
 namespace App\Service;
+
 use \PDO;
 
 // *** exemple fictif d'accès à la base de données

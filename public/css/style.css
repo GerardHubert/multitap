@@ -224,6 +224,10 @@ button{
      font-family: roboto_bold;
  }
 
+ #video_link{
+     display: none;
+ }
+
  .developers, .out, .genre, .platforms, .tags{
      font-family: roboto;
      font-size: 0.9rem;
@@ -252,6 +256,41 @@ button{
     width: 100%;
     border: 1px solid black;
     margin-bottom: 20px;
+}
+
+#comment_form{
+    width: 60%;
+    height: 200px;
+    margin: auto;
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+#pseudo, #comment_content, #submit_btn{
+    border-radius: 10px;
+    font-family: roboto_bold;
+}
+
+#pseudo{
+    height: 30px;
+    padding: 5px;
+}
+
+#pseudo:focus, #comment_content:focus{
+    outline-style: none;
+    background-color: rgba(249, 117, 88, 0.3);
+}
+
+#comment_content{
+    height: 100px;
+    padding: 5px;
+}
+
+#submit_btn{
+    height: 30px;
+    width: 15%;
 }
 
 .comment_header{

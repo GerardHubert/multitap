@@ -30,17 +30,22 @@
             <li>Machines : <span class='platforms'>PS4, XBOX, Switch, PC</span></li>
             <li>Tags : <a class='tags' href="#">{{ post.gameTitle }}</a>, <a class='tags' href="#">{{ post.reviewer }}</a></li>
         </ul>
-        <iframe width="383.31" height="300" src="https://www.youtube.com/embed/RvGaSPTcTxc" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        <span id='video_link'></span>
+        <iframe id='video' width="383.31" height="300" src="https://youtube.com/embed/{{ post.video }}?rel=0" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
     </aside>
 </section>
 
 <section id="comments_area">
+
     <section id='comment_form_container'>
         <p id='login_before_comment'>Vous devez être connecté pour poster un commentaire</p>
-        <!--<form id='comment_form' action="#" method="post">
-            <input type="text" name='pseudo'/>
-            <textarea name='comment' cols="40" rows="20">Votre commentaire ici</textarea>
-        </form>-->
+
+        <form id='comment_form' action="index.php?action=new_comment&id={{ post.id }}" method="post">
+            <input type="text" id='pseudo' name='pseudo' placeholder="Pseudonyme"/>
+            <textarea id='comment_content' name='comment' cols="40" rows="20" placeholder="Votre commentaire ici"></textarea>
+            <input id='submit_btn' type='submit' value='Envoyer'>
+        </form>
+
     </section>
 
     <section id="comments_list">
@@ -54,7 +59,7 @@
                 </div>
             </div>
             <div class="comment_content">
-                {{ comment.text }}
+                {{ comment.content }}
             </div>
         </div>
         {% endfor %}

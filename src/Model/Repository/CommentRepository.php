@@ -4,12 +4,13 @@ declare(strict_types=1);
 
 namespace App\Model\Repository;
 
+use \PDO;
 use App\Model\Entity\Comment;
 use App\Service\Database;
 
 final class CommentRepository
 {
-    private /*Database*/ $database;
+    private $database;
 
     public function __construct(Database $database)
     {
@@ -20,23 +21,26 @@ final class CommentRepository
     {
         // SB ici faire l'hydratation des objets
         $comments = [];
-        $request =  $this->database->prepare('SELECT *
+        $request =  $this->database->prepare("SELECT *, DATE_FORMAT(commentDate, '%d-%m-%Y à %H:%i:%s') AS commentDate
             FROM comments
-            WHERE review_id = :review_id');
+            WHERE reviewId = :review_id");
         $request->bindParam(':review_id', $idPost);
+        $request->setFetchMode(PDO::FETCH_CLASS, Comment::class);
         $request->execute();
-        $data = $request->fetchAll(\PDO::FETCH_ASSOC);
-
-        foreach ($data as $comment) {
-            $comments[] = new Comment($comment);
-        }
+        $comments = $request->fetchAll();
 
         return $comments;
+
+        /*foreach ($data as $comment) {
+            $comments[] = new Comment($comment);
+        }*/
+        
+        
 
         /*if ($data === null) {
             return null;
         }
-        
+
         // réfléchir à l'hydratation des entités;
         $comments = [];
         foreach ($data as $comment) {
@@ -51,9 +55,19 @@ final class CommentRepository
         return null;
     }
 
-    public function create(Comment $comment) : bool
+    public function create(Comment $comment) : void
     {
-        return false ;
+        $pseudo = $comment->getPseudo();
+        $content = $comment->getContent();
+        $reviewId = $comment->getReviewId();
+
+        $request = $this->database->prepare('INSERT INTO comments (pseudo, content, reviewId, commentDate)
+            VALUES (:pseudo, :content, :idPost, NOW())');
+        $request->bindParam(':pseudo', $pseudo);
+        $request->bindParam(':content', $content);
+        $request->bindParam(':idPost', $reviewId);
+
+        var_dump($request->execute());
     }
 
     public function update(Comment $comment) : bool

@@ -48,7 +48,6 @@ final class ReviewController
             'template' => 'home',
             'data' => ['posts' => $posts],
         ]);
-
     }
 
     public function displayAllAction(int $page): void

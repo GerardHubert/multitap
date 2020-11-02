@@ -5,7 +5,8 @@ declare(strict_types=1);
 namespace App\Model\Manager;
 
 use App\Model\Entity\Review;
-use App\Model\Repository\{ReviewRepository, CommentRepository};
+use App\Model\Repository\CommentRepository;
+use App\Model\Repository\ReviewRepository;
 
 final class ReviewManager
 {

@@ -5,6 +5,7 @@ class Games {
         this.out = document.querySelector('.out');
         this.genres = document.querySelector('.genre');
         this.platForms = document.querySelector('.platforms');
+        this.videoLink = document.querySelector('#video_link');
         this.apiGameIdElement = document.getElementById('api_game_id');
         this.url = "https://api.rawg.io/api/";
         this.apiKey = "?key=2d3f2baa156044ab91295ba0e044da14";
@@ -47,6 +48,8 @@ class Games {
         const platFormsList = [];
         data.platforms.forEach(machine => platFormsList.push(machine.platform.name));
         this.platForms.innerHTML = platFormsList.join();
+
+        this.videoLink.innerHTML = data.clip.video;
     }
 }
 

@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Model\Repository;
 
+use \PDO;
 use App\Model\Entity\Review;
 use App\Service\Database;
-use \PDO;
 
 final class ReviewRepository
 {
@@ -38,7 +38,7 @@ final class ReviewRepository
     }
 
     public function findByAll(): ?array
-    {        
+    {
         $request = $this->database->prepare('SELECT * 
             FROM reviews');
         $request->setFetchMode(PDO::FETCH_CLASS, Review::class);
@@ -61,7 +61,7 @@ final class ReviewRepository
         $request->setFetchMode(PDO::FETCH_CLASS, Review::class);
         $request->execute();
         return $request->fetchAll();
-    } 
+    }
 
     public function create(Review $post) : bool
     {

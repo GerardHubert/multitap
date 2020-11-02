@@ -4,17 +4,19 @@ declare(strict_types=1);
 
 namespace App\Model\Entity;
 
+use \DateTime;
+
 final class Comment
 {
-    private /*int*/ $id;
-    private /*string*/ $pseudo;
-    private /*string*/ $text;
-    private /*int*/ $idPost;
+    private $id;
+    private $pseudo;
+    private $content;
+    private $reviewId;
     private $thumbsUp;
     private $thumbsDown;
     private $commentDate;
 
-    public function __construct(array $comments)
+    /*public function __construct(array $comments)
     {
         $this->id = $comments['id'];
         $this->pseudo = $comments['pseudo'];
@@ -23,48 +25,54 @@ final class Comment
         $this->thumbsUp = (int) $comments['thumbs_up'];
         $this->thumbsDown = (int) $comments['thumbs_down'];
         $this->commentDate = $comments['comment_date'];
-    }
+    }*/
 
     public function getId(): int
     {
-        return $this->id;
+        return (int) $this->id;
     }
 
-    public function getpseudo(): string
+    public function getPseudo(): string
     {
         return $this->pseudo;
     }
 
-    public function setpseudo(string $pseudo): self
+    public function setPseudo(string $pseudo): self
     {
         $this->pseudo = $pseudo;
         return $this;
     }
 
-    public function getText(): string
+    public function getContent(): string
     {
-        return $this->text;
+        return $this->content;
     }
 
-    public function setText(string $text): self
+    public function setContent(string $content): self
     {
-        $this->text = $text;
+        $this->content = $content;
         return $this;
     }
 
-    public function getIdPost(): int
+    public function getReviewId(): int
     {
-        return $this->idPost;
+        return $this->reviewId;
+    }
+
+    public function setReviewId(int $reviewId): self
+    {
+        $this->reviewId = $reviewId;
+        return $this;
     }
 
     public function getThumbsUp(): int
     {
-        return $this->thumbsUp;
+        return (int) $this->thumbsUp;
     }
 
     public function getThumbsDown(): int
     {
-        return $this->thumbsDown;
+        return (int) $this->thumbsDown;
     }
 
     public function getCommentDate(): string
