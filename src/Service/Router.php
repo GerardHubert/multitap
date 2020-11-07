@@ -10,6 +10,8 @@ use App\Model\Manager\CommentManager;
 use App\Model\Manager\ReviewManager;
 use App\Model\Repository\CommentRepository;
 use App\Model\Repository\ReviewRepository;
+use App\Service\Http\Session;
+use App\Service\Security\Token;
 use App\View\View;
 
 // cette classe router est un exemple très basic. Cette façon de faire n'est pas optimale
@@ -25,18 +27,22 @@ final class Router
     private $reviewController;
     private $commentController;
     private $post;
+    private $session;
+    private $token;
 
 
     public function __construct()
     {
         // dépendance
+        $this->session = new Session();
+        $this->token = new Token($this->session);
         $this->database = new Database();
-        $this->view = new View();
+        $this->view = new View($this->session);
         $this->reviewRepo = new ReviewRepository($this->database);
         $this->commentRepo = new CommentRepository($this->database);
-        $this->reviewManager = new ReviewManager($this->reviewRepo, $this->commentRepo);
-        $this->commentManager = new CommentManager($this->commentRepo);
-        $this->reviewController = new ReviewController($this->reviewManager, $this->view, $this->commentManager);
+        $this->reviewManager = new ReviewManager($this->reviewRepo, $this->commentRepo, $this->token);
+        $this->commentManager = new CommentManager($this->commentRepo, $this->session, $this->token);
+        $this->reviewController = new ReviewController($this->reviewManager, $this->view, $this->commentManager, $this->token, $this->session);
         $this->commentController = new CommentController($this->commentManager);
 
         // En attendent de mettre ne place la class App\Service\Http\Request

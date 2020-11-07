@@ -241,6 +241,19 @@ button{
     margin-top: 50px;
 }
 
+#comment_flash_message{
+    font-family: roboto_bold;
+    color: white;
+    width: 60%;
+    height: 30px;
+    border-radius: 10px;
+    text-align: center;
+    vertical-align: middle;
+    margin: auto;
+    margin-bottom: 20px;
+    background-color: rgba(242, 65, 48, 0.8);
+}
+
 #comments_area #login_before_comment{
     width: 100%;
     height: 40px;

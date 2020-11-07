@@ -6,6 +6,8 @@ namespace  App\Controller\Frontoffice;
 
 use App\Model\Manager\CommentManager;
 use App\Model\Manager\ReviewManager;
+use App\Service\Http\Session;
+use App\Service\Security\Token;
 use App\View\View;
 
 final class ReviewController
@@ -13,19 +15,25 @@ final class ReviewController
     private $reviewManager;
     private $view;
     private $commentManager;
+    private $token;
+    private $session;
 
-    public function __construct(ReviewManager $reviewManager, View $view, CommentManager $commentManager)
+    public function __construct(ReviewManager $reviewManager, View $view, CommentManager $commentManager, Token $token, Session $session)
     {
         $this->reviewManager = $reviewManager;
         $this->view = $view;
         $this->commentManager = $commentManager;
+        $this->token = $token;
+        $this->session = $session;
     }
     
     public function displayOneAction(int $id): void
     {
         $post = $this->reviewManager->showOne($id);
         $comments = $this->commentManager->showAllFromPost($id);
+       
         if ($post !== null) {
+            $this->token->setToken();
             $this->view->render(
                 [
                 'template' => 'review',

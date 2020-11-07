@@ -23,7 +23,8 @@ final class CommentRepository
         $comments = [];
         $request =  $this->database->prepare("SELECT *, DATE_FORMAT(commentDate, '%d-%m-%Y à %H:%i:%s') AS commentDate
             FROM comments
-            WHERE reviewId = :review_id");
+            WHERE reviewId = :review_id
+            ORDER BY commentDate DESC");
         $request->bindParam(':review_id', $idPost);
         $request->setFetchMode(PDO::FETCH_CLASS, Comment::class);
         $request->execute();

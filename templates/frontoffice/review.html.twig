@@ -40,10 +40,15 @@
     <section id='comment_form_container'>
         <p id='login_before_comment'>Vous devez être connecté pour poster un commentaire</p>
 
+        {% if session.flashMessage %}
+            <p id="comment_flash_message">{{ session.flashMessage }}</p>
+        {% endif %}
+
         <form id='comment_form' action="index.php?action=new_comment&id={{ post.id }}" method="post">
             <input type="text" id='pseudo' name='pseudo' placeholder="Pseudonyme"/>
             <textarea id='comment_content' name='comment' cols="40" rows="20" placeholder="Votre commentaire ici"></textarea>
-            <input id='submit_btn' type='submit' value='Envoyer'>
+            <input id='submit_btn' type='submit' value='Envoyer'/>
+            <input name='hidden_input' type='hidden' value={{ session.token }} />
         </form>
 
     </section>
