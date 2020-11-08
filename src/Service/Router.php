@@ -10,6 +10,7 @@ use App\Model\Manager\CommentManager;
 use App\Model\Manager\ReviewManager;
 use App\Model\Repository\CommentRepository;
 use App\Model\Repository\ReviewRepository;
+use App\Service\Http\Request;
 use App\Service\Http\Session;
 use App\Service\Security\Token;
 use App\View\View;
@@ -29,6 +30,7 @@ final class Router
     private $post;
     private $session;
     private $token;
+    private $request;
 
 
     public function __construct()
@@ -44,10 +46,9 @@ final class Router
         $this->commentManager = new CommentManager($this->commentRepo, $this->session, $this->token);
         $this->reviewController = new ReviewController($this->reviewManager, $this->view, $this->commentManager, $this->token, $this->session);
         $this->commentController = new CommentController($this->commentManager);
-
-        // En attendent de mettre ne place la class App\Service\Http\Request
-        $this->get = $_GET;
-        $this->post = $_POST;
+        $this->request = new Request();
+        $this->get = $this->request->cleanGet();
+        $this->post = $this->request->cleanPost();
     }
 
     public function run(): void
