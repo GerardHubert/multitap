@@ -36,6 +36,7 @@ final class ReviewController
             $this->token->setToken();
             $this->view->render(
                 [
+                'path' => 'frontoffice',
                 'template' => 'review',
                 'data' => [
                     'post' => $post,
@@ -51,10 +52,13 @@ final class ReviewController
     public function displayHomeAction(): void
     {
         $posts = $this->reviewManager->showHome();
-
+        
         $this->view->render([
+            'path' => 'frontoffice',
             'template' => 'home',
-            'data' => ['posts' => $posts],
+            'data' => [
+                'posts' => $posts,
+            ],
         ]);
     }
 
@@ -62,6 +66,7 @@ final class ReviewController
     {
         $reviews = $this->reviewManager->showTwo($page);
         $this->view->render([
+            'path' => 'frontoffice',
             'template' => 'allReviews',
             'data' => [
                 'reviews' => $reviews[0],

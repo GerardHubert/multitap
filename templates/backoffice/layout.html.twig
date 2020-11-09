@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="css/style.css" />
+        <script src="https://kit.fontawesome.com/b524cca034.js" crossorigin="anonymous"></script>
+        <script src="https://cdn.tiny.cloud/1/97xujt63v02pi5q8baozxw48t8ryhh838n540l6bholq34p2/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
+        <script>tinymce.init({selector:'textarea'});</script>
+        <title>Multitap - Dashboard</title>
+    </head>
+
+    <body>
+        
+        <header id='dashboard_header'>
+            <span id='username'>Gérard |</span>
+            <span id='user_rank'> Administrateur | </span>
+            <a href='index.php'><i class='fas fa-sign-out-alt'></i>Se déconnecter</a>
+        </header>
+        
+        <main id='dashboard_content'>
+        <nav id='dashboard_nav'>
+            <ul>
+                <li><a href='index.php?action=dashboard'>Mes reviews</a></li>
+                <li><a href='index.php?action=new_review'>Nouvelle review</a></li>
+                <li>Brouillons</li>
+                <li>Commentaires à modérer</li>
+                <li>Reviews à valider</li>
+
+            </ul>
+        </nav>
+        
+        {% block content %} {% endblock %}
+            
+        </main>
+
+        <script src='js/Search.js'></script>
+
+    </body>
+
+</html>

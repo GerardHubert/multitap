@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace  App\Service;
 
+use App\Controller\Backoffice\DashboardController;
 use App\Controller\Frontoffice\CommentController;
 use App\Controller\Frontoffice\ReviewController;
 use App\Model\Manager\CommentManager;
@@ -15,7 +16,6 @@ use App\Service\Http\Session;
 use App\Service\Security\Token;
 use App\View\View;
 
-// cette classe router est un exemple très basic. Cette façon de faire n'est pas optimale
 final class Router
 {
     private $database;
@@ -31,6 +31,7 @@ final class Router
     private $session;
     private $token;
     private $request;
+    private $dashboardController;
 
 
     public function __construct()
@@ -47,21 +48,15 @@ final class Router
         $this->reviewController = new ReviewController($this->reviewManager, $this->view, $this->commentManager, $this->token, $this->session);
         $this->commentController = new CommentController($this->commentManager);
         $this->request = new Request();
+        $this->dashboardController = new DashboardController($this->reviewManager, $this->view);
         $this->get = $this->request->cleanGet();
         $this->post = $this->request->cleanPost();
     }
 
     public function run(): void
     {
-        // Nous avons deux routes :
-        // - une pour afficher la home (les 6 derniers post) => route par défaut http://localhost:8000
-        // - une pour afficher tous les posts => http://localhost:8000/?action=posts
-        // - une pour afficher un post en particulier => http://localhost:8000/?action=post&id=5
-        
         //On test si une action a été défini ? si oui alors on récupére l'action : sinon on mets une action par défaut (ici l'action posts)
         $action = $this->get['action'] ?? 'home';
-
-        //Déterminer sur quelle route nous sommes // Attention algorithme naïf
 
         switch ($action) {
             case 'home':
@@ -75,6 +70,12 @@ final class Router
             break;
             case 'new_comment':
                 $this->commentController->newComment($this->post, (int) $this->get['id']);
+            break;
+            case 'dashboard':
+                $this->dashboardController->displayAllAction();
+            break;
+            case 'new_review':
+                $this->dashboardController->reviewEditor();
             break;
         }
 

@@ -22,6 +22,6 @@ class Request
 
     public function cleanPost(): array
     {
-        return $cleanedPost = filter_var_array($this->post, FILTER_SANITIZE_SPECIAL_CHARS);
+        return $cleanedPost = filter_var_array($this->post, FILTER_SANITIZE_STRING);
     }
 }

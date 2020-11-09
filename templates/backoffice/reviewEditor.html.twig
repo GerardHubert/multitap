@@ -1,0 +1,34 @@
+{% extends '/backoffice/layout.html.twig' %}
+
+{% block content %}
+
+<section class="editor">
+    <h1>Nouvelle review</h1>
+
+    <div class="query">
+        <label for="game-search">Rechercher un jeu:</label>
+        <input type="search" id="game-search" name="game-search">
+        <button class='query_button'>Rechercher</button>
+    </div>
+
+    <div class="search_results">
+        <h3>Resultats : </h3>
+        <div id="result_thumbnail">
+            <h4 id='game_title'></h4>
+            <img id='game_image'/>
+        </div>
+        <p id="results"></p>
+    </div>
+
+    <form class="review_form" method='post'>
+        <label for='title'>Titre</label>
+        <input type='text' name='title' />
+        <textarea id="tinymce" name='review_content'></textarea>
+        <div class='buttons'>
+            <input type='submit' formaction='index.php?action=save_draft' name='save_draft' value='Enregistrer le brouillon'/>
+            <input type='submit' formaction='index.php?action=publish' name='publish' value='Publier'/>
+        </div>
+    </form>
+</section>
+
+{% endblock %}

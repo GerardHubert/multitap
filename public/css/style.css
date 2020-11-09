@@ -432,6 +432,11 @@ button{
     position: fixed;
 }
 
+#dashboard_nav a{
+    text-decoration: none;
+    color: white;
+}
+
 #dashboard_nav ul{
     height: 10%;
     width: 100%;
@@ -465,4 +470,54 @@ button{
 
 .dash_button{
     width: 100%;
+    border-radius: 0;
+    height: 20px;
+}
+
+/**
+*  Ajouter une nouvelle review
+*  Rechercher un jeu, puis enchainer sur le formulaire d'ajout de review
+*/
+
+.query{
+    width: 100%;
+    height: 100px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.search_results{
+    width: 100%;
+}
+
+.search_results #result_thumbnail{
+    width: 25%;
+    height: 230px;
+    border: 1px solid black;
+}
+
+#result_thumbnail #game_image{
+    width: 100%;
+    height: 200px;
+}
+
+.query_button{
+    height: 25px;
+    border-radius: 0;
+}
+
+.editor{
+    margin-left: 15%;
+    padding-left: 2%;
+    padding-right: 2%;
+    width: 100%;
+}
+
+.editor .review_form{
+    display: none;
+}
+
+.editor #tinymce{
+    height: 500px;
 }

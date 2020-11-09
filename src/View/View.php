@@ -10,7 +10,7 @@ use Twig\Loader\FilesystemLoader;
 
 final class View
 {
-    /*Environment*/ private $twig;
+    private $twig;
     private $session;
 
     public function __construct(Session $session)
@@ -23,6 +23,6 @@ final class View
 
     public function render(array $data): void
     {
-        echo $this->twig->render("frontoffice/${data['template']}.html.twig", $data['data']);
+        echo $this->twig->render("${data['path']}/${data['template']}.html.twig", $data['data']);
     }
 }

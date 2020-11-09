@@ -24,9 +24,9 @@ final class ReviewManager
 
     public function showHome(): ?array
     {
-        // renvoie tous les posts + le nombre de commentaires par post
+        // renvoie les 6 dernières reviews
         
-        return $this->reviewRepo->findByAll();
+        return $this->reviewRepo->findByDate();
     }
 
     public function showOne(int $id): ?Review
@@ -42,5 +42,10 @@ final class ReviewManager
         $totalReviews = count($this->reviewRepo->findByAll());
         $totalPages = ceil($totalReviews / $reviewsPerPage);
         return [$this->reviewRepo->findByOffset($offset), $totalPages];
+    }
+
+    public function showAll(): array
+    {
+        return $this->reviewRepo->findByAll();
     }
 }

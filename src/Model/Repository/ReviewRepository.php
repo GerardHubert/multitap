@@ -11,8 +11,6 @@ use App\Service\Database;
 final class ReviewRepository
 {
     private $database;
-    private $path;
-    private $review;
 
     public function __construct(Database $database)
     {
@@ -37,10 +35,12 @@ final class ReviewRepository
         return $review;
     }
 
-    public function findByAll(): ?array
+    public function findByDate(): ?array
     {
         $request = $this->database->prepare('SELECT * 
-            FROM reviews');
+            FROM reviews
+            ORDER BY reviewDate DESC
+            LIMIT 6');
         $request->setFetchMode(PDO::FETCH_CLASS, Review::class);
         $request->execute();
         $reviews = $request->fetchAll();
@@ -61,6 +61,22 @@ final class ReviewRepository
         $request->setFetchMode(PDO::FETCH_CLASS, Review::class);
         $request->execute();
         return $request->fetchAll();
+    }
+
+    public function findByAll(): ?array
+    {
+        $request = $this->database->prepare('SELECT * 
+            FROM reviews
+            ORDER BY reviewDate DESC');
+        $request->setFetchMode(PDO::FETCH_CLASS, Review::class);
+        $request->execute();
+        $reviews = $request->fetchAll();
+        
+        if ($reviews === null) {
+            return null;
+        }
+
+        return $reviews;
     }
 
     public function create(Review $post) : bool

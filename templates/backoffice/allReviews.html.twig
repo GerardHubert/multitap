@@ -1,0 +1,28 @@
+{% extends '/backoffice/layout.html.twig' %}
+
+{% block content %}
+<section id="user_reviews">
+    <h1>Mes reviews publiées</h1>
+    <div class="dashboard_review_details">
+        <table id="reviews_table">
+            <thead>
+                <tr>
+                    <th>TITRE</td>
+                    <th>DATE DE PUBLICATION</td>
+                    <th colspan="2">ACTION</td>
+                </tr>
+            </thead>
+            <tbody>
+                {% for review in reviews %}
+                <tr>
+                    <td>{{ review.reviewTitle }}</td>
+                    <td>{{ review.reviewDate }}</td>
+                    <td><button class='dash_button'>Supprimer</button></td>
+                    <td><button class='dash_button'>Modifier</button></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</section>
+{% endblock %}
