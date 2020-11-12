@@ -6,18 +6,50 @@
     <h1>Nouvelle review</h1>
 
     <div class="query">
+
         <label for="game-search">Rechercher un jeu:</label>
         <input type="search" id="game-search" name="game-search">
-        <button class='query_button'>Rechercher</button>
+
+        <div class="platform_select_container">
+            <span class='checkbox_legend'>Choisissez une plateforme: </span>
+            <div id="platform_select">
+                <input type='checkbox' class='box' name='pc' value="4">
+                <laber for='pc'>PC</laber>
+            </div>
+            <div id="platform_select">
+                <input type='checkbox' class='box' name='playstation4' value='18'>
+                <laber for='playstation4'>Playstation 4</laber>
+            </div>
+            <div id="platform_select">
+                <input type='checkbox' class='box' name='playstation5' value='187'>
+                <laber for='playstation5'>Playstation 5</laber>
+            </div>
+            <div id="platform_select">
+                <input type='checkbox' class='box' name='xbox-one' value='1'>
+                <laber for='xbox-one'>XBox One</laber>
+            </div>
+            <div id="platform_select">
+                <input type='checkbox' class='box' name='xbox-series-x' value='186'>
+                <laber for='xbox-series-x'>Xbox Series X/S</laber>
+            </div>
+            <div id="platform_select">
+                <input type='checkbox' class='box' name='nintendo-switch' value='7'>
+                <laber for='nintendo-switch'>Switch</laber>
+            </div>
+
+            <button class='query_button'>Rechercher</button>
+        </div>
+
     </div>
+
+    <p id="query_message">'Le choix de la machine est obligatoire. Merci de cocher une case, et une seule'</p>
 
     <div class="search_results">
         <h3>Resultats : </h3>
-        <div id="result_thumbnail">
-            <h4 id='game_title'></h4>
-            <img id='game_image'/>
-        </div>
-        <p id="results"></p>
+        <!--<div class="result_thumbnail">
+            <h4 class='game_title'></h4>
+            <img class='game_image'/>
+        </div>-->
     </div>
 
     <form class="review_form" method='post'>
