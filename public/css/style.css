@@ -537,17 +537,33 @@ button{
 
 .search_results{
     width: 100%;
+    margin-top: 30px;
     display: none;
-}
-
-.search_results_on{
-    display: flex;
-    width: 100%;
     flex-wrap: wrap;
     justify-content: space-evenly;
 }
 
-.search_results_on h3{
+/*.search_results_on{
+    display: flex;
+    width: 100%;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+}*/
+
+.search_results h3{
+    width: 100%;
+}
+
+.search_results .result_thumbnail{
+    width: 23%;
+    height: 250px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    margin-bottom: 30px;
+}
+
+/*.search_results_on h3{
     width: 100%;
 }
 
@@ -558,7 +574,7 @@ button{
     flex-direction: column;
     justify-content: space-around;
     margin-bottom: 30px;
-}
+}*/
 
 .result_thumbnail .game_title{
     padding: 0;
