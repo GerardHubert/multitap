@@ -47,12 +47,18 @@
     <div class="search_results"></div>
 
     <form class="review_form" method='post'>
-        <label for='title'>Titre</label>
-        <input type='text' name='title' />
-        <textarea id="tinymce" name='review_content'></textarea>
+        <input class='form_game_id' type='hidden' name='game_id' />
+        <input type='hidden' name='token' />
+        <p>Titre du jeu : <span class='form_game_title' type='text' name='game_title'></span></p>
+        <div>
+            <label for='review_title'>Titre de la Review</label>
+            <input class='form_review_title' type='text' name='review_title' />
+        </div>
+        <textarea class="tinymceArea" name='tinymceArea'></textarea>
         <div class='buttons'>
             <input type='submit' formaction='index.php?action=save_draft' name='save_draft' value='Enregistrer le brouillon'/>
             <input type='submit' formaction='index.php?action=publish' name='publish' value='Publier'/>
+            <input type='button' class='back_to_results' value='Retour aux résultats' />
         </div>
     </form>
 </section>

@@ -7,10 +7,13 @@ class Search {
         this.checkboxes = document.getElementsByClassName('box');
         this.queryMessageElement = document.getElementById('query_message');
         this.reviewForm = document.querySelector('.review_form');
+        this.gameTitleArea = document.querySelector('.form_game_title');
+        this.gameIdArea = document.querySelector('.form_game_id');
 
         this.searchButton.addEventListener("click", () => {
             this.search();
         })
+
     }
 
     resetSearch() {
@@ -19,7 +22,6 @@ class Search {
     }
 
     search() {
-
         const boxes = [];
         for (let box of this.checkboxes) {
             if (box.checked) {
@@ -56,16 +58,16 @@ class Search {
                 + '&exclude_additions'
                 + 'page_size=10');
             const games = await response.json();
+            const query = new Array();
             this.showResults(games.results);
         }
         getData();
     }
 
-    showResults(games) {
+    showResults(games, query) {
         
         if (games.length !== 0) {
 
-            //this.resultsContainer.className = 'search_results_on'
             this.resultsContainer.style.display = 'flex';
 
             for (let game of games) {
@@ -85,17 +87,47 @@ class Search {
 
                 let idResult = document.createElement('input');
                 idResult.setAttribute('name', 'gameId');
+                idResult.setAttribute('class', 'gameId');
                 idResult.setAttribute('type', 'hidden');
                 idResult.setAttribute('value', game.id);
                 resultCard.appendChild(idResult);
 
                 this.resultsContainer.appendChild(resultCard);
+
+                this.chosenGame();
             }
         }
             else {
                 this.queryMessageElement.innerHTML = 'Aucun jeu trouvé';
                 this.queryMessageElement.style.display = 'block';
             }
+    }
+
+    chosenGame() {
+       
+        const children = Array.from(this.resultsContainer.children);
+        const chosenGame = new Array();
+
+        children.forEach(child => child.addEventListener('click', () => {
+            chosenGame.push(chosenGame['title'] = child.querySelector('.game_title').innerHTML);
+            chosenGame.push(chosenGame['id']= child.querySelector('.gameId').value);
+            this.displayEditor(chosenGame);
+        }));
+    }
+
+    displayEditor(chosenGame) {
+
+        this.reviewForm.className = 'review_form_on';
+        this.resultsContainer.style.display = 'none';
+        this.gameTitleArea.innerHTML = chosenGame['title'];
+        this.gameIdArea.setAttribute('value', chosenGame['id']);
+
+        // bouton back to results = retour aux résultats de la recherche
+
+        document.querySelector('.back_to_results').addEventListener('click', () => {
+            this.userInput.value = query['search'];
+            this.search().boxes.push(query['checkbox']);
+        })
     }
 }
 
