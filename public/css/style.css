@@ -207,7 +207,7 @@ button{
      text-align: center;
  }
 
- #api_game_id{
+ .api_game_id{
      display: none;
  }
 
@@ -590,5 +590,9 @@ button{
 }
 
 .form_review_title{
+    width: 80%;
+}
+
+.form_game_title{
     width: 80%;
 }

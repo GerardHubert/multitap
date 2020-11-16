@@ -1,11 +1,9 @@
 {% extends "/frontoffice/layout.html.twig" %}
 
-{% block title %}
-    {{ post.reviewTitle }}
-{% endblock %}
+{% block title %}Review{% endblock %}
 
 {% block banner %}
-    <img id='headband' src='images/{{ post.image }}' alt='Image de {{ post.gameTitle }}' />
+    <img id='headband' alt='Image de {{ post.gameTitle }}' />
 {% endblock %}
 
 {% block reviewTitle %}
@@ -21,8 +19,8 @@
     </div>
     <aside id="game_info">
         <h2 class='game_title'></h2>
-        <span id="api_game_id">{{ post.apiGameId }}</span>
-        <img src='images/{{ post.image }}' alt='icone de {{ post.gameTitle }}' />
+        <span class="api_game_id">{{ post.apiGameId }}</span>
+        <img id='additional_image' alt='icone de {{ post.gameTitle }}' />
         <ul>
             <li>Développeurs : <span class='developers'></span></li>
             <li>Sortie : <span class='out'></span></li>
@@ -31,7 +29,7 @@
             <li>Tags : <a class='tags' href="#">{{ post.gameTitle }}</a>, <a class='tags' href="#">{{ post.reviewer }}</a></li>
         </ul>
         <span id='video_link'></span>
-        <iframe id='video' width="383.31" height="300" src="https://youtube.com/embed/{{ post.video }}?rel=0" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        <iframe id='video' width="383.31" height="300" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
     </aside>
 </section>
 

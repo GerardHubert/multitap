@@ -77,6 +77,9 @@ final class Router
             case 'new_review':
                 $this->dashboardController->reviewEditor();
             break;
+            case 'publish':
+                $this->dashboardController->addReviewAction($this->request->cleanPost());
+            break;
         }
 
         /*if ($action === 'home') {

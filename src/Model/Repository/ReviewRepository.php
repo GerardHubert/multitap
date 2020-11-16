@@ -79,9 +79,27 @@ final class ReviewRepository
         return $reviews;
     }
 
-    public function create(Review $post) : bool
+    public function create(Review $reviewData) : bool
     {
-        return false;
+        $gameId = $reviewData->getApiGameId();
+        $gameTitle = $reviewData->getGameTitle();
+        $reviewer = $reviewData->getReviewer();
+        $reviewTitle = $reviewData->getReviewTitle();
+        $content = $reviewData->getContent();
+
+        $request = $this->database->prepare('INSERT INTO reviews (reviewTitle, gameTitle, apiGameId, content, reviewer, reviewDate)
+            VALUES (:reviewTitle, :gameTitle, :apiGameId, :content, :reviewer, NOW())');
+
+        $request->bindParam(':reviewTitle', $reviewTitle);
+        $request->bindParam(':gameTitle', $gameTitle);
+        $request->bindParam(':apiGameId', $gameId);
+        $request->bindParam(':reviewer', $reviewer);
+        $request->bindParam(':content', $content);
+        
+        $creation = $request->execute();
+        return $creation;
+
+        
     }
 
     public function update(Review $post) : bool

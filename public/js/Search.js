@@ -9,6 +9,8 @@ class Search {
         this.reviewForm = document.querySelector('.review_form');
         this.gameTitleArea = document.querySelector('.form_game_title');
         this.gameIdArea = document.querySelector('.form_game_id');
+        this.gameImage = document.querySelector('.form_image_url');
+        this.usernameElement = document.querySelector('#username');
 
         this.searchButton.addEventListener("click", () => {
             this.search();
@@ -64,7 +66,7 @@ class Search {
         getData();
     }
 
-    showResults(games, query) {
+    showResults(games) {
         
         if (games.length !== 0) {
 
@@ -110,7 +112,8 @@ class Search {
 
         children.forEach(child => child.addEventListener('click', () => {
             chosenGame.push(chosenGame['title'] = child.querySelector('.game_title').innerHTML);
-            chosenGame.push(chosenGame['id']= child.querySelector('.gameId').value);
+            chosenGame.push(chosenGame['id'] = child.querySelector('.gameId').value);
+            chosenGame.push(chosenGame['image'] = child.querySelector('.game_image').src)
             this.displayEditor(chosenGame);
         }));
     }
@@ -119,8 +122,11 @@ class Search {
 
         this.reviewForm.className = 'review_form_on';
         this.resultsContainer.style.display = 'none';
-        this.gameTitleArea.innerHTML = chosenGame['title'];
+        this.gameTitleArea.value = chosenGame['title'];
         this.gameIdArea.setAttribute('value', chosenGame['id']);
+        this.gameImage.value = chosenGame['image'];
+        document.querySelector('.form_reviewer').value = this.usernameElement.innerHTML;
+        
 
         // bouton back to results = retour aux résultats de la recherche
 

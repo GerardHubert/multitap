@@ -72,30 +72,14 @@ final class Review
         return $this->reviewDate;
     }
 
-    public function getImage(): string
-    {
-        return $this->image;
-    }
-
-    public function setImage(string $image): self
-    {
-        $this->image = $image;
-        return $this;
-    }
-
     public function getApiGameId(): int
     {
         return (int) $this->apiGameId;
     }
 
-    public function getVideo(): string
+    public function setApiGameId(int $apiGameId): self
     {
-        return $this->video;
-    }
-
-    public function setVideo(string $videoLink): self
-    {
-        $this->video = $videoLink;
+        $this->apiGameId = $apiGameId;
         return $this;
     }
 }

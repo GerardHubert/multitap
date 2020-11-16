@@ -68,7 +68,7 @@ final class CommentRepository
         $request->bindParam(':content', $content);
         $request->bindParam(':idPost', $reviewId);
 
-        var_dump($request->execute());
+        $request->execute();
     }
 
     public function update(Comment $comment) : bool

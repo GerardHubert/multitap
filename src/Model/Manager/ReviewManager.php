@@ -48,4 +48,16 @@ final class ReviewManager
     {
         return $this->reviewRepo->findByAll();
     }
+
+    public function addReview(array $reviewData): bool
+    {
+        $review = new Review($reviewData);
+        $review->setReviewer($reviewData['reviewer']);
+        $review->setApiGameId((int) $reviewData['game_id']);
+        $review->setGameTitle($reviewData['game_title']);
+        $review->setReviewTitle($reviewData['review_title']);
+        $review->setContent($reviewData['tinymceArea']);
+        
+        return $this->reviewRepo->create($review);
+    }
 }

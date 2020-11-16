@@ -48,4 +48,9 @@ class DashboardController
             'data' => []
         ]);
     }
+
+    public function addReviewAction(array $review): void
+    {
+        var_dump($this->reviewManager->addReview($review));
+    }
 }

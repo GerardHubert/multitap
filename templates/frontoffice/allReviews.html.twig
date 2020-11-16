@@ -3,12 +3,12 @@
 
 {% block content %}
     <section id="reviews_list">
-        <h1>TOUTES LES REVIEWS</h1>
 
         {% for review in reviews %}
-
+            
             <div class="review_card">
-                <img src='images/{{ review.image }}' alt='Image de {{ review.gameTitle }}' />
+                <input type='hidden' class="api_game_id" value={{ review.apiGameId }} />
+                <img class='reviewsListImage' alt='Image de {{ review.gameTitle }}' />
                 <div class="review_details">
                     <div class="title_comments">
                         <h3 class="review_title">{{ review.reviewTitle }}</h3>
