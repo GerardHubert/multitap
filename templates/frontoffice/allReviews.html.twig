@@ -11,12 +11,12 @@
                 <img class='reviewsListImage' alt='Image de {{ review.gameTitle }}' />
                 <div class="review_details">
                     <div class="title_comments">
-                        <h3 class="review_title">{{ review.reviewTitle }}</h3>
+                        <h3 class="review_title">{{ review.reviewTitle|raw }}</h3>
                         <span class="comments_number"><i class="fas fa-comments"></i>2</span>
                     </div>
                     <span class="author_date">De {{ review.reviewer }} | {{ review.reviewDate }}</span>
                     <p class="review_extract">
-                        {{ review.content }}...
+                        {{ review.content|raw }}...
                     </p>
                     <button class="read_full"><a href='index.php?action=review&id={{ review.id }}'>Lire la suite</a></button>
                 </div>

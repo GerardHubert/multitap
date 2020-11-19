@@ -51,7 +51,7 @@ final class ReviewManager
 
     public function addReview(array $reviewData): bool
     {
-        $review = new Review($reviewData);
+        $review = new Review();
         $review->setReviewer($reviewData['reviewer']);
         $review->setApiGameId((int) $reviewData['game_id']);
         $review->setGameTitle($reviewData['game_title']);

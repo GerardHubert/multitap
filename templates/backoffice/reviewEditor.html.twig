@@ -51,12 +51,12 @@
         <input type='hidden' class='form_token' />
         <input type='hidden' class='form_image_url' name='image_url' />
         <input type='hidden' class='form_reviewer' name='reviewer' />
-        <p>Titre du jeu : <input class='form_game_title' type='text' name='game_title' readonly='readonly'></input></p>
+        <p>Titre du jeu : <input class='form_game_title' type="text" name='game_title' readonly='readonly'></input></p>
         <div>
-            <label for='review_title'>Titre de la Review</label>
-            <input class='form_review_title' type='text' name='review_title' />
+            <label for="review_title">Titre de la Review</label>
+            <input class='form_review_title' type="text" name='review_title' />
         </div>
-        <textarea class="tinymceArea" name='tinymceArea'></textarea>
+        <textarea class="tinymceArea" name="tinymceArea"></textarea>
         <div class='buttons'>
             <input type='submit' formaction='index.php?action=save_draft' name='save_draft' value='Enregistrer le brouillon'/>
             <input type='submit' formaction='index.php?action=publish' name='publish' value='Publier'/>

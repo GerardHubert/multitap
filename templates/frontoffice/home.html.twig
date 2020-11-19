@@ -12,9 +12,10 @@
         <div id="cards">
             {% for post in posts %}
                 <section class="card">
-                    <a href='index.php?action=review&id={{ post.id }}'><img src= 'images/{{ post.image }}' alt= {{ post.image }} class="thumbnail" /></a>
+                    <span class="api_game_id">{{ post.apiGameId }}</span>
+                    <a href='index.php?action=review&id={{ post.id }}'><img class="thumbnail_image_home" /></a>
                     <div class='thumbnail_infos'>
-                        <h3 class="thumbnail_title">{{ post.reviewTitle }}</h3>
+                        <h3 class="thumbnail_title">{{ post.reviewTitle|raw }}</h3>
                         <div class="author_comments">
                             <span class='pseudo_date'>{{ post.reviewer }} | {{ post.reviewDate }}</span>
                             <span class="comments_number"><i class="fas fa-comments"></i>

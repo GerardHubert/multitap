@@ -19,9 +19,9 @@ final class ReviewRepository
 
     public function findById(int $id): ?Review
     {
-        $request = $this->database->prepare('SELECT * 
+        $request = $this->database->prepare("SELECT *, DATE_FORMAT(reviewDate, '%d/%m/%Y - %H:%i:%s') AS reviewDate
             FROM reviews
-            WHERE id = :id');
+            WHERE id = :id");
         $request->bindParam(':id', $id);
         $request->setFetchMode(PDO::FETCH_CLASS, Review::class);
         $request->execute();
@@ -37,10 +37,10 @@ final class ReviewRepository
 
     public function findByDate(): ?array
     {
-        $request = $this->database->prepare('SELECT * 
+        $request = $this->database->prepare("SELECT *, DATE_FORMAT(reviewDate, '%d/%m/%Y - %H:%i:%s') AS reviewDate
             FROM reviews
             ORDER BY reviewDate DESC
-            LIMIT 6');
+            LIMIT 6");
         $request->setFetchMode(PDO::FETCH_CLASS, Review::class);
         $request->execute();
         $reviews = $request->fetchAll();
@@ -54,8 +54,9 @@ final class ReviewRepository
 
     public function findByOffset(int $offset) : array
     {
-        $request = $this->database->prepare("SELECT *, substring(content, 1, 300) AS content
+        $request = $this->database->prepare("SELECT *, substring(content, 1, 300) AS content, DATE_FORMAT(reviewDate, '%d/%m/%Y - %H:%i:%s') AS reviewDate
             FROM reviews
+            ORDER BY reviewDate ASC
             LIMIT 3 OFFSET :offset");
         $request->bindParam(':offset', $offset, PDO::PARAM_INT);
         $request->setFetchMode(PDO::FETCH_CLASS, Review::class);
@@ -65,9 +66,9 @@ final class ReviewRepository
 
     public function findByAll(): ?array
     {
-        $request = $this->database->prepare('SELECT * 
+        $request = $this->database->prepare("SELECT *, DATE_FORMAT(reviewDate, '%d/%m/%Y - %H:%i:%s') AS reviewDate
             FROM reviews
-            ORDER BY reviewDate DESC');
+            ORDER BY reviewDate DESC");
         $request->setFetchMode(PDO::FETCH_CLASS, Review::class);
         $request->execute();
         $reviews = $request->fetchAll();
@@ -85,7 +86,7 @@ final class ReviewRepository
         $gameTitle = $reviewData->getGameTitle();
         $reviewer = $reviewData->getReviewer();
         $reviewTitle = $reviewData->getReviewTitle();
-        $content = $reviewData->getContent();
+        $content = htmlSpecialChars_decode($reviewData->getContent());
 
         $request = $this->database->prepare('INSERT INTO reviews (reviewTitle, gameTitle, apiGameId, content, reviewer, reviewDate)
             VALUES (:reviewTitle, :gameTitle, :apiGameId, :content, :reviewer, NOW())');
@@ -98,8 +99,6 @@ final class ReviewRepository
         
         $creation = $request->execute();
         return $creation;
-
-        
     }
 
     public function update(Review $post) : bool

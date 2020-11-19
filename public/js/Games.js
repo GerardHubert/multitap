@@ -12,6 +12,7 @@ class Games {
         this.headImage = document.querySelector('#headband');
         this.asideImage = document.querySelector('#additional_image');
         this.reviewsList = document.querySelector('#reviews_list');
+        this.latestReviews = document.querySelector('#cards');
         this.url = "https://api.rawg.io/api/";
         this.apiKey = "?key=2d3f2baa156044ab91295ba0e044da14";
         this.getGameId();
@@ -20,6 +21,24 @@ class Games {
     getGameId() {
 
         switch (this.pageTitle.innerHTML) {
+
+            case "Multitap : Accueil":
+                const reviews = Array.from(this.latestReviews.children);
+                let review = 0;
+
+                for (reviews[review]; review < reviews.length; review++) {
+                    let gameId = reviews[review].querySelector('.api_game_id').innerHTML;
+                    let image = reviews[review].querySelector('.thumbnail_image_home');
+
+                    let getData = async () => {
+                        let response = await fetch(this.url + 'games/' + gameId + this.apiKey);
+                        let details = await response.json();
+                        
+                        image.src = details.background_image;
+                    }
+                    getData()
+                }
+            break;
 
             case "Multitap : Toutes les reviews":
                 const children = Array.from(this.reviewsList.children);
@@ -40,18 +59,12 @@ class Games {
             break;
 
             case "Multitap : Review":
-                this.apiGameId = this.apiGameIdElement.innerHTML;
-                this.getGamesDetails(this.apiGameId);
+                let apiGameId = this.apiGameIdElement.innerHTML;
+                this.getGamesDetails(apiGameId);
             break;
+
         }
         
-    }
-
-    getImage(gameData) {
-
-        let imageElement = document.querySelector('.reviewsListImage');
-        imageElement.src = gameData.background_image;
-
     }
 
     getGamesDetails(apiGameId) {

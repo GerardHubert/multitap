@@ -65,6 +65,7 @@ final class ReviewController
     public function displayAllAction(int $page): void
     {
         $reviews = $this->reviewManager->showTwo($page);
+
         $this->view->render([
             'path' => 'frontoffice',
             'template' => 'allReviews',
