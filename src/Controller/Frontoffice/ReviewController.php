@@ -45,19 +45,20 @@ final class ReviewController
                 ],
             );
         } elseif ($post === null) {
-            echo "Erreur, ce post n'existe pas. Faire une redirection vers la page accueil";
+            header('Location: index.php?action=home');
+            exit;
         }
     }
 
     public function displayHomeAction(): void
     {
         $posts = $this->reviewManager->showHome();
-        
+
         $this->view->render([
             'path' => 'frontoffice',
             'template' => 'home',
             'data' => [
-                'posts' => $posts,
+                'posts' => $posts
             ],
         ]);
     }

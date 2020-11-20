@@ -1,0 +1,30 @@
+{% extends '/backoffice/layout.html.twig' %}
+
+{% block content %}
+
+    <section id="edit_review">
+
+        <h1>Modification d'une review</h1>
+
+        <form class="review_modification" method='post'>
+            <input class='form_game_id' type='hidden' name='game_id' />
+            <input type='hidden' class='form_token' />
+            <input type='hidden' class='form_image_url' name='image_url' />
+            <input type='hidden' class='form_reviewer' name='reviewer' />
+            <p>Titre du jeu : <input class='form_game_title' type="text" name='game_title' readonly='readonly' value="{{ review.gameTitle }}"></input></p>
+            <div>
+                <label for="review_title">Titre de la Review : </label>
+                <input class='form_review_title' 
+                    type="text" 
+                    name='review_title' 
+                    value="{{ review.reviewTitle }}" />
+            </div>
+            <textarea name="review_modification" class="review_modification">
+                {{ review.content }}
+            </textarea>
+            <input type='submit' formaction='index.php?action=edit' name='edit' value='Enregistrer les modifications'/>
+        </form>
+    
+    </section>
+
+{% endblock %}

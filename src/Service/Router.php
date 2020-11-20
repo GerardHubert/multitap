@@ -48,7 +48,7 @@ final class Router
         $this->reviewController = new ReviewController($this->reviewManager, $this->view, $this->commentManager, $this->token, $this->session);
         $this->commentController = new CommentController($this->commentManager);
         $this->request = new Request();
-        $this->dashboardController = new DashboardController($this->reviewManager, $this->view);
+        $this->dashboardController = new DashboardController($this->reviewManager, $this->view, $this->request);
         $this->get = $this->request->cleanGet();
         $this->post = $this->request->cleanPost();
     }
@@ -79,6 +79,12 @@ final class Router
             break;
             case 'publish':
                 $this->dashboardController->addReviewAction($this->request->cleanPost());
+            break;
+            case 'delete_review':
+                $this->dashboardController->deleteReviewAction((int) $this->request->cleanGet()['id']);
+            break;
+            case 'edit_review':
+                $this->dashboardController->editReviewPage((int) $this->request->cleanGet()['id']);
             break;
         }
 

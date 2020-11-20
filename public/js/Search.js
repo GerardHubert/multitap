@@ -24,10 +24,10 @@ class Search {
     }
 
     search() {
-        const boxes = [];
-        for (let box of this.checkboxes) {
-            if (box.checked) {
-                boxes.push(box);
+        let radioChecked = null;
+        for (let radio of this.checkboxes) {
+            if (radio.checked) {
+                radioChecked = radio;
             }
         }
 
@@ -37,14 +37,14 @@ class Search {
                 this.queryMessageElement.style.display = 'block';
             break;
             case false:
-                if (boxes.length !== 1) {
+                if (radioChecked === null) {
                 this.queryMessageElement.innerHTML = 'Le choix de la machine est obligatoire. Merci de cocher une case, et une seule';
                 this.queryMessageElement.style.display = 'block';
                 }
                     else {
                         this.queryMessageElement.style.display = 'none';
                         this.resetSearch();
-                        this.getGames(boxes[0].value);
+                        this.getGames(radioChecked.value);
                     }
             break;
         }
@@ -120,14 +120,13 @@ class Search {
 
     displayEditor(chosenGame) {
 
-        this.reviewForm.className = 'review_form_on';
         this.resultsContainer.style.display = 'none';
+        this.reviewForm.style.display = 'flex';
         this.gameTitleArea.value = chosenGame['title'];
         this.gameIdArea.setAttribute('value', chosenGame['id']);
         this.gameImage.value = chosenGame['image'];
         document.querySelector('.form_reviewer').value = this.usernameElement.innerHTML;
         
-
         // bouton back to results = retour aux résultats de la recherche
 
         document.querySelector('.back_to_results').addEventListener('click', () => {

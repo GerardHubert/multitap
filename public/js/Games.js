@@ -90,8 +90,8 @@ class Games {
         }
             else {
                 const devList = [];
-        data.developers.forEach(dev => devList.push(dev.name));
-        this.developers.innerHTML = devList.join();
+                data.developers.forEach(dev => devList.push(dev.name));
+                this.developers.innerHTML = devList.join();
             }
 
         this.out.innerHTML = data.released;
@@ -104,7 +104,20 @@ class Games {
         data.platforms.forEach(machine => platFormsList.push(machine.platform.name));
         this.platForms.innerHTML = platFormsList.join();
 
-        this.video.src = "https://youtube.com/embed/" + data.clip.video + "?rel=0";
+        switch (data.clip === null) {
+            case true:
+                this.video.style.display = 'none';
+                const noVideoImage = document.createElement('img');
+                noVideoImage.setAttribute('class', 'no_video');
+                noVideoImage.src = 'images/novideo.png';
+                noVideoImage.alt = 'aucune vidéo disponible';
+                document.getElementById('game_info').appendChild(noVideoImage);
+            break;
+
+            case false:
+                this.video.src = "https://youtube.com/embed/" + data.clip.video + "?rel=0";
+            break;
+        }        
 
     }
 }

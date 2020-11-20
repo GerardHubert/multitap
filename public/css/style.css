@@ -27,6 +27,10 @@ body{
     margin:0;
 }
 
+button:hover{
+    cursor: pointer;
+}
+
 header, footer{
     width: 85%;
     margin: auto;
@@ -126,6 +130,10 @@ nav{
 .card{
     width: 30%;
     margin-top: 20px;
+}
+
+.card:hover {
+    cursor: pointer;
 }
 
 .thumbnail_image_home{
@@ -468,10 +476,18 @@ button{
     background-color:  rgba(249, 117, 88, 0.3);
 }
 
+.review_line:hover{
+    background-color: rgba(249, 117, 88, 0.3);
+}
+
 .dash_button{
     width: 100%;
     border-radius: 0;
     height: 20px;
+}
+
+.dash_buttons:hover{
+    cursor: pointer;
 }
 
 /**
@@ -556,6 +572,10 @@ button{
     margin-bottom: 30px;
 }
 
+.result_thumbnail:hover{
+    cursor: pointer;
+}
+
 .result_thumbnail .game_title{
     padding: 0;
     margin: 0;
@@ -566,7 +586,7 @@ button{
     height: 220px;
 }
 
-.editor{
+.editor, #edit_review{
     margin-left: 18%;
     margin-right: 5%;
     width: 100%;
@@ -574,25 +594,26 @@ button{
 
 .review_form{
     display: none;
-    height: 600px;
-}
-
-.review_form_on{
-    display: flex;
+    border: 1px solid black;
     flex-direction: column;
-    justify-content: space-between;
     margin-top: 30px;
-    height: 350px;
 }
 
-.review_form_on .tinymceArea{
-    height: 400px;
+.review_form .buttons{
+    margin-top: 15px;
 }
 
 .form_review_title{
     width: 80%;
+    margin-bottom: 30px;
 }
 
 .form_game_title{
     width: 80%;
+    background-color: rgba(190, 187, 187, 0.3);
+    border: 1px solid black;
+}
+
+.review_modification{
+    height: 500px;
 }

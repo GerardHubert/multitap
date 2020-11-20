@@ -106,8 +106,12 @@ final class ReviewRepository
         return false;
     }
 
-    public function delete(Review $post) : bool
+    public function delete(Review $review) : bool
     {
-        return false;
+        $id = $review->getId();
+        $request = $this->database->prepare('DELETE FROM reviews
+            WHERE id = :id');
+        $request->bindParam(':id', $id);
+        return $request->execute();
     }
 }

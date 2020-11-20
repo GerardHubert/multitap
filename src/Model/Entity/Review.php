@@ -14,9 +14,7 @@ final class Review
     private $content;
     private $reviewer;
     private $reviewDate;
-    private $image;
     private $apiGameId;
-    private $video;
 
     public function getId(): int
     {

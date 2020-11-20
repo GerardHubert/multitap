@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace  App\Controller\Backoffice;
 
 use App\Model\Manager\ReviewManager;
+use App\Service\Http\Request;
 use App\View\View;
 
 /**
@@ -21,11 +22,13 @@ class DashboardController
 {
     private $reviewManager;
     private $view;
+    private $request;
 
-    public function __construct(ReviewManager $reviewManager, View $view)
+    public function __construct(ReviewManager $reviewManager, View $view, Request $request)
     {
         $this->reviewManager = $reviewManager;
         $this->view = $view;
+        $this->request = $request;
     }
 
     public function displayAllAction(): void
@@ -51,6 +54,28 @@ class DashboardController
 
     public function addReviewAction(array $review): void
     {
-        var_dump($this->reviewManager->addReview($review));
+        $this->reviewManager->addReview($review);
+        header('Location: index.php?action=dashboard');
+        exit;
+    }
+
+    public function deleteReviewAction(int $reviewId): void
+    {
+        $this->reviewManager->deleteReview($reviewId);
+        header('Location: index.php?action=dashboard');
+        exit;
+    }
+
+    public function editReviewPage(int $reviewId): void
+    {
+        $review = $this->reviewManager->showOne($reviewId);
+
+        $this->view->render([
+            'path' => 'backoffice',
+            'template' => 'editReviewPage',
+            'data' => [
+                'review' => $review
+            ]
+        ]);
     }
 }

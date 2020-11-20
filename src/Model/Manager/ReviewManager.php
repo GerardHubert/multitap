@@ -60,4 +60,10 @@ final class ReviewManager
         
         return $this->reviewRepo->create($review);
     }
+
+    public function deleteReview(int $id): bool
+    {
+        $reviewToDelete = $this->reviewRepo->findById($id);
+        return $this->reviewRepo->delete($reviewToDelete);
+    }
 }

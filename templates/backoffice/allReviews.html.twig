@@ -8,17 +8,19 @@
             <thead>
                 <tr>
                     <th>TITRE</td>
+                    <th>JEU</th>
                     <th>DATE DE PUBLICATION</td>
                     <th colspan="2">ACTION</td>
                 </tr>
             </thead>
             <tbody>
                 {% for review in reviews %}
-                <tr>
+                <tr class='review_line'>
                     <td>{{ review.reviewTitle }}</td>
+                    <td>{{ review.gameTitle }}</td>
                     <td>{{ review.reviewDate }}</td>
-                    <td><button class='dash_button'>Supprimer</button></td>
-                    <td><button class='dash_button'>Modifier</button></td>
+                    <td><a href="index.php?action=delete_review&id={{ review.id }}"><button class='dash_button'>Supprimer</button></a></td>
+                    <td><a href="index.php?action=edit_review&id={{ review.id }}"><button class='dash_button'>Modifier</button></a></td>
                 </tr>
                 {% endfor %}
             </tbody>

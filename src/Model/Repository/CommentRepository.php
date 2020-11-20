@@ -19,7 +19,6 @@ final class CommentRepository
 
     public function findAllByPostId(int $idPost): ?array
     {
-        // SB ici faire l'hydratation des objets
         $comments = [];
         $request =  $this->database->prepare("SELECT *, DATE_FORMAT(commentDate, '%d-%m-%Y à %H:%i:%s') AS commentDate
             FROM comments
@@ -31,24 +30,6 @@ final class CommentRepository
         $comments = $request->fetchAll();
 
         return $comments;
-
-        /*foreach ($data as $comment) {
-            $comments[] = new Comment($comment);
-        }*/
-        
-        
-
-        /*if ($data === null) {
-            return null;
-        }
-
-        // réfléchir à l'hydratation des entités;
-        $comments = [];
-        foreach ($data as $comment) {
-            $comments[] = new Comment((int)$comment['id'], $comment['pseudo'], $comment['text'], (int)$comment['idPost']);
-        }
-
-        return $comments;*/
     }
 
     public function findByAll(): ?array
