@@ -66,7 +66,7 @@ class DashboardController
         exit;
     }
 
-    public function editReviewPage(int $reviewId): void
+    public function updateReviewPage(int $reviewId): void
     {
         $review = $this->reviewManager->showOne($reviewId);
 
@@ -77,5 +77,18 @@ class DashboardController
                 'review' => $review
             ]
         ]);
+    }
+
+    public function updateReviewAction(array $editedReview, int $reviewId): void
+    {
+        $update = $this->reviewManager->updateReview($editedReview, $reviewId);
+        switch ($update) {
+            case true:
+                header('Location: index.php?action=dashboard');
+            exit;
+            case false:
+                header("Location: index.php?action=update_review_page&id=$reviewId");
+            exit;
+        }
     }
 }

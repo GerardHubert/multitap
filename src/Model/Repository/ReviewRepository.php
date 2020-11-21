@@ -101,9 +101,18 @@ final class ReviewRepository
         return $creation;
     }
 
-    public function update(Review $post) : bool
+    public function update(Review $review, int $reviewId) : bool
     {
-        return false;
+        $newTitle = $review->getReviewTitle();
+        $newContent = $review->getContent();
+        $request = $this->database->prepare('UPDATE reviews
+            SET reviewTitle = :newReviewTitle, content = :newContent
+            WHERE id = :id');
+        $request->bindParam(':newReviewTitle', $newTitle);
+        $request->bindParam(':newContent', $newContent);
+        $request->bindParam(':id', $reviewId);
+
+        return $request->execute();
     }
 
     public function delete(Review $review) : bool

@@ -83,8 +83,11 @@ final class Router
             case 'delete_review':
                 $this->dashboardController->deleteReviewAction((int) $this->request->cleanGet()['id']);
             break;
-            case 'edit_review':
-                $this->dashboardController->editReviewPage((int) $this->request->cleanGet()['id']);
+            case 'update_review_page':
+                $this->dashboardController->updateReviewPage((int) $this->request->cleanGet()['id']);
+            break;
+            case 'update_review':
+                $this->dashboardController->updateReviewAction($this->request->cleanPost(), (int) $this->request->cleanGet()['id']);
             break;
         }
 

@@ -20,7 +20,7 @@
                     <td>{{ review.gameTitle }}</td>
                     <td>{{ review.reviewDate }}</td>
                     <td><a href="index.php?action=delete_review&id={{ review.id }}"><button class='dash_button'>Supprimer</button></a></td>
-                    <td><a href="index.php?action=edit_review&id={{ review.id }}"><button class='dash_button'>Modifier</button></a></td>
+                    <td><a href="index.php?action=update_review_page&id={{ review.id }}"><button class='dash_button'>Modifier</button></a></td>
                 </tr>
                 {% endfor %}
             </tbody>
