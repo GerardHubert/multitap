@@ -9,6 +9,7 @@ use App\Model\Manager\ReviewManager;
 use App\Service\Http\Session;
 use App\Service\Security\Token;
 use App\View\View;
+use App\Service\Http\Request;
 
 final class ReviewController
 {
@@ -17,14 +18,16 @@ final class ReviewController
     private $commentManager;
     private $token;
     private $session;
+    private $request;
 
-    public function __construct(ReviewManager $reviewManager, View $view, CommentManager $commentManager, Token $token, Session $session)
+    public function __construct(ReviewManager $reviewManager, View $view, CommentManager $commentManager, Token $token, Session $session, Request $request)
     {
         $this->reviewManager = $reviewManager;
         $this->view = $view;
         $this->commentManager = $commentManager;
         $this->token = $token;
         $this->session = $session;
+        $this->request = $request;
     }
     
     public function displayOneAction(int $id): void

@@ -32,9 +32,31 @@ final class CommentRepository
         return $comments;
     }
 
-    public function findByAll(): ?array
+    public function findAllByStatus($status): ?array
     {
-        return null;
+        $request = $this->database->prepare("SELECT *, DATE_FORMAT(commentDate, '%d-%m-%Y à %H:%i:%s') AS commentDate
+            FROM comments
+            WHERE commentStatus = :commentStatus
+            ORDER BY commentDate DESC");
+        $request->bindParam(':commentStatus', $status);
+        $request->setFetchMode(PDO::FETCH_CLASS, Comment::class);
+        $request->execute();
+        $flagComments = $request->fetchAll();
+
+        return $flagComments;
+    }
+
+    public function findOneById(int $id): ?Comment
+    {
+        $request = $this->database->prepare("SELECT *
+            FROM comments
+            WHERE id = :id");
+        $request->bindParam(':id', $id);
+        $request->setFetchMode(PDO::FETCH_CLASS, Comment::class);
+        $request->execute();
+        $comment = $request->fetch();
+
+        return $comment;
     }
 
     public function create(Comment $comment) : void
@@ -57,19 +79,24 @@ final class CommentRepository
         $id = $comment->getId();
         $likes = $comment->getThumbsUp();
         $dislikes = $comment->getThumbsDown();
+        $status = $comment->getCommentStatus();
 
         $request = $this->database->prepare('UPDATE comments
-            SET thumbsUp = :newThumbsUp, thumbsDown = :newThumbsDown
+            SET thumbsUp = :newThumbsUp, thumbsDown = :newThumbsDown, commentStatus = :commentStatus
             WHERE id = :id');
         $request->bindParam(':newThumbsUp', $likes);
         $request->bindParam(':newThumbsDown', $dislikes);
         $request->bindParam(':id', $id);
+        $request->bindParam(':commentStatus', $status);
 
         return $request->execute();
     }
 
-    public function delete(Comment $comment) : bool
+    public function delete(Comment $comment, int $id) : bool
     {
-        return false;
+        $request = $this->database->prepare("DELETE FROM comments
+            WHERE id = :id");
+        $request->bindParam(':id', $id);
+        return $request->execute();
     }
 }

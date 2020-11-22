@@ -25,7 +25,6 @@ final class Router
     private $reviewRepo;
     private $commentRepo;
     private $reviewManager;
-    private $draftManager;
     private $commentManager;
     private $reviewController;
     private $commentController;
@@ -38,7 +37,7 @@ final class Router
 
     public function __construct()
     {
-        // dépendance
+        // dépendances
         $this->session = new Session();
         $this->token = new Token($this->session);
         $this->database = new Database();
@@ -48,10 +47,9 @@ final class Router
         $this->commentRepo = new CommentRepository($this->database);
         $this->reviewManager = new ReviewManager($this->reviewRepo, $this->commentRepo, $this->token);
         $this->commentManager = new CommentManager($this->commentRepo, $this->session, $this->token);
-        $this->draftManager = new DraftManager($this->reviewRepo, $this->token);
-        $this->reviewController = new ReviewController($this->reviewManager, $this->view, $this->commentManager, $this->token, $this->session);
+        $this->reviewController = new ReviewController($this->reviewManager, $this->view, $this->commentManager, $this->token, $this->session, $this->request);
         $this->commentController = new CommentController($this->commentManager, $this->request);
-        $this->dashboardController = new DashboardController($this->reviewManager, $this->view, $this->request, $this->draftManager);
+        $this->dashboardController = new DashboardController($this->reviewManager, $this->view, $this->request, $this->commentManager);
         $this->get = $this->request->cleanGet();
         $this->post = $this->request->cleanPost();
     }
@@ -103,6 +101,12 @@ final class Router
             break;
             case 'show_drafts':
                 $this->dashboardController->displayDraftsAction();
+            break;
+            case 'show_comments_to_moderate':
+                $this->dashboardController->displayFlagCommentsAction();
+            break;
+            case 'delete_comment':
+                $this->dashboardController->deleteCommentAction();
             break;
         }
 

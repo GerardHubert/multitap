@@ -1,0 +1,31 @@
+{% extends '/backoffice/layout.html.twig' %}
+
+{% block title %}Comments Moderation{% endblock %}
+
+{% block content %}
+<section id="comments_moderation">
+    <h1>Commentaires à modérer</h1>
+    <div class="comments_moderation">
+        <table id="comments_table">
+            <thead>
+                <tr>
+                    <th id='pseudo_field'>PSEUDO</td>
+                    <th id='comment_field'>COMMENTAIRE</td>
+                    <th id='date_field'>DATE</th>
+                    <th id='action_field' colspan="2">ACTION</td>
+                </tr>
+            </thead>
+            <tbody>
+                {% for comment in flagComments %}
+                <tr class='comment_line'>
+                    <td>{{ comment.pseudo|raw }}</td>
+                    <td>{{ comment.content|raw }}</td>
+                    <td>{{ comment.commentDate }}</td>
+                    <td><a href="index.php?action=delete_comment&id={{ comment.id }}"><button class='dash_button'>Supprimer</button></a></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</section>
+{% endblock %}

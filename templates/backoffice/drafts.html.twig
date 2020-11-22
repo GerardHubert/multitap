@@ -1,2 +1,32 @@
 {% extends '/backoffice/layout.html.twig' %}
 
+{% block title %}Brouillons{% endblock %}
+
+{% block content %}
+<section id="user_drafts">
+    <h1>Mes reviews publiées</h1>
+    <div class="drafts_details">
+        <table id="drafts_table">
+            <thead>
+                <tr>
+                    <th>TITRE</td>
+                    <th>JEU</th>
+                    <th>DATE DE PUBLICATION</td>
+                    <th colspan="2">ACTION</td>
+                </tr>
+            </thead>
+            <tbody>
+                {% for draft in drafts %}
+                <tr class='review_line'>
+                    <td>{{ draft.reviewTitle|raw }}</td>
+                    <td>{{ draft.gameTitle|raw }}</td>
+                    <td>{{ draft.reviewDate }}</td>
+                    <td><a href="index.php?action=delete_review&id={{ draft.id }}"><button class='dash_button'>Supprimer</button></a></td>
+                    <td><a href="index.php?action=update_review_page&id={{ draft.id }}"><button class='dash_button'>Modifier</button></a></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</section>
+{% endblock %}

@@ -76,9 +76,24 @@ final class CommentManager
     {
         $newDislikes = $dislikes + 1;
         $comment = new Comment();
+        if ($newDislikes === 20) {
+            $status = 1;
+            $comment->setCommentStatus($status);
+        }
         $comment->setId($id);
         $comment->setThumbsDown($newDislikes);
         
         return $this->commentRepo->update($comment);
+    }
+
+    public function showAllFromStatus(int $commentStatus): ?array
+    {
+        return $this->commentRepo->findAllByStatus($commentStatus);
+    }
+
+    public function deleteFromId(int $id): bool
+    {
+        $commentToDelete = $this->commentRepo->findOneById($id);
+        return $this->commentRepo->delete($commentToDelete, $id);
     }
 }

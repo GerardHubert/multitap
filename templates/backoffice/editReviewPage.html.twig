@@ -27,3 +27,13 @@
     </section>
 
 {% endblock %}
+
+{% block javascript %}
+
+    <script>tinymce.init({
+        selector: "textarea",
+        toolbar_mode: 'floating'
+        });
+    </script>
+
+{% endblock %}

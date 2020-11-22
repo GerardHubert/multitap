@@ -1,5 +1,7 @@
 {% extends '/backoffice/layout.html.twig' %}
 
+{% block title %}Nouvelle Review{% endblock %}
+
 {% block content %}
 
 <section class="editor">
@@ -64,5 +66,16 @@
         </div>
     </form>
 </section>
+
+{% endblock %}
+
+{% block javascript %}
+
+    <script src='js/Search.js'></script>
+    <script>tinymce.init({
+        selector: "textarea",
+        toolbar_mode: 'floating'
+        });
+    </script>
 
 {% endblock %}

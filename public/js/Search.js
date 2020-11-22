@@ -11,7 +11,9 @@ class Search {
         this.gameIdArea = document.querySelector('.form_game_id');
         this.gameImage = document.querySelector('.form_image_url');
         this.usernameElement = document.querySelector('#username');
+        this.pageTitle = document.getElementById('page_title');
 
+        
         this.searchButton.addEventListener("click", () => {
             this.search();
         })

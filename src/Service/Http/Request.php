@@ -23,6 +23,7 @@ class Request
     public function cleanPost(): array
     {
         foreach ($this->post as $key => $value) {
+        
             $clean = [
                 $key => filter_var($value, FILTER_SANITIZE_STRING, ['flags' => FILTER_FLAG_STRIP_LOW])
             ];

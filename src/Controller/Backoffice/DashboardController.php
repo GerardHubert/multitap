@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace  App\Controller\Backoffice;
 
-use App\Model\Manager\DraftManager;
 use App\Model\Manager\ReviewManager;
 use App\Service\Http\Request;
 use App\View\View;
+use App\Model\Manager\CommentManager;
 
 /**
  * Cette classe va permettre de vérifier le rang de la personne connecté pour afficher:
@@ -22,16 +22,16 @@ use App\View\View;
 class DashboardController
 {
     private $reviewManager;
-    private $draftManager;
     private $view;
     private $request;
+    private $commentManager;
 
-    public function __construct(ReviewManager $reviewManager, View $view, Request $request, DraftManager $draftManager)
+    public function __construct(ReviewManager $reviewManager, View $view, Request $request, CommentManager $commentManager)
     {
         $this->reviewManager = $reviewManager;
         $this->view = $view;
         $this->request = $request;
-        $this->draftManager = $draftManager;
+        $this->commentManager = $commentManager;
     }
 
     public function displayAllAction(): void
@@ -97,7 +97,7 @@ class DashboardController
 
     public function saveDraftAction(): void
     {
-        $this->draftManager->saveAsDraft($this->request->cleanPost());
+        $this->reviewManager->saveAsDraft($this->request->cleanPost());
 
         header('Location: index.php?action=dashboard');
         exit;
@@ -105,7 +105,36 @@ class DashboardController
 
     public function displayDraftsAction(): void
     {
-        $drafts = $this->draftManager->showAll();
-        var_dump($drafts);
+        $draftStatus = 1;
+        $drafts = $this->reviewManager->showAllDrafts($draftStatus);
+        $this->view->render([
+            'path' => 'backoffice',
+            'template' => 'drafts',
+            'data' => [
+                'drafts' => $drafts
+            ]
+        ]);
+    }
+
+    public function displayFlagCommentsAction(): void
+    {
+        $commentStatus = 1;
+        $flagComments = $this->commentManager->showAllFromStatus($commentStatus);
+        
+        $this->view->render([
+            'path' => 'backoffice',
+            'template' => 'commentsModeration',
+            'data' => [
+                'flagComments' => $flagComments
+            ]
+        ]);
+    }
+
+    public function deleteCommentAction(): void
+    {
+        $this->commentManager->deleteFromId((int) $this->request->cleanGet()['id']);
+        
+        header('Location: index.php?action=show_comments_to_moderate');
+        exit;
     }
 }

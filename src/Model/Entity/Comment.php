@@ -15,17 +15,7 @@ final class Comment
     private $thumbsUp;
     private $thumbsDown;
     private $commentDate;
-
-    /*public function __construct(array $comments)
-    {
-        $this->id = $comments['id'];
-        $this->pseudo = $comments['pseudo'];
-        $this->text = $comments['content'];
-        $this->idPost = $comments['review_id'];
-        $this->thumbsUp = (int) $comments['thumbs_up'];
-        $this->thumbsDown = (int) $comments['thumbs_down'];
-        $this->commentDate = $comments['comment_date'];
-    }*/
+    private $commentStatus;
 
     public function getId(): int
     {
@@ -96,5 +86,16 @@ final class Comment
     public function getCommentDate(): string
     {
         return $this->commentDate;
+    }
+
+    public function setCommentStatus(int $commentStatus): self
+    {
+        $this->commentStatus = $commentStatus;
+        return $this;
+    }
+
+    public function getCommentStatus(): int
+    {
+        return (int) $this->commentStatus;
     }
 }

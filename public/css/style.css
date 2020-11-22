@@ -467,22 +467,38 @@ button{
     color: white;
 }
 
-#user_reviews{
+#user_reviews, #user_drafts, #comments_moderation{
     margin-left: 15%;
     width: 100%;
 }
 
-#reviews_table{
+#reviews_table, #drafts_table, #comments_table{
     width: 80%;
     margin: auto;
 }
 
-#reviews_table thead{
+#reviews_table thead, #drafts_table thead, #comments_table thead{
     background-color:  rgba(249, 117, 88, 0.3);
 }
 
-.review_line:hover{
+.review_line:hover, .comment_line:hover{
     background-color: rgba(249, 117, 88, 0.3);
+}
+
+#comments_table #comment_field{
+    width: 50%;
+}
+
+#comments_table #date_field{
+    width: 16%;
+}
+
+#comments_table #action_field{
+    width: 10%;
+}
+
+#comments_table #pseudo_field{
+    width: 15%;
 }
 
 .dash_button{

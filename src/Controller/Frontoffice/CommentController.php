@@ -31,7 +31,7 @@ final class CommentController
 
         $this->commentManager->saveLikeFromId((int) $commentId, (int) $likes);
 
-        header("Location: index.php?action=review&id=$reviewId");
+        header("Location: index.php?action=review&id=$reviewId#comments_list");
         exit;
     }
 
@@ -43,7 +43,7 @@ final class CommentController
 
         $this->commentManager->saveDislikeFromId((int) $commentId, (int) $dislikes);
 
-        header("Location: index.php?action=review&id=$reviewId");
+        header("Location: index.php?action=review&id=$reviewId#comments_list");
         exit;
     }
 }

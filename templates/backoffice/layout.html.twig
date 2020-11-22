@@ -8,7 +8,7 @@
         <script src="https://kit.fontawesome.com/b524cca034.js" crossorigin="anonymous"></script>
         <script src="https://cdn.tiny.cloud/1/97xujt63v02pi5q8baozxw48t8ryhh838n540l6bholq34p2/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
 
-        <title>Multitap - Dashboard</title>
+        <title id='page_title'>Multitap : {% block title %}{% endblock %}</title>
     </head>
 
     <body>
@@ -25,7 +25,7 @@
                 <li><a href='index.php?action=dashboard'>Mes reviews</a></li>
                 <li><a href='index.php?action=new_review'>Nouvelle review</a></li>
                 <li><a href='index.php?action=show_drafts'>Brouillons</a></li>
-                <li>Commentaires à modérer</li>
+                <li><a href='index.php?action=show_comments_to_moderate'>Commentaires à modérer</a></li>
                 <li>Reviews à valider</li>
 
             </ul>
@@ -35,12 +35,7 @@
             
         </main>
 
-        <script src='js/Search.js'></script>
-        <script>tinymce.init({
-            selector: "textarea",
-            toolbar_mode: 'floating'
-            });
-        </script>
+        {% block javascript %}{% endblock %}
 
     </body>
 
