@@ -39,6 +39,7 @@ final class ReviewRepository
     {
         $request = $this->database->prepare("SELECT *, DATE_FORMAT(reviewDate, '%d/%m/%Y - %H:%i:%s') AS reviewDate
             FROM reviews
+            WHERE reviewStatus = 0
             ORDER BY reviewDate DESC
             LIMIT 6");
         $request->setFetchMode(PDO::FETCH_CLASS, Review::class);
@@ -56,6 +57,7 @@ final class ReviewRepository
     {
         $request = $this->database->prepare("SELECT *, substring(content, 1, 300) AS content, DATE_FORMAT(reviewDate, '%d/%m/%Y - %H:%i:%s') AS reviewDate
             FROM reviews
+            WHERE reviewStatus = 0
             ORDER BY reviewDate ASC
             LIMIT 3 OFFSET :offset");
         $request->bindParam(':offset', $offset, PDO::PARAM_INT);
@@ -68,6 +70,7 @@ final class ReviewRepository
     {
         $request = $this->database->prepare("SELECT *, DATE_FORMAT(reviewDate, '%d/%m/%Y - %H:%i:%s') AS reviewDate
             FROM reviews
+            WHERE reviewStatus = 0
             ORDER BY reviewDate DESC");
         $request->setFetchMode(PDO::FETCH_CLASS, Review::class);
         $request->execute();
@@ -86,7 +89,7 @@ final class ReviewRepository
         $gameTitle = $reviewData->getGameTitle();
         $reviewer = $reviewData->getReviewer();
         $reviewTitle = $reviewData->getReviewTitle();
-        $content = htmlSpecialChars_decode($reviewData->getContent());
+        $content = $reviewData->getContent();
 
         $request = $this->database->prepare('INSERT INTO reviews (reviewTitle, gameTitle, apiGameId, content, reviewer, reviewDate)
             VALUES (:reviewTitle, :gameTitle, :apiGameId, :content, :reviewer, NOW())');
@@ -122,5 +125,46 @@ final class ReviewRepository
             WHERE id = :id');
         $request->bindParam(':id', $id);
         return $request->execute();
+    }
+
+    public function createDraft(Review $reviewData): bool
+    {
+        $gameId = $reviewData->getApiGameId();
+        $gameTitle = $reviewData->getGameTitle();
+        $reviewer = $reviewData->getReviewer();
+        $reviewTitle = $reviewData->getReviewTitle();
+        $content = $reviewData->getContent();
+        $status = $reviewData->getReviewStatus();
+
+        $request = $this->database->prepare('INSERT INTO reviews (reviewTitle, gameTitle, apiGameId, content, reviewer, reviewDate, reviewStatus)
+            VALUES (:reviewTitle, :gameTitle, :apiGameId, :content, :reviewer, NOW(), :reviewStatus)');
+
+        $request->bindParam(':reviewTitle', $reviewTitle);
+        $request->bindParam(':gameTitle', $gameTitle);
+        $request->bindParam(':apiGameId', $gameId);
+        $request->bindParam(':reviewer', $reviewer);
+        $request->bindParam(':content', $content);
+        $request->bindParam(':reviewStatus', $status);
+        
+        $creation = $request->execute();
+        return $creation;
+    }
+
+    public function findByStatus(int $reviewStatus): ?array
+    {
+        $request = $this->database->prepare("SELECT *, DATE_FORMAT(reviewDate, '%d/%m/%Y - %H:%i:%s') AS reviewDate
+            FROM reviews
+            WHERE reviewStatus = :reviewStatus
+            ORDER BY reviewDate DESC");
+        $request->bindParam(':reviewStatus', $reviewStatus);
+        $request->setFetchMode(PDO::FETCH_CLASS, Review::class);
+        $request->execute();
+        $reviews = $request->fetchAll();
+        
+        if ($reviews === null) {
+            return null;
+        }
+
+        return $reviews;
     }
 }

@@ -57,8 +57,8 @@
             <div class="comment_header">
                 <p>{{ comment.pseudo }}, le {{ comment.commentDate }}</p>
                 <div class="comment_rank">
-                    <span class="thumbs_up"><i class='fas fa-thumbs-up'></i>{{ comment.thumbsUp }}</span>
-                    <span class="thumbs_down"><i class='fas fa-thumbs-down'></i>{{ comment.thumbsDown }}</span>
+                    <span class="thumbs_up"><a href="index.php?action=thumb_up&id={{ comment.id }}&actual_likes={{ comment.thumbsUp }}&review={{ comment.reviewId }}"><i class='fas fa-thumbs-up'></i></a>{{ comment.thumbsUp }}</span>
+                    <span class="thumbs_down"><a href="index.php?action=thumb_down&id={{ comment.id }}&actual_dislikes={{ comment.thumbsDown }}&review={{ comment.reviewId }}"><i class='fas fa-thumbs-down'></i></a>{{ comment.thumbsDown }}</span>
                 </div>
             </div>
             <div class="comment_content">

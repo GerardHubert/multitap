@@ -32,6 +32,12 @@ final class Comment
         return (int) $this->id;
     }
 
+    public function setId(int $id): self
+    {
+        $this->id = $id;
+        return $this;
+    }
+
     public function getPseudo(): string
     {
         return $this->pseudo;
@@ -56,7 +62,7 @@ final class Comment
 
     public function getReviewId(): int
     {
-        return $this->reviewId;
+        return (int) $this->reviewId;
     }
 
     public function setReviewId(int $reviewId): self
@@ -70,9 +76,21 @@ final class Comment
         return (int) $this->thumbsUp;
     }
 
+    public function setThumbsUp(int $thumbsUp) : self
+    {
+        $this->thumbsUp = $thumbsUp;
+        return $this;
+    }
+
     public function getThumbsDown(): int
     {
         return (int) $this->thumbsDown;
+    }
+
+    public function setThumbsdown(int $thumbsDown) : self
+    {
+        $this->thumbsDown = $thumbsDown;
+        return $this;
     }
 
     public function getCommentDate(): string

@@ -24,7 +24,7 @@ final class CommentRepository
             FROM comments
             WHERE reviewId = :review_id
             ORDER BY commentDate DESC");
-        $request->bindParam(':review_id', $idPost);
+        $request->bindParam(':review_id', $idPost, PDO::PARAM_INT);
         $request->setFetchMode(PDO::FETCH_CLASS, Comment::class);
         $request->execute();
         $comments = $request->fetchAll();
@@ -54,7 +54,18 @@ final class CommentRepository
 
     public function update(Comment $comment) : bool
     {
-        return false;
+        $id = $comment->getId();
+        $likes = $comment->getThumbsUp();
+        $dislikes = $comment->getThumbsDown();
+
+        $request = $this->database->prepare('UPDATE comments
+            SET thumbsUp = :newThumbsUp, thumbsDown = :newThumbsDown
+            WHERE id = :id');
+        $request->bindParam(':newThumbsUp', $likes);
+        $request->bindParam(':newThumbsDown', $dislikes);
+        $request->bindParam(':id', $id);
+
+        return $request->execute();
     }
 
     public function delete(Comment $comment) : bool

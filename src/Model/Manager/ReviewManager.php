@@ -70,9 +70,6 @@ final class ReviewManager
     public function updateReview(array $newReview, int $reviewId): bool
     {
         $review = new Review();
-        /*$review->setReviewer($newReview['reviewer']);
-        $review->setApiGameId((int) $newReview['game_id']);
-        $review->setGameTitle($newReview['game_title']);*/
         $review->setReviewTitle($newReview['review_title']);
         $review->setContent($newReview['review_modification']);
 

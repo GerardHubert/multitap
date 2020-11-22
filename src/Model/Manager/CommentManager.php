@@ -61,4 +61,24 @@ final class CommentManager
             
         }
     }
+
+    public function saveLikeFromId(int $id, int $likes): bool
+    {
+        $newLikes = $likes + 1;
+        $comment = new Comment();
+        $comment->setId($id);
+        $comment->setThumbsUp($newLikes);
+        
+        return $this->commentRepo->update($comment);
+    }
+
+    public function saveDislikeFromId(int $id, int $dislikes): bool
+    {
+        $newDislikes = $dislikes + 1;
+        $comment = new Comment();
+        $comment->setId($id);
+        $comment->setThumbsDown($newDislikes);
+        
+        return $this->commentRepo->update($comment);
+    }
 }

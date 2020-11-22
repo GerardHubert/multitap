@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace  App\Controller\Backoffice;
 
+use App\Model\Manager\DraftManager;
 use App\Model\Manager\ReviewManager;
 use App\Service\Http\Request;
 use App\View\View;
@@ -21,14 +22,16 @@ use App\View\View;
 class DashboardController
 {
     private $reviewManager;
+    private $draftManager;
     private $view;
     private $request;
 
-    public function __construct(ReviewManager $reviewManager, View $view, Request $request)
+    public function __construct(ReviewManager $reviewManager, View $view, Request $request, DraftManager $draftManager)
     {
         $this->reviewManager = $reviewManager;
         $this->view = $view;
         $this->request = $request;
+        $this->draftManager = $draftManager;
     }
 
     public function displayAllAction(): void
@@ -90,5 +93,19 @@ class DashboardController
                 header("Location: index.php?action=update_review_page&id=$reviewId");
             exit;
         }
+    }
+
+    public function saveDraftAction(): void
+    {
+        $this->draftManager->saveAsDraft($this->request->cleanPost());
+
+        header('Location: index.php?action=dashboard');
+        exit;
+    }
+
+    public function displayDraftsAction(): void
+    {
+        $drafts = $this->draftManager->showAll();
+        var_dump($drafts);
     }
 }

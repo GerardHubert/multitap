@@ -304,6 +304,11 @@ button{
     background-color: rgba(249, 117, 88, 0.3);
 }
 
+.thumbs_up a, .thumbs_down a{
+    color: black;
+    margin-right: .5rem;
+}
+
 #comment_content{
     height: 100px;
     padding: 5px;

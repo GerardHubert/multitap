@@ -124,7 +124,6 @@ class Search {
         this.reviewForm.style.display = 'flex';
         this.gameTitleArea.value = chosenGame['title'];
         this.gameIdArea.setAttribute('value', chosenGame['id']);
-        this.gameImage.value = chosenGame['image'];
         document.querySelector('.form_reviewer').value = this.usernameElement.innerHTML;
         
         // bouton back to results = retour aux résultats de la recherche

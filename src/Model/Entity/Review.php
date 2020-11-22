@@ -15,6 +15,7 @@ final class Review
     private $reviewer;
     private $reviewDate;
     private $apiGameId;
+    private $reviewStatus;
 
     public function getId(): int
     {
@@ -79,5 +80,16 @@ final class Review
     {
         $this->apiGameId = $apiGameId;
         return $this;
+    }
+
+    public function setReviewStatus(int $reviewStatus): self
+    {
+        $this->reviewStatus = $reviewStatus;
+        return $this;
+    }
+
+    public function getReviewStatus(): int
+    {
+        return $this->reviewStatus;
     }
 }
