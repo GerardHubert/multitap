@@ -62,26 +62,35 @@ final class CommentManager
         }
     }
 
-    public function saveLikeFromId(int $id, int $likes): bool
+    public function saveLikeFromId(int $id, int $likes, int $dislikes, int $actualStatus): bool
     {
         $newLikes = $likes + 1;
         $comment = new Comment();
         $comment->setId($id);
         $comment->setThumbsUp($newLikes);
+        $comment->setThumbsDown($dislikes);
+        $comment->setCommentStatus($actualStatus);
         
         return $this->commentRepo->update($comment);
     }
 
-    public function saveDislikeFromId(int $id, int $dislikes): bool
+    public function saveDislikeFromId(int $id, int $dislikes, int $likes, int $actualStatus): bool
     {
         $newDislikes = $dislikes + 1;
         $comment = new Comment();
-        if ($newDislikes === 20) {
+        if ($newDislikes === 20 && $actualStatus === 0) {
             $status = 1;
             $comment->setCommentStatus($status);
+            $comment->setId($id);
+            $comment->setThumbsDown($newDislikes);
+            $comment->setThumbsUp($likes);
+        } else {
+            $comment->setId($id);
+            $comment->setThumbsDown($newDislikes);
+            $comment->setThumbsUp($likes);
+            $comment->setCommentStatus($actualStatus);
         }
-        $comment->setId($id);
-        $comment->setThumbsDown($newDislikes);
+        
         
         return $this->commentRepo->update($comment);
     }
@@ -97,20 +106,25 @@ final class CommentManager
         return $this->commentRepo->delete($commentToDelete, $id);
     }
 
-    public function flagFromId(int $id, int $commentStatus): bool
+    public function flagFromId(int $id, int $commentStatus, int $likes, int $dislikes): bool
     {
         $comment = new Comment();
         $comment->setId($id);
         $comment->setCommentStatus($commentStatus);
+        $comment->setThumbsUp($likes);
+        $comment->setThumbsDown($dislikes);
+
 
         return $this->commentRepo->update($comment);
     }
 
-    public function authorizeComment(int $id, int $status): bool
+    public function authorizeComment(int $id, int $status, int $likes, int $dislikes): bool
     {
         $comment = new Comment();
         $comment->setId($id);
         $comment->setCommentStatus($status);
+        $comment->setThumbsUp($likes);
+        $comment->setThumbsDown($dislikes);
 
         return $this->commentRepo->update($comment);
     }

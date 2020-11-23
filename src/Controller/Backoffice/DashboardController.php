@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace  App\Controller\Backoffice;
 
+use App\Model\Manager\CommentManager;
 use App\Model\Manager\ReviewManager;
 use App\Service\Http\Request;
 use App\View\View;
-use App\Model\Manager\CommentManager;
 
 /**
  * Cette classe va permettre de vérifier le rang de la personne connecté pour afficher:
@@ -142,10 +142,11 @@ class DashboardController
     {
         $status = 2;
         $commentId = $this->request->cleanGet()['id'];
-        $this->commentManager->authorizeComment((int) $commentId, $status);
+        $likes = $this->request->cleanGet()['likes'];
+        $dislikes = $this->request->cleanGet()['dislikes'];
+        $this->commentManager->authorizeComment((int) $commentId, $status, (int) $likes, (int) $dislikes);
 
         header('Location: index.php?action=show_comments_to_moderate');
         exit;
-
     }
 }

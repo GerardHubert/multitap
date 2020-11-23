@@ -27,9 +27,11 @@ final class CommentController
     {
         $commentId = $this->request->cleanGet()['id'];
         $likes = $this->request->cleanGet()['actual_likes'];
+        $dislikes = $this->request->cleanGet()['actual_dislikes'];
         $reviewId = $this->request->cleanGet()['review'];
+        $actualStatus = $this->request->cleanGet()['actual_status'];
 
-        $this->commentManager->saveLikeFromId((int) $commentId, (int) $likes);
+        $this->commentManager->saveLikeFromId((int) $commentId, (int) $likes, (int) $dislikes, (int) $actualStatus);
 
         header("Location: index.php?action=review&id=$reviewId#comments_list");
         exit;
@@ -39,9 +41,11 @@ final class CommentController
     {
         $commentId = $this->request->cleanGet()['id'];
         $dislikes = $this->request->cleanGet()['actual_dislikes'];
+        $likes = $this->request->cleanGet()['actual_likes'];
         $reviewId = $this->request->cleanGet()['review'];
+        $actualStatus = $this->request->cleanGet()['actual_status'];
 
-        $this->commentManager->saveDislikeFromId((int) $commentId, (int) $dislikes);
+        $this->commentManager->saveDislikeFromId((int) $commentId, (int) $dislikes, (int) $likes, (int) $actualStatus);
 
         header("Location: index.php?action=review&id=$reviewId#comments_list");
         exit;
@@ -51,7 +55,9 @@ final class CommentController
     {
         $commentStatus = 1;
         $reviewId = $this->request->cleanGet()['review'];
-        $this->commentManager->flagFromId((int) $this->request->cleanGet()['id'], $commentStatus);
+        $likes = $this->request->cleanGet()['actual_likes'];
+        $dislikes = $this->request->cleanGet()['actual_dislikes'];
+        $this->commentManager->flagFromId((int) $this->request->cleanGet()['id'], $commentStatus, (int) $likes, (int) $dislikes);
         
         header("Location: index.php?action=review&id=$reviewId");
         exit;

@@ -306,7 +306,11 @@ button{
 
 .thumbs_up a, .thumbs_down a{
     color: black;
-    margin-right: .5rem;
+    margin-right: .3rem;
+}
+
+.flag a{
+    color: red;
 }
 
 #comment_content{

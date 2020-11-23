@@ -6,10 +6,10 @@ namespace  App\Controller\Frontoffice;
 
 use App\Model\Manager\CommentManager;
 use App\Model\Manager\ReviewManager;
+use App\Service\Http\Request;
 use App\Service\Http\Session;
 use App\Service\Security\Token;
 use App\View\View;
-use App\Service\Http\Request;
 
 final class ReviewController
 {
