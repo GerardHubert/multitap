@@ -8,7 +8,6 @@ use App\Controller\Backoffice\DashboardController;
 use App\Controller\Frontoffice\CommentController;
 use App\Controller\Frontoffice\ReviewController;
 use App\Model\Manager\CommentManager;
-use App\Model\Manager\DraftManager;
 use App\Model\Manager\ReviewManager;
 use App\Model\Repository\CommentRepository;
 use App\Model\Repository\ReviewRepository;
@@ -91,7 +90,7 @@ final class Router
                 $this->dashboardController->updateReviewAction($this->request->cleanPost(), (int) $this->request->cleanGet()['id']);
             break;
             case 'thumb_up':
-                $this->commentController->saveLikeAction(/*(int) $this->request->cleanGet()['id'], (int) $this->request->cleanGet()['actual_likes']*/);
+                $this->commentController->saveLikeAction();
             break;
             case 'thumb_down':
                 $this->commentController->saveDislikeAction();
@@ -107,6 +106,12 @@ final class Router
             break;
             case 'delete_comment':
                 $this->dashboardController->deleteCommentAction();
+            break;
+            case 'flag_comment':
+                $this->commentController->flagCommentAction();
+            break;
+            case 'authorize_comment':
+                $this->dashboardController->authorizeCommentAction();
             break;
         }
 

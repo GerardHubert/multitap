@@ -137,4 +137,15 @@ class DashboardController
         header('Location: index.php?action=show_comments_to_moderate');
         exit;
     }
+
+    public function authorizeCommentAction(): void
+    {
+        $status = 2;
+        $commentId = $this->request->cleanGet()['id'];
+        $this->commentManager->authorizeComment((int) $commentId, $status);
+
+        header('Location: index.php?action=show_comments_to_moderate');
+        exit;
+
+    }
 }

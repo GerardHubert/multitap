@@ -96,4 +96,22 @@ final class CommentManager
         $commentToDelete = $this->commentRepo->findOneById($id);
         return $this->commentRepo->delete($commentToDelete, $id);
     }
+
+    public function flagFromId(int $id, int $commentStatus): bool
+    {
+        $comment = new Comment();
+        $comment->setId($id);
+        $comment->setCommentStatus($commentStatus);
+
+        return $this->commentRepo->update($comment);
+    }
+
+    public function authorizeComment(int $id, int $status): bool
+    {
+        $comment = new Comment();
+        $comment->setId($id);
+        $comment->setCommentStatus($status);
+
+        return $this->commentRepo->update($comment);
+    }
 }

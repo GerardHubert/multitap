@@ -92,11 +92,13 @@ final class CommentRepository
         return $request->execute();
     }
 
-    public function delete(Comment $comment, int $id) : bool
+    public function delete(Comment $comment) : bool
     {
+        $id = $comment->getId();
         $request = $this->database->prepare("DELETE FROM comments
             WHERE id = :id");
         $request->bindParam(':id', $id);
+        
         return $request->execute();
     }
 }

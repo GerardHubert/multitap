@@ -22,6 +22,7 @@
                     <td>{{ comment.content|raw }}</td>
                     <td>{{ comment.commentDate }}</td>
                     <td><a href="index.php?action=delete_comment&id={{ comment.id }}"><button class='dash_button'>Supprimer</button></a></td>
+                    <td><a href="index.php?action=authorize_comment&id={{ comment.id }}"><button class='dash_button'>Autoriser</button></a></td>
                 </tr>
                 {% endfor %}
             </tbody>

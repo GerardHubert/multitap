@@ -46,4 +46,14 @@ final class CommentController
         header("Location: index.php?action=review&id=$reviewId#comments_list");
         exit;
     }
+
+    public function flagCommentAction(): void
+    {
+        $commentStatus = 1;
+        $reviewId = $this->request->cleanGet()['review'];
+        $this->commentManager->flagFromId((int) $this->request->cleanGet()['id'], $commentStatus);
+        
+        header("Location: index.php?action=review&id=$reviewId");
+        exit;
+    }
 }
