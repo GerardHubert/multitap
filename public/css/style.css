@@ -313,6 +313,14 @@ button{
     color: red;
 }
 
+.valid_comment{
+    color: green;
+}
+
+.moderating{
+    color: blue;
+}
+
 #comment_content{
     height: 100px;
     padding: 5px;

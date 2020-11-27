@@ -55,7 +55,7 @@
         {% for comment in comments %}
         <div class="comment">
             <div class="comment_header">
-                <p>{{ comment.pseudo }}, le {{ comment.commentDate }}</p>
+                <p>{{ comment.pseudo|raw }}, le {{ comment.commentDate }}</p>
                 <div class="comment_rank">
                     <span class="thumbs_up">
                         <a href="index.php?action=thumb_up&id={{ comment.id }}&actual_likes={{ comment.thumbsUp }}&actual_dislikes={{ comment.thumbsDown }}&review={{ comment.reviewId }}&actual_status={{ comment.commentStatus }}">
@@ -73,11 +73,19 @@
                             <i class='fas fa-flag'></i>
                         </a>
                     </span>
+                        {% elseif comment.commentStatus == 1 %}
+                            <span class="moderating">
+                                <i title="Modération en cours" class="fas fa-spinner"></i>
+                            </span>
+                        {% elseif comment.commentStatus == 2 %}
+                            <span class="valid_comment">
+                                <i title="Commentaire validé" class="fas fa-check"></i>
+                            </span>
                     {% endif %}
                 </div>
             </div>
             <div class="comment_content">
-                {{ comment.content }}
+                {{ comment.content|raw }}
             </div>
         </div>
         {% endfor %}
