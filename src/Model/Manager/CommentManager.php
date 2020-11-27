@@ -77,8 +77,13 @@ final class CommentManager
     public function saveDislikeFromId(int $id, int $dislikes, int $likes, int $actualStatus): bool
     {
         $newDislikes = $dislikes + 1;
+
+        //calcul du ratio de dislikes par rapport au nombre total de réactions
+        $totalReactions = $newDislikes + $likes;
+        $dislikesRate = floor(($newDislikes * 100) / $totalReactions);
+
         $comment = new Comment();
-        if ($newDislikes === 20 && $actualStatus === 0) {
+        if ($likes >= 20 && $dislikesRate >= 20 && $actualStatus === 0) {
             $status = 1;
             $comment->setCommentStatus($status);
             $comment->setId($id);
@@ -90,7 +95,6 @@ final class CommentManager
             $comment->setThumbsUp($likes);
             $comment->setCommentStatus($actualStatus);
         }
-        
         
         return $this->commentRepo->update($comment);
     }
