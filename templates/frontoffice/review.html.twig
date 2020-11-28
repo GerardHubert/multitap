@@ -42,10 +42,10 @@
             <p id="comment_flash_message">{{ session.flashMessage }}</p>
         {% endif %}
 
-        <form id='comment_form' action="index.php?action=new_comment&id={{ post.id }}" method="post">
+        <form id='comment_form' method="post">
             <input type="text" id='pseudo' name='pseudo' placeholder="Pseudonyme"/>
             <textarea id='comment_content' name='comment' cols="40" rows="20" placeholder="Votre commentaire ici"></textarea>
-            <input id='submit_btn' type='submit' value='Envoyer'/>
+            <input id='submit_btn' type='submit' formaction="index.php?action=new_comment&id={{ post.id }}" value='Envoyer'/>
             <input name='hidden_input' type='hidden' value={{ session.token }} />
         </form>
 
@@ -55,7 +55,7 @@
         {% for comment in comments %}
         <div class="comment">
             <div class="comment_header">
-                <p>{{ comment.pseudo|raw }}, le {{ comment.commentDate }}</p>
+                <p>{{ comment.pseudo }}, le {{ comment.commentDate }}</p>
                 <div class="comment_rank">
                     <span class="thumbs_up">
                         <a href="index.php?action=thumb_up&id={{ comment.id }}&actual_likes={{ comment.thumbsUp }}&actual_dislikes={{ comment.thumbsDown }}&review={{ comment.reviewId }}&actual_status={{ comment.commentStatus }}">
@@ -85,7 +85,7 @@
                 </div>
             </div>
             <div class="comment_content">
-                {{ comment.content|raw }}
+                {{ comment.content }}
             </div>
         </div>
         {% endfor %}

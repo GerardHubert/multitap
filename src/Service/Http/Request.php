@@ -22,6 +22,18 @@ class Request
 
     public function cleanPost(): array
     {
-        return filter_var_array($this->post, FILTER_SANITIZE_STRING);
+        /*return filter_var_array($this->post, [
+            'filter' => FILTER_SANITIZE_SPECIAL_CHARS,
+            'flags' => FILTER_FLAG_STRIP_LOW
+            ]);*/
+        
+        foreach ($this->post as $key => $value) {
+            [$this->post[$key] => [
+                'filter' => FILTER_SANITIZE_SPECIAL_CHARS,
+                'flags' => FILTER_FLAG_STRIP_LOW
+                ]
+            ];
+        }
+        return $this->post;
     }
 }

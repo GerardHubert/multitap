@@ -84,10 +84,10 @@ final class Router
                 $this->dashboardController->deleteReviewAction((int) $this->request->cleanGet()['id']);
             break;
             case 'update_review_page':
-                $this->dashboardController->updateReviewPage((int) $this->request->cleanGet()['id']);
+            $this->dashboardController->updateReviewPage();
             break;
             case 'update_review':
-                $this->dashboardController->updateReviewAction($this->request->cleanPost(), (int) $this->request->cleanGet()['id']);
+            $this->dashboardController->updateReviewAction();
             break;
             case 'thumb_up':
                 $this->commentController->saveLikeAction();

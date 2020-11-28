@@ -69,9 +69,9 @@ class DashboardController
         exit;
     }
 
-    public function updateReviewPage(int $reviewId): void
+    public function updateReviewPage(): void
     {
-        $review = $this->reviewManager->showOne($reviewId);
+        $review = $this->reviewManager->showOne((int) $this->request->cleanGet()['id']);
 
         $this->view->render([
             'path' => 'backoffice',
@@ -82,15 +82,16 @@ class DashboardController
         ]);
     }
 
-    public function updateReviewAction(array $editedReview, int $reviewId): void
+    public function updateReviewAction(/*array $editedReview, int $reviewId*/): void
     {
-        $update = $this->reviewManager->updateReview($editedReview, $reviewId);
+        $id = (int) $this->request->cleanGet()['id'];
+        $update = $this->reviewManager->updateReview($this->request->cleanPost(), $id);
         switch ($update) {
             case true:
                 header('Location: index.php?action=dashboard');
             exit;
             case false:
-                header("Location: index.php?action=update_review_page&id=$reviewId");
+                header("Location: index.php?action=update_review_page&id=$id");
             exit;
         }
     }
