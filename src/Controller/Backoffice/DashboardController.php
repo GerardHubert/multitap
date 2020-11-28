@@ -55,16 +55,16 @@ class DashboardController
         ]);
     }
 
-    public function addReviewAction(array $review): void
+    public function addReviewAction(): void
     {
-        $this->reviewManager->addReview($review);
+        $this->reviewManager->addReview($this->request->cleanPost());
         header('Location: index.php?action=dashboard');
         exit;
     }
 
-    public function deleteReviewAction(int $reviewId): void
+    public function deleteReviewAction(): void
     {
-        $this->reviewManager->deleteReview($reviewId);
+        $this->reviewManager->deleteReview((int) $this->request->cleanGet()['id']);
         header('Location: index.php?action=dashboard');
         exit;
     }

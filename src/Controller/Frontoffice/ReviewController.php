@@ -30,10 +30,10 @@ final class ReviewController
         $this->request = $request;
     }
     
-    public function displayOneAction(int $id): void
+    public function displayOneAction(): void
     {
-        $post = $this->reviewManager->showOne($id);
-        $comments = $this->commentManager->showAllFromPost($id);
+        $post = $this->reviewManager->showOne((int) $this->request->cleanGet()['id']);
+        $comments = $this->commentManager->showAllFromPost((int) $this->request->cleanGet()['id']);
        
         if ($post !== null) {
             $this->token->setToken();
@@ -66,8 +66,9 @@ final class ReviewController
         ]);
     }
 
-    public function displayAllAction(int $page): void
+    public function displayAllAction(): void
     {
+        $page = (int) $this->request->cleanGet()['page'];
         $reviews = $this->reviewManager->showTwo($page);
 
         $this->view->render([

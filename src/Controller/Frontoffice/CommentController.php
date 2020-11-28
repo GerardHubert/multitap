@@ -18,9 +18,9 @@ final class CommentController
         $this->request = $request;
     }
 
-    public function newComment(array $post, int $reviewId) : void
+    public function newComment() : void
     {
-        $this->commentManager->saveNewComment($post, $reviewId);
+        $this->commentManager->saveNewComment($this->request->cleanPost(), (int) $this->request->cleanGet()['id']);
     }
 
     public function saveLikeAction(): void

@@ -49,27 +49,25 @@ final class Router
         $this->reviewController = new ReviewController($this->reviewManager, $this->view, $this->commentManager, $this->token, $this->session, $this->request);
         $this->commentController = new CommentController($this->commentManager, $this->request);
         $this->dashboardController = new DashboardController($this->reviewManager, $this->view, $this->request, $this->commentManager);
-        $this->get = $this->request->cleanGet();
-        $this->post = $this->request->cleanPost();
     }
 
     public function run(): void
     {
         //On test si une action a été défini ? si oui alors on récupére l'action : sinon on mets une action par défaut (ici l'action posts)
-        $action = $this->get['action'] ?? 'home';
+        $action = $this->request->cleanGet()['action'] ?? 'home';
 
         switch ($action) {
             case 'home':
                 $this->reviewController->displayHomeAction();
             break;
             case 'review':
-                empty($this->get['id']) ? $this->reviewController->displayHomeAction() : $this->reviewController->displayOneAction((int) $this->get['id']);
+                empty($this->request->cleanGet()['id']) ? $this->reviewController->displayHomeAction() : $this->reviewController->displayOneAction();
             break;
             case 'all_reviews':
-                $this->reviewController->displayAllAction((int) $this->get['page']);
+                $this->reviewController->displayAllAction();
             break;
             case 'new_comment':
-                $this->commentController->newComment($this->post, (int) $this->get['id']);
+                $this->commentController->newComment();
             break;
             case 'dashboard':
                 $this->dashboardController->displayAllAction();
@@ -78,10 +76,10 @@ final class Router
                 $this->dashboardController->reviewEditor();
             break;
             case 'publish':
-                $this->dashboardController->addReviewAction($this->request->cleanPost());
+                $this->dashboardController->addReviewAction();
             break;
             case 'delete_review':
-                $this->dashboardController->deleteReviewAction((int) $this->request->cleanGet()['id']);
+                $this->dashboardController->deleteReviewAction();
             break;
             case 'update_review_page':
             $this->dashboardController->updateReviewPage();
