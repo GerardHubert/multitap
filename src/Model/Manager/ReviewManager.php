@@ -76,22 +76,4 @@ final class ReviewManager
         return $this->reviewRepo->update($review, $reviewId);
     }
 
-    public function saveAsDraft(array $draftData): bool
-    {
-        $status = 1;
-        $draft = new Review();
-        $draft->setReviewer($draftData['reviewer']);
-        $draft->setApiGameId((int) $draftData['game_id']);
-        $draft->setGameTitle($draftData['game_title']);
-        $draft->setReviewTitle($draftData['review_title']);
-        $draft->setContent($draftData['tinymceArea']);
-        $draft->setReviewStatus($status);
-
-        return $this->reviewRepo->createDraft($draft);
-    }
-
-    public function showAllDrafts(int $draftStatus): array
-    {
-        return $this->reviewRepo->findByStatus($draftStatus);
-    }
 }

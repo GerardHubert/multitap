@@ -55,7 +55,7 @@ class Search {
     getGames(platformId) {
         
         const getData = async () => {
-            const response = await fetch("https://api.rawg.io/api/games?key=2d3f2baa156044ab91295ba0e044da14&search="
+            const response = await fetch("https://api.rawg.io/api/games?key=4a5ccf3940bb4765910699149e79bb68&search="
                 + this.userInput.value
                 + '&platforms='
                 + platformId

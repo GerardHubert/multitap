@@ -167,4 +167,16 @@ final class ReviewRepository
 
         return $reviews;
     }
+    
+    public function updateStatus(Review $review, int $status): bool
+    {
+        $id = $review->getid();
+        $request = $this->database->prepare('UPDATE reviews
+            SET reviewStatus = :newStatus, reviewDate = NOW()
+            WHERE id = :id');
+        $request->bindParam(':id', $id);
+        $request->bindParam(':newStatus', $status);
+
+        return $request->execute();
+    }
 }

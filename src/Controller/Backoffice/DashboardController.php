@@ -82,7 +82,7 @@ class DashboardController
         ]);
     }
 
-    public function updateReviewAction(/*array $editedReview, int $reviewId*/): void
+    public function updateReviewAction(): void
     {
         $id = (int) $this->request->cleanGet()['id'];
         $update = $this->reviewManager->updateReview($this->request->cleanPost(), $id);
@@ -94,27 +94,6 @@ class DashboardController
                 header("Location: index.php?action=update_review_page&id=$id");
             exit;
         }
-    }
-
-    public function saveDraftAction(): void
-    {
-        $this->reviewManager->saveAsDraft($this->request->cleanPost());
-
-        header('Location: index.php?action=dashboard');
-        exit;
-    }
-
-    public function displayDraftsAction(): void
-    {
-        $draftStatus = 1;
-        $drafts = $this->reviewManager->showAllDrafts($draftStatus);
-        $this->view->render([
-            'path' => 'backoffice',
-            'template' => 'drafts',
-            'data' => [
-                'drafts' => $drafts
-            ]
-        ]);
     }
 
     public function displayFlagCommentsAction(): void

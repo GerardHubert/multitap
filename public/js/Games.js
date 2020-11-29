@@ -14,7 +14,7 @@ class Games {
         this.reviewsList = document.querySelector('#reviews_list');
         this.latestReviews = document.querySelector('#cards');
         this.url = "https://api.rawg.io/api/";
-        this.apiKey = "?key=2d3f2baa156044ab91295ba0e044da14";
+        this.apiKey = "?key=4a5ccf3940bb4765910699149e79bb68";
         this.getGameId();
     }
 
@@ -69,15 +69,30 @@ class Games {
 
     getGamesDetails(apiGameId) {
         const getData = async () => {
-            const response = await fetch(this.url + 'games/' + apiGameId + this.apiKey);
+            const response = await fetch(this.url + 'games/' + apiGameId/* + this.apiKey*/);
             const details = await response.json();
-
+            console.log(details.clip)
             this.displayDetails(details);
         }
         getData();
     }
 
     displayDetails(data) {
+
+        switch (data.clip === null) {
+            
+            case false:
+                this.video.src = "https://youtube.com/embed/" + data.clip.video + "?rel=0";
+            break;
+            case true:
+                this.video.style.display = 'none';
+                const noVideoImage = document.createElement('img');
+                noVideoImage.setAttribute('class', 'no_video');
+                noVideoImage.src = 'images/novideo.png';
+                noVideoImage.alt = 'aucune vidéo disponible';
+                document.getElementById('game_info').appendChild(noVideoImage);
+            break;
+        }
 
         this.gameTitle.innerHTML = data.name;
 
@@ -103,21 +118,6 @@ class Games {
         const platFormsList = [];
         data.platforms.forEach(machine => platFormsList.push(machine.platform.name));
         this.platForms.innerHTML = platFormsList.join();
-
-        switch (data.clip === null) {
-            case true:
-                this.video.style.display = 'none';
-                const noVideoImage = document.createElement('img');
-                noVideoImage.setAttribute('class', 'no_video');
-                noVideoImage.src = 'images/novideo.png';
-                noVideoImage.alt = 'aucune vidéo disponible';
-                document.getElementById('game_info').appendChild(noVideoImage);
-            break;
-
-            case false:
-                this.video.src = "https://youtube.com/embed/" + data.clip.video + "?rel=0";
-            break;
-        }        
 
     }
 }

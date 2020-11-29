@@ -7,7 +7,9 @@ namespace  App\Service;
 use App\Controller\Backoffice\DashboardController;
 use App\Controller\Frontoffice\CommentController;
 use App\Controller\Frontoffice\ReviewController;
+use App\Controller\Backoffice\DraftController;
 use App\Model\Manager\CommentManager;
+use App\Model\Manager\DraftManager;
 use App\Model\Manager\ReviewManager;
 use App\Model\Repository\CommentRepository;
 use App\Model\Repository\ReviewRepository;
@@ -20,14 +22,14 @@ final class Router
 {
     private $database;
     private $view;
-    private $get;
     private $reviewRepo;
     private $commentRepo;
     private $reviewManager;
     private $commentManager;
+    private $draftManager;
     private $reviewController;
+    private $draftController;
     private $commentController;
-    private $post;
     private $session;
     private $token;
     private $request;
@@ -45,7 +47,9 @@ final class Router
         $this->reviewRepo = new ReviewRepository($this->database);
         $this->commentRepo = new CommentRepository($this->database);
         $this->reviewManager = new ReviewManager($this->reviewRepo, $this->commentRepo, $this->token);
+        $this->draftManager = new draftManager($this->reviewRepo, $this->token);
         $this->commentManager = new CommentManager($this->commentRepo, $this->session, $this->token);
+        $this->draftController = new draftController($this->draftManager, $this->request, $this->view);
         $this->reviewController = new ReviewController($this->reviewManager, $this->view, $this->commentManager, $this->token, $this->session, $this->request);
         $this->commentController = new CommentController($this->commentManager, $this->request);
         $this->dashboardController = new DashboardController($this->reviewManager, $this->view, $this->request, $this->commentManager);
@@ -94,10 +98,22 @@ final class Router
                 $this->commentController->saveDislikeAction();
             break;
             case 'save_draft':
-                $this->dashboardController->saveDraftAction();
+                $this->draftController->saveDraftAction();
             break;
             case 'show_drafts':
-                $this->dashboardController->displayDraftsAction();
+                $this->draftController->displayDraftsAction();
+            break;
+            case 'publish_draft':
+                $this->draftController->publishDraftAction();
+            break;
+            case 'update_draft_page':
+                $this->draftController->updateDraftPage();
+            break;
+            case 'update_draft':
+                $this->draftController->updateDraftAction();
+            break;
+            case 'delete_draft':
+                $this->draftController->deleteDraftAction();
             break;
             case 'show_comments_to_moderate':
                 $this->dashboardController->displayFlagCommentsAction();
