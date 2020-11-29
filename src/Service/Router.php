@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace  App\Service;
 
 use App\Controller\Backoffice\DashboardController;
+use App\Controller\Backoffice\DraftController;
 use App\Controller\Frontoffice\CommentController;
 use App\Controller\Frontoffice\ReviewController;
-use App\Controller\Backoffice\DraftController;
 use App\Model\Manager\CommentManager;
 use App\Model\Manager\DraftManager;
 use App\Model\Manager\ReviewManager;
@@ -49,10 +49,10 @@ final class Router
         $this->reviewManager = new ReviewManager($this->reviewRepo, $this->commentRepo, $this->token);
         $this->draftManager = new draftManager($this->reviewRepo, $this->token);
         $this->commentManager = new CommentManager($this->commentRepo, $this->session, $this->token);
-        $this->draftController = new draftController($this->draftManager, $this->request, $this->view);
+        $this->draftController = new draftController($this->draftManager, $this->request, $this->view, $this->session, $this->token);
         $this->reviewController = new ReviewController($this->reviewManager, $this->view, $this->commentManager, $this->token, $this->session, $this->request);
         $this->commentController = new CommentController($this->commentManager, $this->request);
-        $this->dashboardController = new DashboardController($this->reviewManager, $this->view, $this->request, $this->commentManager);
+        $this->dashboardController = new DashboardController($this->reviewManager, $this->view, $this->request, $this->commentManager, $this->token, $this->session);
     }
 
     public function run(): void

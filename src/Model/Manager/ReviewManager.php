@@ -75,5 +75,4 @@ final class ReviewManager
 
         return $this->reviewRepo->update($review, $reviewId);
     }
-
 }

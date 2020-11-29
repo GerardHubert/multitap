@@ -10,7 +10,7 @@
 
         <form class="review_modification" method='post'>
             <input class='form_game_id' type='hidden' name='game_id' value="{{ draft.apiGameId }}"/>
-            <input type='hidden' class='form_token' />
+            <input type='hidden' class='form_token' name='hidden_input_token' value={{ session.token }} >
             <input type='hidden' class='form_reviewer' name='reviewer' value="{{ draft.reviewer }}"/>
             <p>Titre du jeu : <input class='form_game_title' type="text" name='game_title' readonly='readonly' value="{{ draft.gameTitle }}"></input></p>
             <div>
