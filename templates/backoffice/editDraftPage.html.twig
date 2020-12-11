@@ -11,7 +11,7 @@
         <form class="review_modification" method='post'>
             <input class='form_game_id' type='hidden' name='game_id' value="{{ draft.apiGameId }}"/>
             <input type='hidden' class='form_token' name='hidden_input_token' value={{ session.token }} >
-            <input type='hidden' class='form_reviewer' name='reviewer' value="{{ draft.reviewer }}"/>
+            <input type='hidden' class='form_reviewer' name='reviewer' value="{{ session.userId }}"/>
             <p>Titre du jeu : <input class='form_game_title' type="text" name='game_title' readonly='readonly' value="{{ draft.gameTitle }}"></input></p>
             <div>
                 <label for="review_title">Titre de la Review : </label>
@@ -21,10 +21,12 @@
                     value="{{ draft.reviewTitle }}" />
             </div>
             <textarea name="draft_modification" class="review_modification">
-                {{ draft.content }}
+                {% autoescape false %}
+                    {{ draft.content }}
+                {% endautoescape %}
             </textarea>
-            <input type='submit' formaction='index.php?action=publish_draft&id={{ draft.id }}' name='publish' value='Publier'/>
-            <input type='submit' formaction='index.php?action=update_draft&id={{ draft.id }}' name='edit' value='Enregistrer les modifications'/>
+            <input type='submit' formaction='index.php?action=publish_draft&id={{ draft.reviewId }}' name='publish' value='Publier'/>
+            <input type='submit' formaction='index.php?action=update_draft&id={{ draft.reviewId }}' name='edit' value='Enregistrer les modifications'/>
         </form>
     
     </section>

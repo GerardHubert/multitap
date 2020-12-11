@@ -12,6 +12,7 @@ final class View
 {
     private $twig;
     private $session;
+    private $filter;
 
     public function __construct(Session $session)
     {
@@ -19,6 +20,8 @@ final class View
         $loader = new FilesystemLoader('../templates');
         $this->twig = new Environment($loader);
         $this->twig->addGlobal('session', $this->session);
+        $this->filter = new \Twig\TwigFilter('htmlspecialchars_decode', 'htmlspecialchars_decode');
+        $this->twig->addFilter($this->filter);
     }
 
     public function render(array $data): void

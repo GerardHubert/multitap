@@ -72,7 +72,7 @@ nav{
 }
 
 .navbar{
-    width: 45%;
+    width: 60%;
     display: flex;
     justify-content: space-between;
     font-family: roboto_black;
@@ -426,22 +426,21 @@ button{
     width:100%;
     display: flex;
     align-items: center;
+    justify-content: flex-end;
     height: 50px;
     background-color: #451C93;
-}
-
-#dashboard_header a{
-    margin-left: 20px;
-}
-
-#dashboard_header #username{
-    padding-left: 2%;
 }
 
 #dashboard_header, #dashboard_header a{
     color: white;
     font-family: roboto_bold;
     font-size: 1.2rem;
+}
+
+#dashboard_user{
+    width: 50%;
+    display: flex;
+    justify-content: space-evenly;
 }
 
 #dashboard_content{
@@ -649,4 +648,82 @@ button{
 
 .review_modification{
     height: 500px;
+}
+/**
+* AUTHENTIFICATION
+**/
+
+#inscription_form{
+    width: 30%;
+    margin: auto;
+    height: 300px;
+    margin-top: 50px;
+}
+
+#inscription_form fieldset, #login_form fieldset{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    margin-top: 50px;
+    height: 100%;
+    margin: 0;
+}
+
+.label_and_input{
+    display: flex;
+    flex-direction: column;
+}
+
+#inscription_form input, #login_form input{
+    height: 2rem;
+    border: 1px solid black;
+    border-radius: 5px;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+#inscription_form input:focus, #login_form input:focus{
+    outline: none;
+    border: 2px solid rgba(249, 117, 88, 1);
+}
+
+#inscription_form label, #login_form label{
+    font-size: 0.9rem;
+}
+
+.inscription_button:hover{
+    cursor: pointer;
+    background-color: rgba(249, 117, 88, 1);
+    color: white;
+}
+
+.inscription_button, .login_button{
+    height: 2rem;
+    border-radius: 5px;
+    background-color: rgba(249, 117, 88, 0.3);
+    font-family: roboto_bold;
+}
+
+/**
+* LOGIN FORM
+**/
+
+#login_form{
+    width: 30%;
+    margin: auto;
+    margin-top: 50px;
+    height: 200px;
+}
+
+#login_form p{
+    font-family: roboto_bold;
+    text-align: center;
+}
+
+#login_form a{
+    color: black;
+}
+
+#login_form a:hover{
+    color: rgba(249, 117, 88, 1)
 }

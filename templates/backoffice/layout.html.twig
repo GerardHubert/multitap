@@ -14,9 +14,20 @@
     <body>
         
         <header id='dashboard_header'>
-            <span id='username'>Gérard</span>
-            <span id='user_rank'> | Administrateur | </span>
-            <a href='index.php'><i class='fas fa-sign-out-alt'></i>Se déconnecter</a>
+            <div id='dashboard_user'>
+                <span id='username'>Salut {{ session.username }} !</span>
+                <span id='user_rank'>
+                    {% if session.userRank == 0 %}
+                        Administrateur
+                    {% elseif session.userRank == 2 %}
+                        Reviewer
+                    {% elseif session.userRank == 1 %}
+                        Validateur
+                    {% endif %}
+                </span>
+                <a href='index.php?action=logout'><i class='fas fa-sign-out-alt'></i>Se déconnecter</a>
+                <a href="index.php?action=home"><i class='fas fa-home'></i>Accueil</a>
+            </div>
         </header>
         
         <main id='dashboard_content'>
@@ -24,9 +35,11 @@
             <ul>
                 <li><a href='index.php?action=dashboard'>Mes reviews</a></li>
                 <li><a href='index.php?action=new_review'>Nouvelle review</a></li>
-                <li><a href='index.php?action=show_drafts'>Brouillons</a></li>
-                <li><a href='index.php?action=show_comments_to_moderate'>Commentaires à modérer</a></li>
-                <li>Reviews à valider</li>
+                <li><a href='index.php?action=show_drafts'>Mes brouillons</a></li>
+                {% if (session.userRank == 0) or (session.userRank == 1) %}
+                    <li><a href='index.php?action=show_comments_to_moderate'>Les commentaires à modérer</a></li>
+                    <li>Les Reviews à valider</li>
+                {% endif %}
 
             </ul>
         </nav>

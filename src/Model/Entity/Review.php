@@ -8,18 +8,19 @@ use DateTime;
 
 final class Review
 {
-    private $id;
+    private $reviewId;
     private $reviewTitle;
     private $gameTitle;
     private $content;
-    private $reviewer;
+    //private $reviewer;
+    private $userId;
     private $reviewDate;
     private $apiGameId;
     private $reviewStatus;
 
-    public function getId(): int
+    public function getReviewId(): int
     {
-        return (int) $this->id;
+        return (int) $this->reviewId;
     }
 
     public function getReviewTitle(): string
@@ -55,7 +56,7 @@ final class Review
         return $this;
     }
 
-    public function getReviewer(): string
+    /*public function getReviewer(): string
     {
         return $this->reviewer;
     }
@@ -64,6 +65,17 @@ final class Review
     {
         $this->reviewer = $reviewer;
         return $this;
+    }*/
+
+    public function setUserId(int $userId): self
+    {
+        $this->userId = $userId;
+        return $this;
+    }
+
+    public function getUserId(): int
+    {
+        return (int) $this->userId;
     }
 
     public function getReviewDate(): string

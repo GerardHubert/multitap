@@ -1,6 +1,7 @@
 {% extends '/backoffice/layout.html.twig' %}
 
 {% block content %}
+{% autoescape false %}
 
     <section id="edit_review">
 
@@ -9,7 +10,7 @@
         <form class="review_modification" method='post'>
             <input class='form_game_id' type='hidden' name='game_id' value="{{ review.apiGameId }}"/>
             <input type='hidden' class='form_token' name='hidden_input_token' value={{ session.token }}>
-            <input type='hidden' class='form_reviewer' name='reviewer' value="{{ review.reviewer }}"/>
+            <input type='hidden' class='form_reviewer' name='reviewer' value="{{ session.userId }}"/>
             <p>Titre du jeu : <input class='form_game_title' type="text" name='game_title' readonly='readonly' value="{{ review.gameTitle }}"></input></p>
             <div>
                 <label for="review_title">Titre de la Review : </label>
@@ -19,13 +20,13 @@
                     value="{{ review.reviewTitle }}" />
             </div>
             <textarea name="review_modification" class="review_modification">
-                {{ review.content }}
+                {{ review.content|htmlspecialchars_decode }}
             </textarea>
-            <input type='submit' formaction='index.php?action=update_review&id={{ review.id }}' name='edit' value='Enregistrer les modifications'/>
+            <input type='submit' formaction='index.php?action=update_review&id={{ review.reviewId }}' name='edit' value='Enregistrer les modifications'/>
         </form>
     
     </section>
-
+{% endautoescape %}
 {% endblock %}
 
 {% block javascript %}
@@ -35,5 +36,6 @@
         toolbar_mode: 'floating'
         });
     </script>
+
 
 {% endblock %}

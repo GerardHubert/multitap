@@ -51,7 +51,7 @@
     <form class="review_form" method='post'>
         <input class='form_game_id' type='hidden' name='game_id' />
         <input name='hidden_input_token' type='hidden' class='form_token' value={{ session.token }}>
-        <input type='hidden' class='form_reviewer' name='reviewer' />
+        <input type='hidden' class='form_reviewer' name='userId' value={{ session.userId }}>
         <p>Titre du jeu : <input class='form_game_title' type="text" name='game_title' readonly='readonly'></input></p>
         <div>
             <label for="review_title">Titre de la Review : </label>

@@ -7,15 +7,17 @@
 {% endblock %}
 
 {% block reviewTitle %}
+{% autoescape false %}
     <h1 id="review_title">{{ post.reviewTitle }}</h1>
-    <span id="author_date">De {{ post.reviewer }}, le {{ post.reviewDate }}</span>
+    <span id="author_date">De {{ post.username }}, le {{ post.reviewDate }}</span>
+{% endautoescape %}
 {% endblock %}
 
-{% block content %} 
-    
+{% block content %}
+{% autoescape false %}
 <section id="review_container">
     <div id="review">
-        <p>{{ post.content|raw }}</p>
+        <p>{{ post.content|htmlspecialchars_decode }}</p>
     </div>
     <aside id="game_info">
         <h2 class='game_title'></h2>
@@ -35,8 +37,10 @@
 
 <section id="comments_area">
 
+    {% if session.username == false %}
     <section id='comment_form_container'>
         <p id='login_before_comment'>Vous devez être connecté pour poster un commentaire</p>
+    {% endif %}
 
         {% if session.flashMessage %}
             <p id="comment_flash_message">{{ session.flashMessage }}</p>
@@ -45,7 +49,7 @@
         <form id='comment_form' method="post">
             <input type="text" id='pseudo' name='pseudo' placeholder="Pseudonyme"/>
             <textarea id='comment_content' name='comment' cols="40" rows="20" placeholder="Votre commentaire ici"></textarea>
-            <input id='submit_btn' type='submit' formaction="index.php?action=new_comment&id={{ post.id }}" value='Envoyer'/>
+            <input id='submit_btn' type='submit' formaction="index.php?action=new_comment&id={{ post.reviewId }}" value='Envoyer'/>
             <input name='hidden_input' type='hidden' value={{ session.token }} />
         </form>
 
@@ -58,7 +62,7 @@
                 <p>{{ comment.pseudo }}, le {{ comment.commentDate }}</p>
                 <div class="comment_rank">
                     <span class="thumbs_up">
-                        <a href="index.php?action=thumb_up&id={{ comment.id }}&actual_likes={{ comment.thumbsUp }}&actual_dislikes={{ comment.thumbsDown }}&review={{ comment.reviewId }}&actual_status={{ comment.commentStatus }}">
+                        <a href="index.php?action=thumb_up&id={{ comment.commentId }}&actual_likes={{ comment.thumbsUp }}&actual_dislikes={{ comment.thumbsDown }}&review={{ comment.reviewId }}&actual_status={{ comment.commentStatus }}">
                             <i class='fas fa-thumbs-up'></i>
                         </a>{{ comment.thumbsUp }}
                     </span>
@@ -91,5 +95,5 @@
         {% endfor %}
     </section>
 </section>
-
+{% endautoescape %}
 {% endblock %}

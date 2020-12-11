@@ -34,7 +34,7 @@ final class ReviewController
     {
         $post = $this->reviewManager->showOne((int) $this->request->cleanGet()['id']);
         $comments = $this->commentManager->showAllFromPost((int) $this->request->cleanGet()['id']);
-       
+        
         if ($post !== null) {
             $this->token->setToken();
             $this->view->render(

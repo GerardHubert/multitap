@@ -8,6 +8,7 @@ use App\Model\Manager\CommentManager;
 use App\Model\Manager\ReviewManager;
 use App\Service\Http\Request;
 use App\Service\Http\Session;
+use App\Service\Security\AccessControl;
 use App\Service\Security\Token;
 use App\View\View;
 
@@ -29,8 +30,9 @@ class DashboardController
     private $commentManager;
     private $token;
     private $session;
+    private $accessControl;
 
-    public function __construct(ReviewManager $reviewManager, View $view, Request $request, CommentManager $commentManager, Token $token, Session $session)
+    public function __construct(ReviewManager $reviewManager, View $view, Request $request, CommentManager $commentManager, Token $token, Session $session, AccessControl $accessControl)
     {
         $this->reviewManager = $reviewManager;
         $this->view = $view;
@@ -38,11 +40,35 @@ class DashboardController
         $this->commentManager = $commentManager;
         $this->token = $token;
         $this->session = $session;
+        $this->accessControl = $accessControl;
     }
 
-    public function displayAllAction(): void
+    public function checkAccess(): void
     {
+        if ($this->accessControl->isConnected() === false) {
+            header('Location: index.php?action=logInPage');
+            exit;
+        }
+    }
+
+    /*public function displayAllAction(): void
+    {
+        $this->checkAccess();
         $reviews = $this->reviewManager->showAll();
+        $this->view->render([
+            'path' => 'backoffice',
+            'template' => 'allReviews',
+            'data' => [
+                'reviews' => $reviews
+            ]
+        ]);
+    }*/
+
+    public function displayUserReviewsAction(): void
+    {
+        $this->checkAccess();
+        $status = 0;
+        $reviews = $this->reviewManager->showUserReviews((int) $this->session->getUserId(), $status);
         $this->view->render([
             'path' => 'backoffice',
             'template' => 'allReviews',
@@ -54,6 +80,7 @@ class DashboardController
 
     public function reviewEditor(): void
     {
+        $this->checkAccess();
         $this->token->setToken();
         $this->view->render([
             'path' => 'backoffice',
@@ -64,6 +91,8 @@ class DashboardController
 
     public function addReviewAction(): void
     {
+        $this->checkAccess();
+
         $inputToken = $this->request->cleanPost()['hidden_input_token'];
         $sessionToken = $this->session->getToken();
         
@@ -80,6 +109,8 @@ class DashboardController
 
     public function deleteReviewAction(): void
     {
+        $this->checkAccess();
+
         $this->reviewManager->deleteReview((int) $this->request->cleanGet()['id']);
         header('Location: index.php?action=dashboard');
         exit;
@@ -87,6 +118,8 @@ class DashboardController
 
     public function updateReviewPage(): void
     {
+        $this->checkAccess();
+
         $this->token->setToken();
         $review = $this->reviewManager->showOne((int) $this->request->cleanGet()['id']);
 
@@ -101,6 +134,8 @@ class DashboardController
 
     public function updateReviewAction(): void
     {
+        $this->checkAccess();
+
         $inputToken = $this->request->cleanPost()['hidden_input_token'];
         $sessionToken = $this->session->getToken();
 
@@ -125,6 +160,8 @@ class DashboardController
 
     public function displayFlagCommentsAction(): void
     {
+        $this->checkAccess();
+
         $commentStatus = 1;
         $flagComments = $this->commentManager->showAllFromStatus($commentStatus);
         
@@ -139,6 +176,8 @@ class DashboardController
 
     public function deleteCommentAction(): void
     {
+        $this->checkAccess();
+
         $this->commentManager->deleteFromId((int) $this->request->cleanGet()['id']);
         
         header('Location: index.php?action=show_comments_to_moderate');
@@ -147,6 +186,8 @@ class DashboardController
 
     public function authorizeCommentAction(): void
     {
+        $this->checkAccess();
+
         $status = 2;
         $commentId = $this->request->cleanGet()['id'];
         $likes = $this->request->cleanGet()['likes'];

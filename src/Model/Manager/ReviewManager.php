@@ -49,10 +49,15 @@ final class ReviewManager
         return $this->reviewRepo->findByAll();
     }
 
+    public function showUserReviews(int $userId, int $status): array
+    {
+        return $this->reviewRepo->findByUserId($userId, $status);
+    }
+
     public function addReview(array $reviewData): bool
     {
         $review = new Review();
-        $review->setReviewer($reviewData['reviewer']);
+        $review->setUserId((int) $reviewData['userId']);
         $review->setApiGameId((int) $reviewData['game_id']);
         $review->setGameTitle($reviewData['game_title']);
         $review->setReviewTitle($reviewData['review_title']);

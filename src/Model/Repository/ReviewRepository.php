@@ -21,7 +21,9 @@ final class ReviewRepository
     {
         $request = $this->database->prepare("SELECT *, DATE_FORMAT(reviewDate, '%d/%m/%Y - %H:%i:%s') AS reviewDate
             FROM reviews
-            WHERE id = :id");
+            INNER JOIN users
+            ON users.userId = reviews.userId
+            WHERE reviewId = :id");
         $request->bindParam(':id', $id);
         $request->setFetchMode(PDO::FETCH_CLASS, Review::class);
         $request->execute();
@@ -39,6 +41,8 @@ final class ReviewRepository
     {
         $request = $this->database->prepare("SELECT *, DATE_FORMAT(reviewDate, '%d/%m/%Y - %H:%i:%s') AS reviewDate
             FROM reviews
+            INNER JOIN users
+            ON users.userId = reviews.userId
             WHERE reviewStatus = 0
             ORDER BY reviewDate DESC
             LIMIT 6");
@@ -57,6 +61,8 @@ final class ReviewRepository
     {
         $request = $this->database->prepare("SELECT *, substring(content, 1, 300) AS content, DATE_FORMAT(reviewDate, '%d/%m/%Y - %H:%i:%s') AS reviewDate
             FROM reviews
+            INNER JOIN users
+            ON users.userId = reviews.userId
             WHERE reviewStatus = 0
             ORDER BY reviewDate ASC
             LIMIT 3 OFFSET :offset");
@@ -83,21 +89,40 @@ final class ReviewRepository
         return $reviews;
     }
 
+    public function findByUserId(int $userId, $status): ?array
+    {
+        $request = $this->database->prepare("SELECT *, DATE_FORMAT(reviewDate, '%d/%m/%Y - %H:%i:%s') AS reviewDate
+            FROM reviews
+            WHERE userId = :id AND reviewStatus = :reviewStatus
+            ORDER BY reviewDate DESC");
+        $request->bindParam(':id', $userId);
+        $request->bindParam(':reviewStatus', $status);
+        $request->setFetchMode(PDO::FETCH_CLASS, Review::class);
+        $request->execute();
+        $reviews = $request->fetchAll();
+        
+        if ($reviews === null) {
+            return null;
+        }
+
+        return $reviews;
+    }
+
     public function create(Review $reviewData) : bool
     {
         $gameId = $reviewData->getApiGameId();
         $gameTitle = $reviewData->getGameTitle();
-        $reviewer = $reviewData->getReviewer();
+        $userId = $reviewData->getUserId();
         $reviewTitle = $reviewData->getReviewTitle();
         $content = $reviewData->getContent();
 
-        $request = $this->database->prepare('INSERT INTO reviews (reviewTitle, gameTitle, apiGameId, content, reviewer, reviewDate)
-            VALUES (:reviewTitle, :gameTitle, :apiGameId, :content, :reviewer, NOW())');
+        $request = $this->database->prepare('INSERT INTO reviews (reviewTitle, gameTitle, apiGameId, content, userId, reviewDate)
+            VALUES (:reviewTitle, :gameTitle, :apiGameId, :content, :userId, NOW())');
 
         $request->bindParam(':reviewTitle', $reviewTitle);
         $request->bindParam(':gameTitle', $gameTitle);
         $request->bindParam(':apiGameId', $gameId);
-        $request->bindParam(':reviewer', $reviewer);
+        $request->bindParam(':userId', $userId);
         $request->bindParam(':content', $content);
         
         $creation = $request->execute();
@@ -108,9 +133,9 @@ final class ReviewRepository
     {
         $newTitle = $review->getReviewTitle();
         $newContent = $review->getContent();
-        $request = $this->database->prepare('UPDATE reviews
+        $request = $this->database->prepare("UPDATE reviews
             SET reviewTitle = :newReviewTitle, content = :newContent
-            WHERE id = :id');
+            WHERE reviewId = :id");
         $request->bindParam(':newReviewTitle', $newTitle);
         $request->bindParam(':newContent', $newContent);
         $request->bindParam(':id', $reviewId);
@@ -120,9 +145,9 @@ final class ReviewRepository
 
     public function delete(Review $review) : bool
     {
-        $id = $review->getId();
+        $id = $review->getReviewId();
         $request = $this->database->prepare('DELETE FROM reviews
-            WHERE id = :id');
+            WHERE reviewId = :id');
         $request->bindParam(':id', $id);
         return $request->execute();
     }
@@ -131,18 +156,18 @@ final class ReviewRepository
     {
         $gameId = $reviewData->getApiGameId();
         $gameTitle = $reviewData->getGameTitle();
-        $reviewer = $reviewData->getReviewer();
+        $userId = $reviewData->getUserId();
         $reviewTitle = $reviewData->getReviewTitle();
         $content = $reviewData->getContent();
         $status = $reviewData->getReviewStatus();
 
-        $request = $this->database->prepare('INSERT INTO reviews (reviewTitle, gameTitle, apiGameId, content, reviewer, reviewDate, reviewStatus)
-            VALUES (:reviewTitle, :gameTitle, :apiGameId, :content, :reviewer, NOW(), :reviewStatus)');
+        $request = $this->database->prepare('INSERT INTO reviews (reviewTitle, gameTitle, apiGameId, content, userId, reviewDate, reviewStatus)
+            VALUES (:reviewTitle, :gameTitle, :apiGameId, :content, :userId, NOW(), :reviewStatus)');
 
         $request->bindParam(':reviewTitle', $reviewTitle);
         $request->bindParam(':gameTitle', $gameTitle);
         $request->bindParam(':apiGameId', $gameId);
-        $request->bindParam(':reviewer', $reviewer);
+        $request->bindParam(':userId', $userId);
         $request->bindParam(':content', $content);
         $request->bindParam(':reviewStatus', $status);
         
@@ -150,13 +175,14 @@ final class ReviewRepository
         return $creation;
     }
 
-    public function findByStatus(int $reviewStatus): ?array
+    public function findByStatus(int $reviewStatus, int $userId): ?array
     {
         $request = $this->database->prepare("SELECT *, DATE_FORMAT(reviewDate, '%d/%m/%Y - %H:%i:%s') AS reviewDate
             FROM reviews
-            WHERE reviewStatus = :reviewStatus
+            WHERE reviewStatus = :reviewStatus AND userId = :userId
             ORDER BY reviewDate DESC");
         $request->bindParam(':reviewStatus', $reviewStatus);
+        $request->bindParam(':userId', $userId);
         $request->setFetchMode(PDO::FETCH_CLASS, Review::class);
         $request->execute();
         $reviews = $request->fetchAll();
@@ -170,10 +196,10 @@ final class ReviewRepository
     
     public function updateStatus(Review $review, int $status): bool
     {
-        $id = $review->getid();
-        $request = $this->database->prepare('UPDATE reviews
+        $id = $review->getReviewId();
+        $request = $this->database->prepare("UPDATE reviews
             SET reviewStatus = :newStatus, reviewDate = NOW()
-            WHERE id = :id');
+            WHERE reviewId = :id");
         $request->bindParam(':id', $id);
         $request->bindParam(':newStatus', $status);
 

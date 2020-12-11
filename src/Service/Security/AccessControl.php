@@ -1,3 +1,25 @@
 <?php
+
 declare(strict_types=1);
-// Class permettant de gérer les contrôles d'accès aux pages en fonction du rôle ou de la connection au compte de l'utilisateur
+
+namespace App\Service\Security;
+
+use App\Service\Http\Session;
+
+class AccessControl
+{
+    private $session;
+
+    public function __construct(Session $session)
+    {
+        $this->session = $session;
+    }
+
+    public function isConnected(): bool
+    {
+        if (!empty($this->session->getUsername()) && $this->session->getUsername() !== null) {
+            return true;
+        }
+        return false;
+    }
+}

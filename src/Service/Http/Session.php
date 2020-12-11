@@ -36,6 +36,36 @@ class Session
         unset($_SESSION['flashMessage']);
     }
 
+    public function setUserId(int $userId): void
+    {
+        $_SESSION['userId'] = $userId;
+    }
+
+    public function getUserId(): int
+    {
+        return !empty($_SESSION['userId']) ? $_SESSION['userId'] : null;
+    }
+
+    public function setUsername(string $username): void
+    {
+        $_SESSION['username'] = $username;
+    }
+
+    public function getUsername(): ?string
+    {
+        return !empty($_SESSION['username']) ? $_SESSION['username'] : null;
+    }
+
+    public function setUserRank(int $rank): void
+    {
+        $_SESSION['userRank'] = $rank;
+    }
+
+    public function getUSerRank(): ?int
+    {
+        return !empty($_SESSION['userRank']) ? $_SESSION['userRank'] : null;
+    }
+
     public function endSession(): void
     {
         session_unset();

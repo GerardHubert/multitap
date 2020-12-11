@@ -6,15 +6,19 @@ namespace  App\Service;
 
 use App\Controller\Backoffice\DashboardController;
 use App\Controller\Backoffice\DraftController;
+use App\Controller\Backoffice\UserController;
 use App\Controller\Frontoffice\CommentController;
 use App\Controller\Frontoffice\ReviewController;
 use App\Model\Manager\CommentManager;
 use App\Model\Manager\DraftManager;
 use App\Model\Manager\ReviewManager;
+use App\Model\Manager\UserManager;
 use App\Model\Repository\CommentRepository;
 use App\Model\Repository\ReviewRepository;
+use App\Model\Repository\UserRepository;
 use App\Service\Http\Request;
 use App\Service\Http\Session;
+use App\Service\Security\AccessControl;
 use App\Service\Security\Token;
 use App\View\View;
 
@@ -34,25 +38,33 @@ final class Router
     private $token;
     private $request;
     private $dashboardController;
+    private $userController;
+    private $userManager;
+    private $userRepository;
+    private $accessControl;
 
 
     public function __construct()
     {
         // dépendances
         $this->session = new Session();
+        $this->accessControl = new AccessControl($this->session);
         $this->token = new Token($this->session);
         $this->database = new Database();
         $this->request = new Request();
         $this->view = new View($this->session);
+        $this->userRepository = new UserRepository($this->database);
         $this->reviewRepo = new ReviewRepository($this->database);
         $this->commentRepo = new CommentRepository($this->database);
         $this->reviewManager = new ReviewManager($this->reviewRepo, $this->commentRepo, $this->token);
         $this->draftManager = new draftManager($this->reviewRepo, $this->token);
         $this->commentManager = new CommentManager($this->commentRepo, $this->session, $this->token);
+        $this->userManager = new UserManager($this->userRepository, $this->session);
         $this->draftController = new draftController($this->draftManager, $this->request, $this->view, $this->session, $this->token);
         $this->reviewController = new ReviewController($this->reviewManager, $this->view, $this->commentManager, $this->token, $this->session, $this->request);
         $this->commentController = new CommentController($this->commentManager, $this->request);
-        $this->dashboardController = new DashboardController($this->reviewManager, $this->view, $this->request, $this->commentManager, $this->token, $this->session);
+        $this->dashboardController = new DashboardController($this->reviewManager, $this->view, $this->request, $this->commentManager, $this->token, $this->session, $this->accessControl);
+        $this->userController = new UserController($this->view, $this->request, $this->token, $this->session, $this->userManager);
     }
 
     public function run(): void
@@ -74,7 +86,7 @@ final class Router
                 $this->commentController->newComment();
             break;
             case 'dashboard':
-                $this->dashboardController->displayAllAction();
+                $this->dashboardController->displayUserReviewsAction();
             break;
             case 'new_review':
                 $this->dashboardController->reviewEditor();
@@ -106,6 +118,9 @@ final class Router
             case 'publish_draft':
                 $this->draftController->publishDraftAction();
             break;
+            case 'publish_draft_from_list':
+                $this->draftController->publishDraftFromListAction();
+            break;
             case 'update_draft_page':
                 $this->draftController->updateDraftPage();
             break;
@@ -126,6 +141,21 @@ final class Router
             break;
             case 'authorize_comment':
                 $this->dashboardController->authorizeCommentAction();
+            break;
+            case 'signInPage':
+                $this->userController->signInPage();
+            break;
+            case 'sign-in':
+                $this->userController->newUserAction();
+            break;
+            case 'logInPage':
+                $this->userController->logInPage();
+            break;
+            case 'log-in':
+                $this->userController->logInAction();
+            break;
+            case 'logout':
+                $this->userController->logOutAction();
             break;
         }
 

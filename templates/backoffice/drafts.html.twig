@@ -11,7 +11,7 @@
                 <tr>
                     <th>TITRE</td>
                     <th>JEU</th>
-                    <th>DATE DE PUBLICATION</td>
+                    <!--<th>DATE DE PUBLICATION</td>-->
                     <th colspan="3">ACTION</td>
                 </tr>
             </thead>
@@ -20,10 +20,10 @@
                 <tr class='review_line'>
                     <td>{{ draft.reviewTitle|raw }}</td>
                     <td>{{ draft.gameTitle|raw }}</td>
-                    <td>{{ draft.reviewDate }}</td>
-                    <td><a href="index.php?action=publish_draft&id={{ draft.id }}"><button class='dash_button'>Publier</button></a></td>
-                    <td><a href="index.php?action=delete_draft&id={{ draft.id }}"><button class='dash_button'>Supprimer</button></a></td>
-                    <td><a href="index.php?action=update_draft_page&id={{ draft.id }}"><button class='dash_button'>Modifier</button></a></td>
+                    <!--<td>{{ draft.reviewDate }}</td>-->
+                    <td><a href="index.php?action=publish_draft_from_list&id={{ draft.reviewId }}"><button class='dash_button'>Publier</button></a></td>
+                    <td><a href="index.php?action=delete_draft&id={{ draft.reviewId }}"><button class='dash_button'>Supprimer</button></a></td>
+                    <td><a href="index.php?action=update_draft_page&id={{ draft.reviewId }}"><button class='dash_button'>Modifier</button></a></td>
                 </tr>
                 {% endfor %}
             </tbody>

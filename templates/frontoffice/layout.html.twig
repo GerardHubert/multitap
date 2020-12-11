@@ -18,9 +18,15 @@
                     <span>|</span>
                     <span><i class="fas fa-gamepad"></i><a href='index.php?action=all_reviews&page=1'>LES REVIEWS</a></span>
                     <span>|</span>
-                    <span><i class="fas fa-user"></i><a href='index.php?action=dashboard'>SE CONNECTER</a></span>
-                    <span>|</span>
-                    <span><i class="fas fa-clipboard-list"></i><a href='#'>S'INSCRIRE</a></span>
+                    {% if session.username == false %}
+                        <span><i class="fas fa-user"></i><a href='index.php?action=logInPage'>ME CONNECTER</a></span>
+                        <span>|</span>
+                        <span><i class="fas fa-clipboard-list"></i><a href='index.php?action=signInPage'>M'INSCRIRE</a></span>
+                        {% elseif session.username == true %}
+                            <span><i class="fas fa-sign-out-alt"></i><a href="index.php?action=logout">ME DECONNECTER</a></span>
+                            <span>|</span>
+                            <span><i class="fas fa-unlock-alt"></i><a href="index.php?action=dashboard">{{ session.username }}</a></span>
+                    {% endif %}
                 </div>
             </nav>
             <div id="banner">
@@ -37,10 +43,6 @@
         <script src='js/Games.js'></script>
 
     </body>
-
-    <footer class="footer text-center">
-        <h3>Copyright Toto</h3>
-    </footer>
 
 
 </html>

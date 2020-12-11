@@ -1,0 +1,45 @@
+{% extends "/frontoffice/layout.html.twig" %}
+
+{% block title %}Inscription{% endblock %}
+
+{% block content %}
+
+<form action="index.php?action=sign-in" method='post' id="inscription_form">
+    <fieldset>
+        <legend>Créer un compte</legend>
+        <div class='label_and_input'>
+            <label for="username">Nom d'utilisateur</label>
+            <input class='username_input' type="text" name='username'
+                required
+                minlength='2'
+                maxlength='50'>
+        </div>
+        <div class='label_and_input'>
+            <label for="email">Adresse mail</label>
+            <input class='email_input' type="email" name='email' required>
+        </div>
+        <div class='label_and_input'>
+            <label for="password">Mot de passe</label>
+            <input class='password_input' type="password" name='password'
+                required
+                minlength='8'>
+        </div>
+        <div class='label_and_input'>
+            <label for="password_confirm">Confirmer le mot de passe</label>
+            <input class='password_confirm_input' type="password" name='password_confirm'
+                required
+                minlength='8'>
+        </div>
+        <input class='inscription_button' type="submit" value="Créer un compte">
+        <input type="hidden" name='hidden_input_token' class="hidden_input_token" value={{ session.token }}>
+    </fieldset>
+
+    {% if session.flashMessage == true %}
+        <p>{{ session.flashMessage }}</p>
+    {% endif %}
+    
+</form>
+
+{% endblock %}
+
+    

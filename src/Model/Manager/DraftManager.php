@@ -23,7 +23,7 @@ class DraftManager
     {
         $status = 1;
         $draft = new Review();
-        $draft->setReviewer($draftData['reviewer']);
+        $draft->setUserId((int) $draftData['userId']);
         $draft->setApiGameId((int) $draftData['game_id']);
         $draft->setGameTitle($draftData['game_title']);
         $draft->setReviewTitle($draftData['review_title']);
@@ -33,9 +33,9 @@ class DraftManager
         return $this->reviewRepo->createDraft($draft);
     }
 
-    public function showAllDrafts(int $draftStatus): array
+    public function showAllDrafts(int $draftStatus, int $userId): array
     {
-        return $this->reviewRepo->findByStatus($draftStatus);
+        return $this->reviewRepo->findByStatus($draftStatus, $userId);
     }
 
     public function showOne($id): ?Review
@@ -46,11 +46,11 @@ class DraftManager
     public function publishDraftAsReview(int $id): bool
     {
         //On récupère d'abord un objet Review selon l'id du brouillon qu'on veut publier
-        $draft = $this->reviewRepo->findById($id);
+        $draft = $this->reviewRepo->findById((int) $id);
         
         //on passe la review + le nouveau status pour mise à jour par le repository
         $status = 0;
-        return $this->reviewRepo->updateStatus($draft, $status);
+        return $this->reviewRepo->updateStatus($draft, (int) $status);
     }
 
     public function updateDraft(array $newDraft, int $id): bool

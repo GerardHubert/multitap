@@ -1,27 +1,32 @@
 {% extends '/frontoffice/layout.html.twig' %}
+
 {% block title %}Toutes les reviews{% endblock %}
+
+{% block banner %}
+    <img id='headband' alt="un tag d'un space inveder" src='images/space_invaders.jpg'/>
+{% endblock %}
 
 {% block content %}
     <section id="reviews_list">
 
         {% for review in reviews %}
-            
+            {% autoescape false %}
             <div class="review_card">
                 <input type='hidden' class="api_game_id" value={{ review.apiGameId }} />
                 <img class='reviewsListImage' alt='Image de {{ review.gameTitle }}' />
                 <div class="review_details">
                     <div class="title_comments">
-                        <h3 class="review_title">{{ review.reviewTitle|raw }}</h3>
+                        <h3 class="review_title">{{ review.reviewTitle|htmlspecialchars_decode }}</h3>
                         <span class="comments_number"><i class="fas fa-comments"></i>2</span>
                     </div>
-                    <span class="author_date">De {{ review.reviewer }} | {{ review.reviewDate }}</span>
-                    <p class="review_extract">
-                        {{ review.content|raw }}...
-                    </p>
-                    <button class="read_full"><a href='index.php?action=review&id={{ review.id }}'>Lire la suite</a></button>
+                    <span class="author_date">De {{ review.username }} | {{ review.reviewDate }}</span>
+                    <div class="review_extract">
+                        {{ review.content|htmlspecialchars_decode }}...
+                    </div>
+                    <button class="read_full"><a href='index.php?action=review&id={{ review.reviewId }}'>Lire la suite</a></button>
                 </div>
             </div>
-
+            {% endautoescape %}
         {% endfor %}
 
         <div id="pagination">

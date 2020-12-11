@@ -30,7 +30,7 @@ class DraftController
     public function displayDraftsAction(): void
     {
         $draftStatus = 1;
-        $drafts = $this->draftManager->showAllDrafts($draftStatus);
+        $drafts = $this->draftManager->showAllDrafts($draftStatus, (int) $this->session->getUserId());
         $this->view->render([
             'path' => 'backoffice',
             'template' => 'drafts',
@@ -56,6 +56,13 @@ class DraftController
         }
     }
 
+    public function publishDraftFromListAction(): void
+    {
+        $this->draftManager->publishDraftAsReview((int) $this->request->cleanGet()['id']);
+        header('Location: index.php?action=dashboard');
+        exit;
+    }
+
     public function publishDraftAction(): void
     {
         $inputToken = $this->request->cleanPost()['hidden_input_token'];
@@ -63,7 +70,8 @@ class DraftController
 
         switch ($inputToken === $sessionToken) {
             case true:
-                $this->draftManager->publishDraftAsReview((int) $this->request->cleanGet()['id']);
+                $update = $this->draftManager->updateDraft($this->request->cleanPost(), (int) $this->request->cleanGet()['id']);
+            $this->draftManager->publishDraftAsReview((int) $this->request->cleanGet()['id']);
                 header('Location: index.php?action=dashboard');
             break;
             case false:
@@ -99,7 +107,7 @@ class DraftController
                         header('Location: index.php?action=show_drafts');
                         exit;
                     }
-                    header("Location: index.php?action=update_draft_page&id=$id");              
+                    header("Location: index.php?action=update_draft_page&id=$id");
             break;
             case false:
                 header('Location: index.php?action=home');

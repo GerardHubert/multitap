@@ -14,11 +14,11 @@
             {% for post in posts %}
                 <section class="card">
                     <span class="api_game_id">{{ post.apiGameId }}</span>
-                    <a href='index.php?action=review&id={{ post.id }}'><img class="thumbnail_image_home" /></a>
+                    <a href='index.php?action=review&id={{ post.reviewId }}'><img class="thumbnail_image_home" /></a>
                     <div class='thumbnail_infos'>
                         <h3 class="thumbnail_title">{{ post.reviewTitle|raw }}</h3>
                         <div class="author_comments">
-                            <span class='pseudo_date'>{{ post.reviewer }} | {{ post.reviewDate }}</span>
+                            <span class='pseudo_date'>{{ post.username }} | {{ post.reviewDate }}</span>
                             <span class="comments_number"><i class="fas fa-comments"></i>
                                 14
                             </span>
