@@ -54,7 +54,7 @@ class UserManager
         $user->setUsername($username);
         $user->setEmail($email);
         $user->setPass(password_hash($passwordConfirm, PASSWORD_BCRYPT));
-        $user->setUserRank(2);
+        $user->setUserRank('ROLE_MEMBER');
 
         $this->userRepo->create($user);
     }
@@ -84,7 +84,7 @@ class UserManager
             case is_object($user):
                 if (password_verify($logInForm['password'], $user->getPass()) === true) {
                     $this->session->deleteFlashMessage();
-                    $this->session->setUserId($user->getId());
+                    $this->session->setUserId($user->getUserId());
                     $this->session->setUsername($user->getUsername());
                     $this->session->setUserRank($user->getUserRank());
                     //$this->sendLink($logInForm);

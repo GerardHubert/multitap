@@ -9,7 +9,7 @@ use \DateTime;
 final class Comment
 {
     private $id;
-    private $pseudo;
+    private $userId;
     private $content;
     private $reviewId;
     private $thumbsUp;
@@ -28,14 +28,14 @@ final class Comment
         return $this;
     }
 
-    public function getPseudo(): string
+    public function getUserId(): int
     {
-        return $this->pseudo;
+        return (int) $this->userId;
     }
 
-    public function setPseudo(string $pseudo): self
+    public function setUserId(int $userId): self
     {
-        $this->pseudo = $pseudo;
+        $this->userId = $userId;
         return $this;
     }
 

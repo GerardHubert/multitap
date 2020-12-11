@@ -20,8 +20,10 @@ final class CommentRepository
     public function findAllByPostId(int $idPost): ?array
     {
         $comments = [];
-        $request =  $this->database->prepare("SELECT *, DATE_FORMAT(commentDate, '%d-%m-%Y à %H:%i:%s') AS commentDate
+        $request =  $this->database->prepare("SELECT *, DATE_FORMAT(commentDate, '%d %b. %Y à %H:%i:%s') AS commentDate
             FROM comments
+            INNER JOIN users
+            ON users.userId = comments.userId
             WHERE reviewId = :review_id
             ORDER BY commentDate DESC");
         $request->bindParam(':review_id', $idPost, PDO::PARAM_INT);
@@ -34,7 +36,7 @@ final class CommentRepository
 
     public function findAllByStatus($status): ?array
     {
-        $request = $this->database->prepare("SELECT *, DATE_FORMAT(commentDate, '%d-%m-%Y à %H:%i:%s') AS commentDate
+        $request = $this->database->prepare("SELECT *, DATE_FORMAT(commentDate, '%d-%b-%Y à %H:%i:%s') AS commentDate
             FROM comments
             WHERE commentStatus = :commentStatus
             ORDER BY commentDate DESC");
@@ -61,13 +63,13 @@ final class CommentRepository
 
     public function create(Comment $comment) : void
     {
-        $pseudo = $comment->getPseudo();
+        $userId = $comment->getUserId();
         $content = $comment->getContent();
         $reviewId = $comment->getReviewId();
 
-        $request = $this->database->prepare('INSERT INTO comments (pseudo, content, reviewId, commentDate)
-            VALUES (:pseudo, :content, :idPost, NOW())');
-        $request->bindParam(':pseudo', $pseudo);
+        $request = $this->database->prepare('INSERT INTO comments (userId, content, reviewId, commentDate)
+            VALUES (:userId, :content, :idPost, NOW())');
+        $request->bindParam(':userId', $userId);
         $request->bindParam(':content', $content);
         $request->bindParam(':idPost', $reviewId);
 

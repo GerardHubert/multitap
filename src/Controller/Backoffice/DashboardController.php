@@ -45,7 +45,7 @@ class DashboardController
 
     public function checkAccess(): void
     {
-        if ($this->accessControl->isConnected() === false) {
+        if ($this->accessControl->isConnected() === false || $this->accessControl->getRole() === 'ROLE_MEMBER') {
             header('Location: index.php?action=logInPage');
             exit;
         }

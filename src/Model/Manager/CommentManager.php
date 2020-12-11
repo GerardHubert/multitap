@@ -29,7 +29,7 @@ final class CommentManager
 
     public function saveNewComment(array $post, int $reviewId): void
     {
-        $formTest = empty($post['pseudo']) || empty($post['comment']);
+        $formTest = /*empty($post['pseudo']) || */empty($post['comment']);
     
         switch ($formTest) {
             // si pseudo et comment sont renseignés et si les token correspondent
@@ -37,7 +37,7 @@ final class CommentManager
                 if (!empty($this->session->getToken()) && $this->session->getToken() === $post['hidden_input']) {
                     // on instancie un nouvel objet Comment
                     $comment = new Comment();
-                    $comment->setPseudo($post['pseudo']);
+                    $comment->setUserId((int) $this->session->getUserId());
                     $comment->setContent($post['comment']);
                     $comment->setReviewId($reviewId);
                     

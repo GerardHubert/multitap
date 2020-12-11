@@ -41,7 +41,7 @@ class Session
         $_SESSION['userId'] = $userId;
     }
 
-    public function getUserId(): int
+    public function getUserId(): ?int
     {
         return !empty($_SESSION['userId']) ? $_SESSION['userId'] : null;
     }
@@ -56,12 +56,12 @@ class Session
         return !empty($_SESSION['username']) ? $_SESSION['username'] : null;
     }
 
-    public function setUserRank(int $rank): void
+    public function setUserRank(string $rank): void
     {
         $_SESSION['userRank'] = $rank;
     }
 
-    public function getUSerRank(): ?int
+    public function getUSerRank(): ?string
     {
         return !empty($_SESSION['userRank']) ? $_SESSION['userRank'] : null;
     }

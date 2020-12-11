@@ -22,4 +22,12 @@ class AccessControl
         }
         return false;
     }
+
+    public function getRole(): ?string
+    {
+        if (!empty($this->session->getUserRank()) && $this->session->getUserRank() !== null) {
+            return $this->session->getUserRank();
+        }
+        return null;
+    }
 }

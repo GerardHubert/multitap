@@ -69,7 +69,7 @@ class Games {
 
     getGamesDetails(apiGameId) {
         const getData = async () => {
-            const response = await fetch(this.url + 'games/' + apiGameId + this.apiKey);
+            const response = await fetch(this.url + 'games/' + apiGameId/* + this.apiKey*/);
             const details = await response.json();
             console.log(details)
             this.displayDetails(details);

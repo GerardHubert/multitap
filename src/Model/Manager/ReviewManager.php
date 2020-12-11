@@ -62,6 +62,7 @@ final class ReviewManager
         $review->setGameTitle($reviewData['game_title']);
         $review->setReviewTitle($reviewData['review_title']);
         $review->setContent($reviewData['tinymceArea']);
+        var_dump($review);
         
         return $this->reviewRepo->create($review);
     }
