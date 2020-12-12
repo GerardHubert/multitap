@@ -17,12 +17,12 @@
             <div id='dashboard_user'>
                 <span id='username'>Salut {{ session.username }} !</span>
                 <span id='user_rank'>
-                    {% if session.userRank == 0 %}
-                        Administrateur
-                    {% elseif session.userRank == 2 %}
+                    {% if session.userRank == 'ROLE_ADMIN' %}
+                        Admin
+                    {% elseif session.userRank == 'ROLE_REVIEWER' %}
                         Reviewer
-                    {% elseif session.userRank == 1 %}
-                        Validateur
+                    {% elseif session.userRank == 'ROLE_EDITOR' %}
+                        Modérateur
                     {% endif %}
                 </span>
                 <a href='index.php?action=logout'><i class='fas fa-sign-out-alt'></i>Se déconnecter</a>
@@ -36,10 +36,15 @@
                 <li><a href='index.php?action=dashboard'>Mes reviews</a></li>
                 <li><a href='index.php?action=new_review'>Nouvelle review</a></li>
                 <li><a href='index.php?action=show_drafts'>Mes brouillons</a></li>
-                {% if (session.userRank == 0) or (session.userRank == 1) %}
+                {% if (session.userRank == 'ROLE_ADMIN') or (session.userRank == 'ROLE_EDITOR') %}
                     <li><a href='index.php?action=show_comments_to_moderate'>Les commentaires à modérer</a></li>
                     <li>Les Reviews à valider</li>
+                    <li>Toutes les reviews</li>
                 {% endif %}
+                {% if session.userRank == 'ROLE_ADMIN' %}
+                    <li>Gestion des membres</li>
+                {% endif %}
+
 
             </ul>
         </nav>
