@@ -495,23 +495,23 @@ button{
     color: white;
 }
 
-#user_reviews, #user_drafts, #comments_moderation{
+#user_reviews, #user_drafts, #comments_moderation, #members{
     margin-left: 18%;
     margin-right: 5%;
     margin-top: 50px;
     width: 100%;
 }
 
-#reviews_table, #drafts_table, #comments_table{
+#reviews_table, #drafts_table, #comments_table, #members_table{
     width: 100%;
     margin: auto;
 }
 
-#reviews_table thead, #drafts_table thead, #comments_table thead{
+#reviews_table thead, #drafts_table thead, #comments_table thead, #members_table thead{
     background-color:  rgba(249, 117, 88, 0.3);
 }
 
-.review_line:hover, .comment_line:hover{
+.review_line:hover, .comment_line:hover, .members_line:hover{
     background-color: rgba(249, 117, 88, 0.3);
 }
 
@@ -529,6 +529,10 @@ button{
 
 #comments_table #pseudo_field{
     width: 15%;
+}
+
+#members_table .action_field{
+    width: 25%;
 }
 
 .dash_button{

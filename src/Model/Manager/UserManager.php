@@ -24,7 +24,7 @@ class UserManager
         $email = $form['email'];
         $password = $form['password'];
         $passwordConfirm = $form['password_confirm'];
-        $usernameRegExp = "#^[a-zéèçàâäêëîïôöòûüùñ_0-9]?[\s?\-?a-zéèçàâäêëîïôöòûüùñ_0-9]+?$#";
+        $usernameRegExp = "#^[A-Za-zéèçàâäêëîïôöòûüùñ_0-9]?[\s?\-?a-zéèçàâäêëîïôöòûüùñ_0-9]+?$#";
         $emailRegExp = "#^[a-z0-9._-]+@[a-z0-9._-]{2,}\.[a-z]{2,4}$#";
 
         $usernameValidation = preg_match($usernameRegExp, $username);
@@ -96,5 +96,25 @@ class UserManager
                 ;
             break;
         }
+    }
+
+    public function showOneFromId(int $id): ?User
+    {
+        return $this->userRepo->findById($id);
+    }
+
+    public function showOneFromUsername(string $username): ?User
+    {
+        return $this->userRepo->findOneByUsername($username);
+    }
+
+    public function showAll(): ?array
+    {
+        return $this->userRepo->findByAll();
+    }
+
+    public function deleteUser(int $userId): bool
+    {
+        return $this->userRepo->delete($this->showOneFromId($userId));
     }
 }

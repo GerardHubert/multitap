@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Model\Manager;
 
 use App\Model\Entity\Review;
+use App\Model\Entity\User;
 use App\Model\Repository\CommentRepository;
 use App\Model\Repository\ReviewRepository;
 use App\Service\Security\Token;
@@ -80,5 +81,13 @@ final class ReviewManager
         $review->setContent($newReview['review_modification']);
 
         return $this->reviewRepo->update($review, $reviewId);
+    }
+
+    public function setToAnonymousAction(array $reviews, User $anonymousUser): void
+    {
+        foreach ($reviews as $review) {
+            $review->setUserId((int) $anonymousUser->getUserId());
+            $this->reviewRepo->UpdateToAnonymous($review);
+        }
     }
 }

@@ -34,6 +34,20 @@ final class UserRepository
         return $request->execute();
     }
 
+    public function findById(int $id): ?User
+    {
+        $request = $this->database->prepare('SELECT *
+            FROM users
+            WHERE userId = :id');
+        $request->bindParam(':id', $id);
+        $request->setFetchMode(PDO::FETCH_CLASS, User::class);
+        $request->execute();
+
+        $user = $request->fetch();
+
+        return $user === false ? null : $user;
+    }
+
     public function findOneByUsername(string $username): ?User
     {
         $request = $this->database->prepare('SELECT *
@@ -49,5 +63,31 @@ final class UserRepository
         }
 
         return $user;
+    }
+
+    public function findByAll(): ?array
+    {
+        $request = $this->database->prepare("SELECT *
+            FROM users
+            ORDER BY username");
+        $request->setFetchMode(PDO::FETCH_CLASS, User::class);
+        $request->execute();
+        $users = $request->fetchAll();
+        
+        if ($users === false) {
+            return null;
+        }
+
+        return $users;
+    }
+
+    public function delete(User $userToDelete): bool
+    {
+        $userId = $userToDelete->getUSerId();
+        $request = $this->database->prepare('DELETE FROM users
+            WHERE userId = :id');
+        $request->bindParam(':id', $userId);
+        
+        return $request->execute();
     }
 }

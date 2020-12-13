@@ -205,4 +205,17 @@ final class ReviewRepository
 
         return $request->execute();
     }
+
+    public function updateToAnonymous(Review $review): bool
+    {
+        $id = $review->getReviewId();
+        $anonymousUserId = $review->getUserId();
+        $request = $this->database->prepare("UPDATE reviews
+            SET userId = :anonymousUserId
+            WHERE reviewId = :id");
+        $request->bindParam(':id', $id);
+        $request->bindParam('anonymousUserId', $anonymousUserId);
+
+        return $request->execute();
+    }
 }

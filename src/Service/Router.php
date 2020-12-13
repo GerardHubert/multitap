@@ -64,7 +64,7 @@ final class Router
         $this->reviewController = new ReviewController($this->reviewManager, $this->view, $this->commentManager, $this->token, $this->session, $this->request);
         $this->commentController = new CommentController($this->commentManager, $this->request);
         $this->dashboardController = new DashboardController($this->reviewManager, $this->view, $this->request, $this->commentManager, $this->token, $this->session, $this->accessControl);
-        $this->userController = new UserController($this->view, $this->request, $this->token, $this->session, $this->userManager);
+        $this->userController = new UserController($this->view, $this->request, $this->token, $this->session, $this->userManager, $this->accessControl, $this->reviewManager);
     }
 
     public function run(): void
@@ -156,6 +156,12 @@ final class Router
             break;
             case 'logout':
                 $this->userController->logOutAction();
+            break;
+            case 'members_management':
+                $this->userController->membersManagementPage();
+            break;
+            case 'deleteUser':
+                $this->userController->deleteUSerAction();
             break;
         }
 

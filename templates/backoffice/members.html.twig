@@ -1,0 +1,34 @@
+{% extends '/backoffice/layout.html.twig' %}
+
+{% block title %}Gestion des membres{% endblock %}
+
+{% block content %}
+
+<section id='members'>
+
+    <h1 class='dashboard_section_title'>Gestion des membres et des rôles</h1>
+    <div class="members_list">
+        <table id="members_table">
+            <thead>
+                <tr>
+                    <th>Nom d'utlisateur</th>
+                    <th>Rang actuel</th>
+                    <th colspan='2' class='action_field'>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for user in users %}
+                    <tr class="members_line">
+                        <td>{{ user.username }}</td>
+                        <td>{{ user.userRank }}</td>
+                        <td><a href='index.php?action=deleteUser&id={{ user.UserId }}'><button class='dash_button'>Supprimer le compter</button></a></td>
+                        <td><a href='index.php?action=updateUSerRole&id={{ user.userId }}'><button class='dash_button'>Changer le rôle</button></a></td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+</section>
+
+{% endblock %}
