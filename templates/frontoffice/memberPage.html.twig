@@ -1,0 +1,79 @@
+{% extends "/frontoffice/layout.html.twig" %}
+
+{% block title %}Page membre{% endblock %}
+
+{% block content %}
+
+    <section id="member_info">
+        <h3>Mon compte</h3>
+
+        {% if session.flashMessage %}
+                <p>{{ session.flashMessage }}</p>
+            {% endif %}
+        
+        <form class="update_info" method='post' action='index.php?action=update_username&id={{ user.userId }}'>
+            
+            <div class="label_and_value">
+                <label class='update_label' for='actual_username'>Nom d'utilisateur actuel : </label>
+                <input class='readonly_input' type='text' name='actual_username' readonly value={{ user.username }}>
+            </div>
+            <div class="label_and_value">
+                <label class='update_label' for='new_username'>Nouveau nom d'utilisateur : </label>
+                <input class='update_user_new_values' type='text' name='new_username'>
+            </div>
+            <input type='hidden' name='token' value={{ session.token }}>
+            <button type='submit' class='update_username_button'>Modifier</button>
+        </form>
+
+        <form class="update_info" method='post' action='index.php?action=update_email&id={{ user.userId }}'>
+            <div class="label_and_value">
+                <label for="actual_email" class="update_label">Email actuel : </label>
+                <input type="mail" name='actual_email' class="update_user_new_values" readonly value={{ user.email }}>
+            </div>
+            <div class="label_and_value">
+                <label for="new_email" class="update_label">Nouvel email : </label>
+                <input type="mail" name='new_email' class="update_user_new_values">
+            </div>
+            <input type='hidden' name='token' value={{ session.token }}>
+            <button class='update_email_button' type='submit'>Modifier</button>
+        </form>
+
+        <form class="update_info" method='post' action='index.php?action=update_password&id={{ user.userId }}'>
+            <div class="label_and_value">
+                <label class='update_label' for='actual_pass'>Mot de passe actuel : </label>
+                <input type="password" class="update_user_new_values" min='8' name='actual_pass'>
+            </div>
+            <div class="label_and_value">
+                <label class='update_label' for='new_pass'>Changer mon   mot de passe : </label>
+                <input type="password" class="update_user_new_values" min='8' name='new_pass'>
+            </div>
+            <input type='hidden' name='token' value={{ session.token }}>
+            <button class='update_pass_button' type='submit'>Modifier</button>
+        </form>
+
+        <div class="update_info">
+            <div class="label_and_value">
+                <p>DEVENIR REVIEWER</p>
+                <p>En tant que membre vous pouvez laisser des commentaires.
+                    Vous pouvez demander à devenir reviewer afin de laisser vos avis sur vos jeux favoris !
+                </p>
+            </div>
+            <a href='index.php?action=reviewer_demand&id={{ user.userId }}'><button class='update_rank_button'>Devenir reviewer</button></a>
+        </div>
+
+        <div class="update_info">
+            <div class="label_and_value">
+                <p>SUPPRIMER MON COMPTE</p>
+                <p>Votre compte utilisateur, ainsi que vos commentaires seront supprimés. Vos reviews seront conservées sous un nom anonyme.</p>
+            </div>
+            <a href='index.php?action=deleteUser&id={{ user.userId }}'><button class='delete_account_button'>Supprimer</button></a>
+        </div>
+
+    </section>
+    
+
+{% endblock %}
+
+{% block script %}
+    <script src='js/UserManagement.js'></script>
+{% endblock %}

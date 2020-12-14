@@ -88,6 +88,9 @@ final class Router
             case 'dashboard':
                 $this->dashboardController->displayUserReviewsAction();
             break;
+            case 'role_member_page':
+                $this->userController->memberPage();
+            break;
             case 'new_review':
                 $this->dashboardController->reviewEditor();
             break;
@@ -162,6 +165,21 @@ final class Router
             break;
             case 'deleteUser':
                 $this->userController->deleteUSerAction();
+            break;
+            case 'update_username':
+                $this->userController->updateUsernameAction();
+            break;
+            case 'update_email':
+                $this->userController->updateEmailAction();
+            break;
+            case 'update_password':
+                $this->userController->updatePasswordAction();
+            break;
+            case 'reviewer_demand':
+                $this->userController->reviewerDemandAction();
+            break;
+            case 'update_user_role':
+                $this->userController->updateUserRoleAction();
             break;
         }
 

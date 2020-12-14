@@ -2,6 +2,14 @@
 
 {% block title %}Gestion des membres{% endblock %}
 
+{% block alert %}
+    {% for user in users %}
+        {% if user.userDemand != 'none' %}
+            <i class='fas fa-exclamation-circle'></i>
+        {% endif %}
+    {% endfor %}
+{% endblock %}
+
 {% block content %}
 
 <section id='members'>
@@ -13,6 +21,7 @@
                 <tr>
                     <th>Nom d'utlisateur</th>
                     <th>Rang actuel</th>
+                    <th>Demande en cours</th>
                     <th colspan='2' class='action_field'>Action</th>
                 </tr>
             </thead>
@@ -21,8 +30,15 @@
                     <tr class="members_line">
                         <td>{{ user.username }}</td>
                         <td>{{ user.userRank }}</td>
+                        <td>
+                            {% if user.userDemand == 'REVIEWER_DEMAND' %}
+                                DEMANDE LE ROLE DE REVIEWER
+                                {% else %}
+                                    Aucune demande en cours
+                            {% endif %}
+                        </td>
                         <td><a href='index.php?action=deleteUser&id={{ user.UserId }}'><button class='dash_button'>Supprimer le compter</button></a></td>
-                        <td><a href='index.php?action=updateUSerRole&id={{ user.userId }}'><button class='dash_button'>Changer le rôle</button></a></td>
+                        <td><a href='index.php?action=update_user_role&id={{ user.userId }}'><button class='dash_button'>Changer le rôle</button></a></td>
                     </tr>
                 {% endfor %}
             </tbody>

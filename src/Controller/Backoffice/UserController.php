@@ -11,7 +11,6 @@ use App\Service\Http\Session;
 use App\Service\Security\AccessControl;
 use App\Service\Security\Token;
 use App\View\View;
-use PhpCsFixer\Fixer\FunctionNotation\VoidReturnFixer;
 
 class UserController
 {
@@ -127,6 +126,89 @@ class UserController
 
         $action = $this->userManager->deleteUser((int) $userToDeleteId);
 
+        if ($this->session->getUserRank() !== "ROLE_ADMIN") {
+            $this->session->endSession();
+            header('Location: index.php?action=signInPage');
+        }
+
         header('Location: index.php?action=members_management');
+    }
+
+    public function memberPage(): void
+    {
+        if ($this->accessControl->isConnected() === false) {
+            header('Location: index.php?action=logInPage');
+            exit;
+        }
+
+        $user = $this->userManager->showOneFromId($this->session->getUserId());
+        $this->token->setToken();
+        $this->view->render([
+            'path' => 'frontoffice',
+            'template' => 'memberPage',
+            'data' => [
+                'user' => $user
+            ]
+        ]);
+    }
+
+    public function updateUsernameAction(): void
+    {
+        if ($this->request->cleanPost()['token'] !== $this->session->getToken()) {
+            $this->session->setFlashMessage('Vous ne disposez pas des droits nécessaires');
+            header('Location: index.php?action=role_member_page');
+            exit;
+        }
+
+        $user = $this->userManager->showOneFromId((int) $this->request->cleanGet()['id']);
+        $this->userManager->updateUsername($user, $this->request->cleanPost());
+        $this->session->endSession();
+        header('Location: index.php?action=role_member_page');
+        exit;
+    }
+
+    public function updateEmailAction(): void
+    {
+        if ($this->request->cleanPost()['token'] !== $this->session->getToken()) {
+            $this->session->setFlashMessage('Vous ne disposez pas des droits nécessaires');
+            header('Location: index.php?action=role_member_page');
+            exit;
+        }
+        $user = $this->userManager->showOneFromId((int) $this->request->cleanGet()['id']);
+        $this->userManager->updateEmail($user, $this->request->cleanPost());
+        header('Location: index.php?action=role_member_page');
+        exit;
+    }
+
+    public function updatePasswordAction(): void
+    {
+        if ($this->request->cleanPost()['token'] !== $this->session->getToken()) {
+            $this->session->setFlashMessage('Vous ne disposez pas des droits nécessaires');
+            header('Location: index.php?action=role_member_page');
+            exit;
+        }
+        $user = $this->userManager->showOneFromId((int) $this->request->cleanGet()['id']);
+        $this->userManager->updatePassword($user, $this->request->cleanPost());
+        $this->session->endSession();
+        header('Location: index.php?action=logInPage');
+        exit;
+    }
+
+    public function reviewerDemandAction(): void
+    {
+        $user = $this->userManager->showOneFromId((int) $this->request->cleanGet()['id']);
+        $request = $this->userManager->memberRequest($user);
+        
+        $this->session->setFlashMessage('Votre demande a bien été transmise');
+        header('Location: index.php?action=role_member_page');
+        exit;
+    }
+
+    public function updateUserRoleAction(): void
+    {
+        $user = $this->userManager->showOneFromId((int) $this->request->cleanGet()['id']);
+        $this->userManager->updateUserRank($user);
+        header('Location: index.php?action=members_management');
+        exit;
     }
 }

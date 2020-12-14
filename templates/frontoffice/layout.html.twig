@@ -25,7 +25,7 @@
                         {% elseif session.username == true %}
                             <span><i class="fas fa-sign-out-alt"></i><a href="index.php?action=logout">ME DECONNECTER</a></span>
                             <span>|</span>
-                            <span><i class="fas fa-unlock-alt"></i><a href="index.php?action=dashboard">{{ session.username }}</a></span>
+                            <span><i class="fas fa-unlock-alt"></i><a href={% if session.userRank == 'ROLE_MEMBER' %}"index.php?action=role_member_page"{% endif %}"index.php?action=dashboard">{{ session.username }}</a></span>
                     {% endif %}
                 </div>
             </nav>
@@ -41,6 +41,7 @@
         </main>
         
         <script src='js/Games.js'></script>
+        {% block script %}{% endblock %}
 
     </body>
 

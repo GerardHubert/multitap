@@ -90,4 +90,76 @@ final class UserRepository
         
         return $request->execute();
     }
+
+    public function updateUsernameFromUser(User $user): bool
+    {
+        $userId = $user->getUserId();
+        $newUsername = $user->getUsername();
+
+        $request =$this->database->prepare("UPDATE users
+            SET username = :newUsername
+            WHERE userId = :userId");
+        $request->bindParam(':userId', $userId);
+        $request->bindParam(':newUsername', $newUsername);
+
+        return $request->execute();
+    }
+
+    public function updateEmailFromUser(User $user): bool
+    {
+        $userId = $user->getUserId();
+        $newEmail = $user->getEmail();
+
+        $request =$this->database->prepare("UPDATE users
+            SET email = :newEmail
+            WHERE userId = :userId");
+        $request->bindParam(':userId', $userId);
+        $request->bindParam(':newEmail', $newEmail);
+
+        return $request->execute();
+    }
+
+    public function updatePassFromUser(User $user): bool
+    {
+        $userId = $user->getUserId();
+        $newPass = $user->getPass();
+
+        $request =$this->database->prepare("UPDATE users
+            SET pass = :newPass
+            WHERE userId = :userId");
+        $request->bindParam(':userId', $userId);
+        $request->bindParam(':newPass', $newPass);
+
+        return $request->execute();
+    }
+
+    public function updateUserDemand(User $user): bool
+    {
+        $userId = $user->getUserId();
+        $userDemand = $user->getUserDemand();
+
+        $request = $this->database->prepare('UPDATE users
+            SET userDemand = :userDemand
+            WHERE userId = :userId');
+        $request->bindParam(':userDemand', $userDemand);
+        $request->bindParam(':userId', $userId);
+
+        return $request->execute();
+    }
+
+    public function updateRankFromUser(User $user): bool
+    {
+        $userId = $user->getUserId();
+        $newRank = $user->getUserRank();
+        $resetDemand = $user->getUserDemand();
+
+        $request = $this->database->prepare('UPDATE users
+            SET userRank = :newRank, userDemand = :resetDemand
+            WHERE userId = :userId');
+        $request->bindParam(':newRank', $newRank);
+        $request->bindParam(':userId', $userId);
+        $request->bindParam(':resetDemand', $resetDemand);
+
+        return $request->execute();
+    }
 }

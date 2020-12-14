@@ -11,6 +11,7 @@ final class User
     private $email;
     private $pass;
     private $userRank;
+    private $userDemand;
     
     public function getUserId(): int
     {
@@ -56,8 +57,19 @@ final class User
         return $this;
     }
 
-    public function getUSerRank(): string
+    public function getUserRank(): string
     {
         return (string) $this->userRank;
+    }
+
+    public function setUserDemand(string $userDemand): self
+    {
+        $this->userDemand = $userDemand;
+        return $this;
+    }
+
+    public function getUserDemand(): string
+    {
+        return (string) $this->userDemand;
     }
 }
