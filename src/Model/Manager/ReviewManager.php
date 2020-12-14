@@ -9,6 +9,7 @@ use App\Model\Entity\User;
 use App\Model\Repository\CommentRepository;
 use App\Model\Repository\ReviewRepository;
 use App\Service\Security\Token;
+use PhpCsFixer\FixerDefinition\VersionSpecificCodeSample;
 
 final class ReviewManager
 {
@@ -37,22 +38,37 @@ final class ReviewManager
 
     public function showTwo(int $page): array
     {
+        $status = 0;
         $reviewsPerPage = 3;
         $pageToDisplay = $page - 1;
         $offset = $pageToDisplay * $reviewsPerPage;
-        $totalReviews = count($this->reviewRepo->findByAll());
+        $totalReviews = count($this->reviewRepo->findByAll($status));
         $totalPages = ceil($totalReviews / $reviewsPerPage);
         return [$this->reviewRepo->findByOffset($offset), $totalPages];
     }
 
     public function showAll(): array
     {
-        return $this->reviewRepo->findByAll();
+        $status = 0;
+        return $this->reviewRepo->findByAll($status);
     }
 
     public function showUserReviews(int $userId, int $status): array
     {
         return $this->reviewRepo->findByUserId($userId, $status);
+    }
+
+    public function submitReview(array $reviewData): bool
+    {
+        $review = new Review();
+        $review->setUserId((int) $reviewData['userId']);
+        $review->setApiGameId((int) $reviewData['game_id']);
+        $review->setGameTitle($reviewData['game_title']);
+        $review->setReviewTitle($reviewData['review_title']);
+        $review->setContent($reviewData['tinymceArea']);
+        $review->setReviewStatus(2);
+        
+        return $this->reviewRepo->create($review);
     }
 
     public function addReview(array $reviewData): bool
@@ -63,7 +79,7 @@ final class ReviewManager
         $review->setGameTitle($reviewData['game_title']);
         $review->setReviewTitle($reviewData['review_title']);
         $review->setContent($reviewData['tinymceArea']);
-        var_dump($review);
+        $review->setReviewStatus(0);
         
         return $this->reviewRepo->create($review);
     }
@@ -89,5 +105,20 @@ final class ReviewManager
             $review->setUserId((int) $anonymousUser->getUserId());
             $this->reviewRepo->UpdateToAnonymous($review);
         }
+    }
+
+    public function showAllFromStatus(int $reviewStatus): ?array
+    {
+        return $this->reviewRepo->findByAll($reviewStatus);
+    }
+
+    public function validateReview(int $status, int $reviewId, array $reviewData): bool
+    {
+        $review = new Review();
+        $review->setReviewTitle($reviewData['review_title']);
+        $review->setContent($reviewData['review_modification']);
+        $review->setReviewStatus($status);
+
+        return $this->reviewRepo->updateToValidate($review, $reviewId);
     }
 }

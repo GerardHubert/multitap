@@ -2,7 +2,7 @@
 
 {% block title %}Gestion des membres{% endblock %}
 
-{% block alert %}
+{% block userAlert %}
     {% for user in users %}
         {% if user.userDemand != 'none' %}
             <i class='fas fa-exclamation-circle'></i>
@@ -37,7 +37,7 @@
                                     Aucune demande en cours
                             {% endif %}
                         </td>
-                        <td><a href='index.php?action=deleteUser&id={{ user.UserId }}'><button class='dash_button'>Supprimer le compter</button></a></td>
+                        <td><a href='index.php?action=deleteUser&id={{ user.UserId }}'><button class='dash_button'>Supprimer le compte</button></a></td>
                         <td><a href='index.php?action=update_user_role&id={{ user.userId }}'><button class='dash_button'>Changer le rôle</button></a></td>
                     </tr>
                 {% endfor %}

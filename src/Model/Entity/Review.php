@@ -102,6 +102,6 @@ final class Review
 
     public function getReviewStatus(): int
     {
-        return $this->reviewStatus;
+        return (int) $this->reviewStatus;
     }
 }

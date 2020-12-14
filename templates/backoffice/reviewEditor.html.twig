@@ -60,7 +60,14 @@
         <textarea class="tinymceArea" name="tinymceArea"></textarea>
         <div class='buttons'>
             <input type='submit' formaction='index.php?action=save_draft' name='save_draft' value='Enregistrer le brouillon'/>
-            <input type='submit' formaction='index.php?action=publish' name='publish' value='Publier'/>
+            {% if session.userRank == 'ROLE_REVIEWER' %}
+                <input type='submit'
+                    formaction='index.php?action=submit_to_validation'
+                    name='submit'
+                    value='Soumettre à validation'>         
+                {% elseif session.userRank != 'ROLE_REVIEWER' %}
+                    <input type='submit' formaction='index.php?action=publish' name="publish" value='Publier'>
+            {% endif %}      
             <input type='button' class='back_to_results' value='Retour aux résultats' />
         </div>
     </form>

@@ -1,0 +1,32 @@
+{% extends '/backoffice/layout.html.twig' %}
+
+{% block title %}Reviews en attente{% endblock %}
+
+{% block content %}
+<section id="user_reviews">
+    <h1 class='dashboard_section_title'>Mes reviews en cours de validation</h1>
+    <div class="dashboard_review_details">
+        <table id="reviews_table">
+            <thead>
+                <tr>
+                    <th>TITRE</td>
+                    <th>JEU</th>
+                    <th>DATE D'ENVOI</td>
+                    <th colspan="2">ACTION</td>
+                </tr>
+            </thead>
+            <tbody>
+                {% for review in reviews %}
+                <tr class='review_line'>
+                    <td>{{ review.reviewTitle|raw }}</td>
+                    <td>{{ review.gameTitle|raw }}</td>
+                    <td>{{ review.reviewDate }}</td>
+                    <td><a href="index.php?action=delete_review&id={{ review.reviewId }}"><button class='dash_button'>Supprimer</button></a></td>
+                    <td><a href="index.php?action=update_review_page&id={{ review.reviewId }}"><button class='dash_button'>Modifier</button></a></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</section>
+{% endblock %}

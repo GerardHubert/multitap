@@ -72,16 +72,19 @@ final class ReviewRepository
         return $request->fetchAll();
     }
 
-    public function findByAll(): ?array
+    public function findByAll(int $status): ?array
     {
         $request = $this->database->prepare("SELECT *, DATE_FORMAT(reviewDate, '%d/%m/%Y - %H:%i:%s') AS reviewDate
             FROM reviews
-            WHERE reviewStatus = 0
+            INNER JOIN users
+            ON users.userId = reviews.userId
+            WHERE reviewStatus = :reviewStatus
             ORDER BY reviewDate DESC");
+        $request->bindParam(':reviewStatus', $status);
         $request->setFetchMode(PDO::FETCH_CLASS, Review::class);
         $request->execute();
         $reviews = $request->fetchAll();
-        
+ 
         if ($reviews === null) {
             return null;
         }
@@ -115,15 +118,17 @@ final class ReviewRepository
         $userId = $reviewData->getUserId();
         $reviewTitle = $reviewData->getReviewTitle();
         $content = $reviewData->getContent();
+        $reviewStatus = $reviewData->getReviewStatus();
 
-        $request = $this->database->prepare('INSERT INTO reviews (reviewTitle, gameTitle, apiGameId, content, userId, reviewDate)
-            VALUES (:reviewTitle, :gameTitle, :apiGameId, :content, :userId, NOW())');
+        $request = $this->database->prepare('INSERT INTO reviews (reviewTitle, gameTitle, apiGameId, content, userId, reviewDate, reviewStatus)
+            VALUES (:reviewTitle, :gameTitle, :apiGameId, :content, :userId, NOW(), :reviewStatus)');
 
         $request->bindParam(':reviewTitle', $reviewTitle);
         $request->bindParam(':gameTitle', $gameTitle);
         $request->bindParam(':apiGameId', $gameId);
         $request->bindParam(':userId', $userId);
         $request->bindParam(':content', $content);
+        $request->bindParam(':reviewStatus', $reviewStatus);
         
         $creation = $request->execute();
         return $creation;
@@ -215,6 +220,22 @@ final class ReviewRepository
             WHERE reviewId = :id");
         $request->bindParam(':id', $id);
         $request->bindParam('anonymousUserId', $anonymousUserId);
+
+        return $request->execute();
+    }
+
+    public function updateToValidate(Review $review, int $reviewId): bool
+    {
+        $status = $review->getReviewStatus();
+        $title = $review->getReviewTitle();
+        $content = $review->getContent();
+        $request = $this->database->prepare("UPDATE reviews
+            SET reviewStatus = :newStatus, content = :newContent, reviewTitle = :newTitle, reviewDate = NOW()
+            WHERE reviewId = :id");
+        $request->bindParam(':newStatus', $status);
+        $request->bindParam(':newContent', $content);
+        $request->bindParam(':newTitle', $title);
+        $request->bindParam(':id', $reviewId);
 
         return $request->execute();
     }

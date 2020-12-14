@@ -67,11 +67,25 @@ class DashboardController
     public function displayUserReviewsAction(): void
     {
         $this->checkAccess();
-        $status = 0;
-        $reviews = $this->reviewManager->showUserReviews((int) $this->session->getUserId(), $status);
+        $statusToShow = (int) $this->request->cleanGet()['status'];
+        $reviews = $this->reviewManager->showUserReviews((int) $this->session->getUserId(), $statusToShow);
         $this->view->render([
             'path' => 'backoffice',
             'template' => 'allReviews',
+            'data' => [
+                'reviews' => $reviews
+            ]
+        ]);
+    }
+
+    public function showAwaitingReviewsAction(): void
+    {
+        $this->checkAccess();
+        $statusToShow = (int) $this->request->cleanGet()['status'];
+        $reviews = $this->reviewManager->showUserReviews((int) $this->session->getUserId(), $statusToShow);
+        $this->view->render([
+            'path' => 'backoffice',
+            'template' => 'awaitingReviews',
             'data' => [
                 'reviews' => $reviews
             ]
@@ -89,6 +103,47 @@ class DashboardController
         ]);
     }
 
+    public function showReviewsToValidate(): void
+    {
+        $this->checkAccess();
+        $status = 2;
+        $reviews = $this->reviewManager->showAllFromStatus($status);
+
+        $this->view->render([
+            'path' => 'backoffice',
+            'template' => 'reviewsToAuthorize',
+            'data' => [
+                'reviews' => $reviews
+            ]
+        ]);
+    }
+
+    public function validateReviewAction(): void
+    {
+        $this->checkAccess();
+        $status = 0;
+
+        $this->reviewManager->validateReview($status, (int) $this->request->cleanGet()['id'], $this->request->cleanPost());
+        header('Location: index.php?action=show_reviews_to_validate');
+        exit;
+    }
+
+    public function submitReviewAction(): void
+    {
+        $inputToken = $this->request->cleanPost()['hidden_input_token'];
+        $sessionToken = $this->session->getToken();
+
+        switch ($inputToken === $sessionToken) {
+            case true:
+                $this->reviewManager->submitReview($this->request->cleanPost());
+                header('Location: index.php?action=dashboard&status=2');
+            break;
+            case false:
+                header('Location: index.php?action=home');
+            break;
+        }
+    }
+
     public function addReviewAction(): void
     {
         $this->checkAccess();
@@ -99,7 +154,7 @@ class DashboardController
         switch ($inputToken === $sessionToken) {
             case true:
                 $this->reviewManager->addReview($this->request->cleanPost());
-                header('Location: index.php?action=dashboard');
+                header('Location: index.php?action=dashboard&status=0');
             break;
             case false:
                 header('Location: index.php?action=home');
@@ -112,7 +167,7 @@ class DashboardController
         $this->checkAccess();
 
         $this->reviewManager->deleteReview((int) $this->request->cleanGet()['id']);
-        header('Location: index.php?action=dashboard');
+        header('Location: index.php?action=dashboard&status=0');
         exit;
     }
 
@@ -145,7 +200,7 @@ class DashboardController
                 $update = $this->reviewManager->updateReview($this->request->cleanPost(), $id);
                 switch ($update) {
                     case true:
-                        header('Location: index.php?action=dashboard');
+                        header('Location: index.php?action=dashboard&status=0');
                     exit;
                     case false:
                         header("Location: index.php?action=update_review_page&id=$id");

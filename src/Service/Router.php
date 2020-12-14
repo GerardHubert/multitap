@@ -94,6 +94,12 @@ final class Router
             case 'new_review':
                 $this->dashboardController->reviewEditor();
             break;
+            case 'submit_to_validation':
+                $this->dashboardController->submitReviewAction();
+            break;
+            case 'show_waiting_reviews':
+                $this->dashboardController->showAwaitingReviewsAction();
+            break;
             case 'publish':
                 $this->dashboardController->addReviewAction();
             break;
@@ -180,6 +186,12 @@ final class Router
             break;
             case 'update_user_role':
                 $this->userController->updateUserRoleAction();
+            break;
+            case 'show_reviews_to_validate':
+                $this->dashboardController->showReviewsToValidate();
+            break;
+            case 'validate_review':
+                $this->dashboardController->validateReviewAction();
             break;
         }
 

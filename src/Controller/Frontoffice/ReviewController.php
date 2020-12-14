@@ -56,7 +56,7 @@ final class ReviewController
     public function displayHomeAction(): void
     {
         $posts = $this->reviewManager->showHome();
-
+        
         $this->view->render([
             'path' => 'frontoffice',
             'template' => 'home',
