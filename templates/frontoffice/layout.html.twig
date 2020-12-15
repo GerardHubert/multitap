@@ -25,7 +25,15 @@
                         {% elseif session.username == true %}
                             <span><i class="fas fa-sign-out-alt"></i><a href="index.php?action=logout">ME DECONNECTER</a></span>
                             <span>|</span>
-                            <span><i class="fas fa-unlock-alt"></i><a href={% if session.userRank == 'ROLE_MEMBER' %}"index.php?action=role_member_page"{% endif %}"index.php?action=dashboard&status=0">{{ session.username }}</a></span>
+                            <div class='user_menu_link'><i class="fas fa-unlock-alt"></i><a href='#'>{{ session.username }}</a>
+                                <div class='dropdown_menu'>
+                                    <div class='dropdown_link'>
+                                        <p><i class='fas fa-user-cog'></i><a href='index.php?action=user_parameters_page'>Paramètres</a></p>
+                                {% if session.userRank != 'ROLE_MEMBER' %}
+                                        <p><i class='fas fa-keyboard'></i><a href='index.php?action=dashboard&status=0'>Dashboard</a></p>
+                                {% endif %}
+                                </div>
+                            </div>
                     {% endif %}
                 </div>
             </nav>
@@ -41,6 +49,7 @@
         </main>
         
         <script src='js/Games.js'></script>
+
         {% block script %}{% endblock %}
 
     </body>

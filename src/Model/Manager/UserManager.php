@@ -24,11 +24,13 @@ class UserManager
         $email = $form['email'];
         $password = $form['password'];
         $passwordConfirm = $form['password_confirm'];
+        $passwordRegExp = "#(?=.*[a-z]+)(?=.*[0-9]+)(?=.*[A-Z]+)#";
         $usernameRegExp = "#^[A-Za-zéèçàâäêëîïôöòûüùñ_0-9]?[\s?\-?a-zéèçàâäêëîïôöòûüùñ_0-9]+?$#";
         $emailRegExp = "#^[a-z0-9._-]+@[a-z0-9._-]{2,}\.[a-z]{2,4}$#";
 
         $usernameValidation = preg_match($usernameRegExp, $username);
         $emailValidation = preg_match($emailRegExp, $email);
+        $passwordValidation = preg_match($passwordRegExp, $password);
             
         if ($usernameValidation === 0) {
             $this->session->setFlashMessage('le nom est incorrect, certains caractères sont interdits');
@@ -40,6 +42,10 @@ class UserManager
             exit;
         } elseif ($emailValidation === 0) {
             $this->session->setFlashMessage('le format email est incorrect');
+            header('Location: index.php?action=signInPage');
+            exit;
+        } elseif ($passwordValidation === 0 ){
+            $this->session->setFlashMessage('Le mot de passe doit contenir au moins une majuscule et un chiffre');
             header('Location: index.php?action=signInPage');
             exit;
         } elseif ($password !== $passwordConfirm) {
@@ -126,7 +132,7 @@ class UserManager
 
         if ($usernameValidation === 0) {
             $this->session->setFlashMessage('le nom est incorrect, certains caractères sont interdits');
-            header('Location: index.php?action=role_member_page');
+            header('Location: index.php?action=user_parameters_page');
             exit;
         }
 
@@ -144,7 +150,7 @@ class UserManager
 
         if ($emailValidation === 0) {
             $this->session->setFlashMessage('Cette adresse mail n\'est pas valide');
-            header('Location: index.php?action=role_member_page');
+            header('Location: index.php?action=user_parameters_page');
             exit;
         }
 
@@ -158,13 +164,13 @@ class UserManager
     {
         if (password_verify($form['actual_pass'], $user->getPass()) === false) {
             $this->session->setFlashMessage('mot de passe incorrect');
-            header('Location: index.php?action=role_member_page');
+            header('Location: index.php?action=user_parameters_page');
             exit;
         };
 
         if (mb_strlen($form['new_pass']) < 8) {
             $this->session->setFlashMessage('Le mot de passe chosi est trop court');
-            header('Location: index.php?action=role_member_page');
+            header('Location: index.php?action=user_parameters_page');
             exit;
         }
 

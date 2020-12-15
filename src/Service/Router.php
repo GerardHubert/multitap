@@ -88,8 +88,8 @@ final class Router
             case 'dashboard':
                 $this->dashboardController->displayUserReviewsAction();
             break;
-            case 'role_member_page':
-                $this->userController->memberPage();
+            case 'user_parameters_page':
+                $this->userController->userParametersPage();
             break;
             case 'new_review':
                 $this->dashboardController->reviewEditor();

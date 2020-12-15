@@ -85,6 +85,21 @@ nav{
     margin-left: 5px;
 }
 
+.dropdown_menu{
+    display: relative;
+}
+
+.dropdown_link{
+    position: absolute;
+    z-index: 999;
+    display: none;
+}
+
+.user_menu_link:hover .dropdown_link {
+    display: block;
+    background-color: white;
+}
+
 /*
 *
 *HOME

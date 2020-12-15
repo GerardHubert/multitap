@@ -22,13 +22,14 @@
             <label for="password">Mot de passe</label>
             <input class='password_input' type="password" name='password'
                 required
-                minlength='8'>
+                minlength='6'
+                placeholder='min. 6 caractères dont 1 majuscule, 1 minuscule et 1 chiffre'>
         </div>
         <div class='label_and_input'>
             <label for="password_confirm">Confirmer le mot de passe</label>
             <input class='password_confirm_input' type="password" name='password_confirm'
                 required
-                minlength='8'>
+                minlength='6'>
         </div>
         <input class='inscription_button' type="submit" value="Créer un compte">
         <input type="hidden" name='hidden_input_token' class="hidden_input_token" value={{ session.token }}>

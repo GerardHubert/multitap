@@ -134,7 +134,7 @@ class UserController
         header('Location: index.php?action=members_management');
     }
 
-    public function memberPage(): void
+    public function userParametersPage(): void
     {
         if ($this->accessControl->isConnected() === false) {
             header('Location: index.php?action=logInPage');
@@ -145,7 +145,7 @@ class UserController
         $this->token->setToken();
         $this->view->render([
             'path' => 'frontoffice',
-            'template' => 'memberPage',
+            'template' => 'userParametersPage',
             'data' => [
                 'user' => $user
             ]
@@ -156,14 +156,14 @@ class UserController
     {
         if ($this->request->cleanPost()['token'] !== $this->session->getToken()) {
             $this->session->setFlashMessage('Vous ne disposez pas des droits nécessaires');
-            header('Location: index.php?action=role_member_page');
+            header('Location: index.php?action=user_parameters_page');
             exit;
         }
 
         $user = $this->userManager->showOneFromId((int) $this->request->cleanGet()['id']);
         $this->userManager->updateUsername($user, $this->request->cleanPost());
         $this->session->endSession();
-        header('Location: index.php?action=role_member_page');
+        header('Location: index.php?action=user_parameters_page');
         exit;
     }
 
@@ -171,12 +171,12 @@ class UserController
     {
         if ($this->request->cleanPost()['token'] !== $this->session->getToken()) {
             $this->session->setFlashMessage('Vous ne disposez pas des droits nécessaires');
-            header('Location: index.php?action=role_member_page');
+            header('Location: index.php?action=user_parameters_page');
             exit;
         }
         $user = $this->userManager->showOneFromId((int) $this->request->cleanGet()['id']);
         $this->userManager->updateEmail($user, $this->request->cleanPost());
-        header('Location: index.php?action=role_member_page');
+        header('Location: index.php?action=user_parameter_page');
         exit;
     }
 
@@ -184,7 +184,7 @@ class UserController
     {
         if ($this->request->cleanPost()['token'] !== $this->session->getToken()) {
             $this->session->setFlashMessage('Vous ne disposez pas des droits nécessaires');
-            header('Location: index.php?action=role_member_page');
+            header('Location: index.php?action=user_parameters_page');
             exit;
         }
         $user = $this->userManager->showOneFromId((int) $this->request->cleanGet()['id']);
@@ -200,7 +200,7 @@ class UserController
         $request = $this->userManager->memberRequest($user);
         
         $this->session->setFlashMessage('Votre demande a bien été transmise');
-        header('Location: index.php?action=role_member_page');
+        header('Location: index.php?action=user_parameters_page');
         exit;
     }
 
