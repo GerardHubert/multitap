@@ -152,7 +152,29 @@ class UserController
         ]);
     }
 
-    public function updateUsernameAction(): void
+    public function updateUsernameAndEmail(): void
+    {
+        if ($this->request->cleanPost()['token'] !== $this->session->getToken()) {
+            $this->session->setFlashMessage('Vous ne disposez pas des droits nécessaires');
+            header('Location: index.php?action=user_parameters_page');
+            exit;
+        }
+
+        if (!empty($this->request->cleanPost()['new_username'])) {
+            $user = $this->userManager->showOneFromId((int) $this->request->cleanGet()['id']);
+            $this->userManager->updateUsername($user, $this->request->cleanPost());
+            $this->session->endSession();
+            header('Location: index.php?action=user_parameters_page');
+            exit;
+        }   elseif (!empty($this->request->cleanpost()['new_email'])) {
+                $user = $this->userManager->showOneFromId((int) $this->request->cleanGet()['id']);
+                $this->userManager->updateEmail($user, $this->request->cleanPost());
+                header('Location: index.php?action=user_parameters_page');
+                exit;
+        }
+    }
+
+    /*public function updateUsernameAction(): void
     {
         if ($this->request->cleanPost()['token'] !== $this->session->getToken()) {
             $this->session->setFlashMessage('Vous ne disposez pas des droits nécessaires');
@@ -178,7 +200,7 @@ class UserController
         $this->userManager->updateEmail($user, $this->request->cleanPost());
         header('Location: index.php?action=user_parameter_page');
         exit;
-    }
+    }*/
 
     public function updatePasswordAction(): void
     {

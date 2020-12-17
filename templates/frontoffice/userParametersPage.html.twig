@@ -8,66 +8,110 @@
         <h3>Mon compte</h3>
 
         {% if session.flashMessage %}
-                <p>{{ session.flashMessage }}</p>
+                <p id='user_parameters_message'>{{ session.flashMessage }}</p>
             {% endif %}
         
-        <form class="update_info" method='post' action='index.php?action=update_username&id={{ user.userId }}'>
-            
-            <div class="label_and_value">
-                <label class='update_label' for='actual_username'>Nom d'utilisateur actuel : </label>
-                <input class='readonly_input' type='text' name='actual_username' readonly value={{ user.username }}>
-            </div>
-            <div class="label_and_value">
-                <label class='update_label' for='new_username'>Nouveau nom d'utilisateur : </label>
-                <input class='update_user_new_values' type='text' name='new_username'>
-            </div>
-            <input type='hidden' name='token' value={{ session.token }}>
-            <button type='submit' class='update_username_button'>Modifier</button>
-        </form>
+        <section class="forms">
 
-        <form class="update_info" method='post' action='index.php?action=update_email&id={{ user.userId }}'>
-            <div class="label_and_value">
-                <label for="actual_email" class="update_label">Email actuel : </label>
-                <input type="mail" name='actual_email' class="update_user_new_values" readonly value={{ user.email }}>
-            </div>
-            <div class="label_and_value">
-                <label for="new_email" class="update_label">Nouvel email : </label>
-                <input type="mail" name='new_email' class="update_user_new_values">
-            </div>
-            <input type='hidden' name='token' value={{ session.token }}>
-            <button class='update_email_button' type='submit'>Modifier</button>
-        </form>
+            <form id="username_email_forms" method='post' action='index.php?action=update_username_and_email&id={{ user.userId }}'>
+                <h5>MODIFIER MON NOM D'UTILISATEUR OU MON EMAIL</h5>
+                <section id='username_form'>
+                    <div class="label_and_value">
+                        <label class='update_label' for='actual_username'>Nom d'utilisateur actuel : </label>
+                        <input class='readonly_input' type='text' name='actual_username' readonly value={{ user.username }}>
+                    </div>
+                    <div class="label_and_value">
+                        <label class='update_label' for='new_username'>Nouveau nom d'utilisateur : </label>
+                        <input class='update_user_new_values' type='text' name='new_username'>
+                    </div>
+                    <input type='hidden' name='token' value={{ session.token }}>
+                </section>
 
-        <form class="update_info" method='post' action='index.php?action=update_password&id={{ user.userId }}'>
-            <div class="label_and_value">
-                <label class='update_label' for='actual_pass'>Mot de passe actuel : </label>
-                <input type="password" class="update_user_new_values" min='8' name='actual_pass'>
-            </div>
-            <div class="label_and_value">
-                <label class='update_label' for='new_pass'>Changer mon   mot de passe : </label>
-                <input type="password" class="update_user_new_values" min='8' name='new_pass'>
-            </div>
-            <input type='hidden' name='token' value={{ session.token }}>
-            <button class='update_pass_button' type='submit'>Modifier</button>
-        </form>
+                <section id='email_form'>
+                    <div class="label_and_value">
+                        <label for="actual_email" class="update_label">Email actuel : </label>
+                        <input type="mail" name='actual_email' class="readonly_input" readonly value={{ user.email }}>
+                    </div>
+                    <div class="label_and_value">
+                        <label for="new_email" class="update_label">Nouvel email : </label>
+                        <input type="mail" name='new_email' class="update_user_new_values">
+                    </div>
+                    <input type='hidden' name='token' value={{ session.token }}>
+                </section>
 
-        <div class="update_info">
-            <div class="label_and_value">
-                <p>DEVENIR REVIEWER</p>
-                <p>En tant que membre vous pouvez laisser des commentaires.
-                    Vous pouvez demander à devenir reviewer afin de laisser vos avis sur vos jeux favoris !
-                </p>
-            </div>
-            <a href='index.php?action=reviewer_demand&id={{ user.userId }}'><button class='update_rank_button'>Devenir reviewer</button></a>
-        </div>
+                <button class='update_name_and_email' type='submit'>Modifier</button>
+                
+            </form>
 
-        <div class="update_info">
-            <div class="label_and_value">
-                <p>SUPPRIMER MON COMPTE</p>
-                <p>Votre compte utilisateur, ainsi que vos commentaires seront supprimés. Vos reviews seront conservées sous un nom anonyme.</p>
-            </div>
-            <a href='index.php?action=deleteUser&id={{ user.userId }}'><button class='delete_account_button'>Supprimer</button></a>
-        </div>
+            <form id="password_form" method='post' action='index.php?action=update_password&id={{ user.userId }}'>
+                <h5>MODIFIER MON MOT DE PASSE</h5>
+                <div class="label_and_value">
+                    <label class='update_label' for='actual_pass'>Mot de passe actuel : </label>
+                    <input type="password" class="update_user_new_values" min='8' name='actual_pass'>
+                </div>
+                <div class="label_and_value">
+                    <label class='update_label' for='new_pass'>Changer mon  mot de passe : </label>
+                    <input type="password" class="update_user_new_values" min='8' name='new_pass'>
+                </div>
+                <div class="label_and_value">
+                    <label class='update_label' for='confirm_new_pass'>Confimer mon nouveau mot de passe : </label>
+                    <input type="password" class="update_user_new_values" min='8' name='confirm_new_pass'>
+                </div>
+                <input type='hidden' name='token' value={{ session.token }}>
+                <button class='update_pass_button' type='submit'>Modifier</button>
+            </form>
+
+            <section id='rank_and_account_form'>
+                <h5>GERER MON ROLE ET SUPPRIMER MON COMPTE</h5>
+                <div id="rank_form">
+                    <div class="label_and_value">
+                        <span class='legend'>CHANGER DE RÔLE (actuellement : {{ session.userRank|slice(5,) }})</span>
+                        <span class='explanation'>En tant que simple membre vous pouvez laisser des commentaires.
+                            Mais si vous avez envie de partager ce que vous pensez de vos jeux du moment, rejoignez notre communauté de REVIEWERS.
+                            Et si vous appréciez autant lire des avis autant qu'en écrire, pourquoi ne pas devenir EDITOR. Qui a la lourde tâche,
+                            à la manière d'un secrétaire de rédaction, de corriger les reviews avant publication, et de modérer les commentaires.
+                        </span>
+                        <form id='select_role' action="index.php?action=change_user_rank&id={{ user.userId }}" id="role_form">
+                            <div>
+                                {% if session.userRank == 'ROLE_MEMBER' %}
+                                    <input type='radio' id='member' name='member' value='ROLE_MEMBER' disabled>
+                                    {% else %}
+                                        <input type='radio' id='member' name='member' value='ROLE_MEMBER'>
+                                {% endif %}
+                                <label for="member">Member</label>
+                            </div>
+                            <div>
+                                {% if session.userRank == 'ROLE_REVIEWER' %}
+                                    <input type='radio' id='editor' name='editor' value='ROLE_EDITOR' disabled>
+                                    {% else %}
+                                        <input type='radio' id='editor' name='editor' value='ROLE_EDITOR'>
+                                {% endif %}
+                                <label for="editor">Editor</label>
+                            </div>
+                            <div>
+                                {% if session.userRank == 'ROLE_ADMIN' %}
+                                    <input type='radio' id='admin' name='admin' value='ROLE_ADMIN' DISABLED>
+                                    {% else %}
+                                        <input type='radio' id='admin' name='admin' value='ROLE_ADMIN'>
+                                {% endif %}
+                                <label for="admin">Administrator</label>
+                            </div>
+                            <button type='submit' class='update_rank_button'>Envoyer</button>
+                        </form>
+                    </div>
+                    
+                </div>
+
+                <div id="account_form">
+                    <div class="label_and_value">
+                        <span class='legend'>SUPPRIMER MON COMPTE</span>
+                        <span class='explanation'>Votre compte utilisateur, ainsi que vos commentaires seront supprimés. Vos reviews seront conservées sous un nom anonyme.</span>
+                    </div>
+                    <a href='index.php?action=deleteUser&id={{ user.userId }}'><button class='delete_account_button'>Supprimer</button></a>
+                </div>
+            </section>
+
+        </section>
 
     </section>
     

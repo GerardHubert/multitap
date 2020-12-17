@@ -172,20 +172,14 @@ final class Router
             case 'deleteUser':
                 $this->userController->deleteUSerAction();
             break;
-            case 'update_username':
-                $this->userController->updateUsernameAction();
-            break;
-            case 'update_email':
-                $this->userController->updateEmailAction();
-            break;
             case 'update_password':
                 $this->userController->updatePasswordAction();
             break;
             case 'reviewer_demand':
                 $this->userController->reviewerDemandAction();
             break;
-            case 'update_user_role':
-                $this->userController->updateUserRoleAction();
+            case 'update_username_and_email':
+                $this->userController->updateUsernameAndEmail();
             break;
             case 'show_reviews_to_validate':
                 $this->dashboardController->showReviewsToValidate();

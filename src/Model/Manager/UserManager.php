@@ -168,11 +168,16 @@ class UserManager
             exit;
         };
 
-        if (mb_strlen($form['new_pass']) < 8) {
+        if (mb_strlen($form['new_pass']) < 6) {
             $this->session->setFlashMessage('Le mot de passe chosi est trop court');
             header('Location: index.php?action=user_parameters_page');
             exit;
+        }   elseif ($form['new_pass'] !== $form['confirm_new_pass']) {
+            $this->session->setFlashMessage('Les mots de passe ne correspondent pas');
+            header('Location: index.php?action=user_parameters_page');
+            exit;
         }
+
 
         $user->setPass(password_hash($form['new_pass'], PASSWORD_BCRYPT));
         return $this->userRepo->updatePassFromUser($user);
