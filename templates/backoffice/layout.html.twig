@@ -17,13 +17,7 @@
             <div id='dashboard_user'>
                 <span id='username'>Salut {{ session.username }} !</span>
                 <span id='user_rank'>
-                    {% if session.userRank == 'ROLE_ADMIN' %}
-                        Admin
-                    {% elseif session.userRank == 'ROLE_REVIEWER' %}
-                        Reviewer
-                    {% elseif session.userRank == 'ROLE_EDITOR' %}
-                        Modérateur
-                    {% endif %}
+                    {{ session.userRank|slice(5,) }}
                 </span>
                 <a href='index.php?action=logout'><i class='fas fa-sign-out-alt'></i>Se déconnecter</a>
                 <a href="index.php?action=home"><i class='fas fa-home'></i>Accueil</a>
@@ -31,26 +25,26 @@
         </header>
         
         <main id='dashboard_content'>
-        <nav id='dashboard_nav'>
-            <ul>
-                <li><a href='index.php?action=dashboard&status=0'>Mes reviews publiées</a></li>
-                {% if session.userRank == 'ROLE_REVIEWER' %}
-                    <li><a href='index.php?action=show_waiting_reviews&status=2'>Mes reviews en cours de validation</a></li>
-                {% endif %}
-                <li><a href='index.php?action=new_review'>Nouvelle review</a></li>
-                <li><a href='index.php?action=show_drafts'>Mes brouillons</a></li>
-                {% if (session.userRank == 'ROLE_ADMIN') or (session.userRank == 'ROLE_EDITOR') %}
-                    <li><a href='index.php?action=show_comments_to_moderate'>Les commentaires à modérer</a></li>
-                    <li><a href='index.php?action=show_reviews_to_validate'>Les Reviews à valider</a></li>
-                    <li>Toutes les reviews</li>
-                {% endif %}
-                {% if session.userRank == 'ROLE_ADMIN' %}
-                    <li><a href='index.php?action=members_management'>Gestion des membres</a>{% block userAlert %}{% endblock %}</li>
-                {% endif %}
-            </ul>
-        </nav>
-        
-        {% block content %} {% endblock %}
+            <nav id='dashboard_nav'>
+                <ul>
+                    <li><a href='index.php?action=dashboard&status=0'>Mes reviews publiées</a></li>
+                    {% if session.userRank == 'ROLE_REVIEWER' %}
+                        <li><a href='index.php?action=show_waiting_reviews&status=2'>Mes reviews en cours de validation</a></li>
+                    {% endif %}
+                    <li><a href='index.php?action=new_review'>Nouvelle review</a></li>
+                    <li><a href='index.php?action=show_drafts'>Mes brouillons</a></li>
+                    {% if (session.userRank == 'ROLE_ADMIN') or (session.userRank == 'ROLE_EDITOR') %}
+                        <li><a href='index.php?action=show_comments_to_moderate'>Les commentaires à modérer</a></li>
+                        <li><a href='index.php?action=show_reviews_to_validate'>Les Reviews à valider</a></li>
+                        <li>Toutes les reviews</li>
+                    {% endif %}
+                    {% if session.userRank == 'ROLE_ADMIN' %}
+                        <li><a href='index.php?action=members_management'>Gestion des membres</a>{% block userAlert %}{% endblock %}</li>
+                    {% endif %}
+                </ul>
+            </nav>
+            
+            {% block content %}{% endblock %}
             
         </main>
 

@@ -81,6 +81,7 @@ class DashboardController
     public function showAwaitingReviewsAction(): void
     {
         $this->checkAccess();
+        
         $statusToShow = (int) $this->request->cleanGet()['status'];
         $reviews = $this->reviewManager->showUserReviews((int) $this->session->getUserId(), $statusToShow);
         $this->view->render([
@@ -106,6 +107,13 @@ class DashboardController
     public function showReviewsToValidate(): void
     {
         $this->checkAccess();
+
+        if ($this->session->getUserRank() === 'ROLE_REVIEWER') {
+            $this->session->setFlashMessage('Vous n\'êtes pas autorisé à accéder à cette page. Demandez à changer de rôle');
+            header('Location: index.php?action=user_parameters_page');
+            exit;
+        }
+
         $status = 2;
         $reviews = $this->reviewManager->showAllFromStatus($status);
 
@@ -121,11 +129,22 @@ class DashboardController
     public function validateReviewAction(): void
     {
         $this->checkAccess();
-        $status = 0;
+
+        if ($this->session->getUserRank() === 'ROLE_REVIEWER') {
+            $status = 2;
+        } else {
+            $status = 0;
+        }
 
         $this->reviewManager->validateReview($status, (int) $this->request->cleanGet()['id'], $this->request->cleanPost());
-        header('Location: index.php?action=show_reviews_to_validate');
-        exit;
+
+        if ($this->session->getUserRank() === 'ROLE_REVIEWER') {
+            header('Location: index.php?action=show_waiting_reviews&status=2');
+            exit;
+        } elseif ($this->session->getUserRank() === 'ROLE_ADMIN' || $this->session->getUSerRank() === 'ROLE_EDITOR') {
+            header('Location: index.php?action=show_reviews_to_validate');
+            exit;
+        }
     }
 
     public function submitReviewAction(): void
@@ -136,7 +155,24 @@ class DashboardController
         switch ($inputToken === $sessionToken) {
             case true:
                 $this->reviewManager->submitReview($this->request->cleanPost());
-                header('Location: index.php?action=dashboard&status=2');
+                header('Location: index.php?action=show_waiting_reviews&status=2');
+            break;
+            case false:
+                header('Location: index.php?action=home');
+            break;
+        }
+    }
+
+    public function submitUpdateAction(): void
+    {
+        
+        $inputToken = $this->request->cleanPost()['hidden_input_token'];
+        $sessionToken = $this->session->getToken();
+
+        switch ($inputToken === $sessionToken) {
+            case true:
+                $this->reviewManager->submitUpdate($this->request->cleanPost(), (int) $this->request->cleanGet()['id']);
+                header('Location: index.php?action=show_waiting_reviews&status=2');
             break;
             case false:
                 header('Location: index.php?action=home');

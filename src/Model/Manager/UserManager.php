@@ -183,20 +183,23 @@ class UserManager
         return $this->userRepo->updatePassFromUser($user);
     }
 
-    public function memberRequest(User $user): bool
+    public function saveUserRequest(array $form, User $user): ?bool
     {
-        $user->setUserDemand('REVIEWER_DEMAND');
-        return $this->userRepo->updateUserDemand($user);
+        $user->setUserDemand($form['new_role']);
+        
+        return $this->userRepo->updateRankRequest($user);
     }
 
-    public function updateUserRank(User $user): ?bool
+    public function updateRank(User $user): ?bool
     {
-        if ($user->getUserDemand() === 'REVIEWER_DEMAND') {
-            $user->setUserRank('ROLE_REVIEWER');
-            $user->setUserDemand('none');
-            return $this->userRepo->updateRankFromUser($user);
-        }
+        $user->setUserRank($user->getUserDemand());
+        $user->setUserDemand('none');
+        return $this->userRepo->updateRankFromUser($user);
+    }
 
-        return null;
+    public function cancelRankDemand(User $user): ?bool
+    {
+        $user->setUserDemand('none');
+        return $this->userRepo->updateRankRequest($user);
     }
 }

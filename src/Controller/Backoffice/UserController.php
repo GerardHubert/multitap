@@ -141,6 +141,8 @@ class UserController
             exit;
         }
 
+        $this->token->setToken();
+
         $user = $this->userManager->showOneFromId($this->session->getUserId());
         $this->token->setToken();
         $this->view->render([
@@ -216,21 +218,32 @@ class UserController
         exit;
     }
 
-    public function reviewerDemandAction(): void
+    public function updateRankDemand(): void
     {
-        $user = $this->userManager->showOneFromId((int) $this->request->cleanGet()['id']);
-        $request = $this->userManager->memberRequest($user);
-        
-        $this->session->setFlashMessage('Votre demande a bien été transmise');
+        if ($this->session->getToken() !== $this->request->cleanPost()['hidden_input_token']) {
+            $this->session->endSession();
+            header('Location: index.php?action=logInPage');
+            exit;
+        }
+
+        $this->userManager->saveUserRequest($this->request->cleanPost(), $this->userManager->showOneFromId((int) $this->request->cleanGet()['id']));
+        $this->session->setFlashMessage('Votre demande de changement de rôle a bien été prise en compte');
         header('Location: index.php?action=user_parameters_page');
         exit;
     }
 
-    public function updateUserRoleAction(): void
+    public function updateRankValidation(): void
     {
-        $user = $this->userManager->showOneFromId((int) $this->request->cleanGet()['id']);
-        $this->userManager->updateUserRank($user);
+        $this->userManager->updateRank($this->userManager->showOneFromId((int) $this->request->cleanGet()['id']));
         header('Location: index.php?action=members_management');
         exit;
+    }
+
+    public function updateRankCancel(): void
+    {
+        $this->userManager->cancelRankDemand($this->userManager->showOneFromId((int) $this->request->cleanGet()['id']));
+        header('Location: index.php?action=members_management');
+        exit;
+
     }
 }

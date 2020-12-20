@@ -21,8 +21,8 @@
                 <tr>
                     <th>Nom d'utlisateur</th>
                     <th>Rang actuel</th>
-                    <th>Demande en cours</th>
-                    <th colspan='2' class='action_field'>Action</th>
+                    <th>Rang demandé</th>
+                    <th colspan='3' class='action_field'>Action</th>
                 </tr>
             </thead>
             <tbody>
@@ -31,14 +31,17 @@
                         <td>{{ user.username }}</td>
                         <td>{{ user.userRank }}</td>
                         <td>
-                            {% if user.userDemand == 'REVIEWER_DEMAND' %}
-                                DEMANDE LE ROLE DE REVIEWER
+                            {% if user.userDemand != 'none' %}
+                                    {{ user.userDemand }}
                                 {% else %}
                                     Aucune demande en cours
                             {% endif %}
                         </td>
-                        <td><a href='index.php?action=deleteUser&id={{ user.UserId }}'><button class='dash_button'>Supprimer le compte</button></a></td>
-                        <td><a href='index.php?action=update_user_role&id={{ user.userId }}'><button class='dash_button'>Changer le rôle</button></a></td>
+                        <td><a href='index.php?action=deleteUser&id={{ user.userId }}'><button class='dash_button'>Supprimer le compte</button></a></td>
+                        {% if user.userDemand != 'none' %}
+                            <td><a href='index.php?action=change_rank_validation&id={{ user.userId }}'><button class='dash_button'>Changer le rôle</button></a></td>
+                            <td><a href='index.php?action=cancel_rank_demand&id={{ user.userId }}'><button class='dash_button'>Annuler la demande</button></a></td>
+                        {% endif %}
                     </tr>
                 {% endfor %}
             </tbody>

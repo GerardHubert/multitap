@@ -24,8 +24,10 @@
             </textarea>
             {% if review.reviewStatus == 2 %}
                 <input type='submit' formaction='index.php?action=validate_review&id={{ review.reviewId }}' name='edit_and_validate' value='Enregistrer les modifications et valider'/>
-                {% elseif review.reviewStatus == 0 %}
-            <input type='submit' formaction='index.php?action=update_review&id={{ review.reviewId }}' name='edit' value='Enregistrer les modifications'/>
+                {% elseif review.reviewStatus == 0 and session.userRank == 'ROLE_REVIEWER' %}
+                    <input type='submit' formaction='index.php?action=submit_update_to_validation&id={{ review.reviewId }}' name='edit' value='Soumettre les modifications'/>
+                {% elseif review.reviewStatus == 0 and session.userRank != 'ROLE_REVIEWER' %}
+                    <input type='submit' formaction='index.php?action=update_review&id={{ review.reviewId }}' name='edit' value='Enregistrer les modifications'/>
             {% endif %}
         </form>
     

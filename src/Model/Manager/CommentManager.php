@@ -30,7 +30,7 @@ final class CommentManager
 
     public function saveNewComment(array $post, int $reviewId): void
     {
-        $formTest = /*empty($post['pseudo']) || */empty($post['comment']);
+        $formTest = empty($post['comment']);
     
         switch ($formTest) {
             // si pseudo et comment sont renseignés et si les token correspondent

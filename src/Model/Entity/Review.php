@@ -17,6 +17,7 @@ final class Review
     private $reviewDate;
     private $apiGameId;
     private $reviewStatus;
+    private $nbComments;
 
     public function getReviewId(): int
     {

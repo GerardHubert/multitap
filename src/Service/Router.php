@@ -97,6 +97,9 @@ final class Router
             case 'submit_to_validation':
                 $this->dashboardController->submitReviewAction();
             break;
+            case 'submit_update_to_validation':
+                $this->dashboardController->submitUpdateAction();
+            break;
             case 'show_waiting_reviews':
                 $this->dashboardController->showAwaitingReviewsAction();
             break;
@@ -175,9 +178,6 @@ final class Router
             case 'update_password':
                 $this->userController->updatePasswordAction();
             break;
-            case 'reviewer_demand':
-                $this->userController->reviewerDemandAction();
-            break;
             case 'update_username_and_email':
                 $this->userController->updateUsernameAndEmail();
             break;
@@ -186,6 +186,15 @@ final class Router
             break;
             case 'validate_review':
                 $this->dashboardController->validateReviewAction();
+            break;
+            case 'change_rank_demand':
+                $this->userController->updateRankDemand();
+            break;
+            case 'change_rank_validation':
+                $this->userController->updateRankValidation();
+            break;
+            case 'cancel_rank_demand':
+                $this->userController->updateRankCancel();
             break;
         }
 

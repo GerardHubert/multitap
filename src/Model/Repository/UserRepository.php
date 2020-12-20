@@ -133,23 +133,23 @@ final class UserRepository
         return $request->execute();
     }
 
-    public function updateUserDemand(User $user): bool
+    public function updateRankRequest(User $user): bool
     {
-        $userId = $user->getUserId();
         $userDemand = $user->getUserDemand();
+        $id = $user->getUserId();
 
         $request = $this->database->prepare('UPDATE users
             SET userDemand = :userDemand
             WHERE userId = :userId');
         $request->bindParam(':userDemand', $userDemand);
-        $request->bindParam(':userId', $userId);
+        $request->bindParam(':userId', $id);
 
         return $request->execute();
     }
 
-    public function updateRankFromUser(User $user): bool
+    public function updateRankFromUser(User $user): ?bool
     {
-        $userId = $user->getUserId();
+        $id = $user->getUserId();
         $newRank = $user->getUserRank();
         $resetDemand = $user->getUserDemand();
 
@@ -157,8 +157,8 @@ final class UserRepository
             SET userRank = :newRank, userDemand = :resetDemand
             WHERE userId = :userId');
         $request->bindParam(':newRank', $newRank);
-        $request->bindParam(':userId', $userId);
         $request->bindParam(':resetDemand', $resetDemand);
+        $request->bindParam(':userId', $id);
 
         return $request->execute();
     }

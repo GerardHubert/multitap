@@ -7,14 +7,15 @@
 {% endblock %}
 
 {% block reviewTitle %}
-{% autoescape false %}
-    <h1 id="review_title">{{ post.reviewTitle }}</h1>
-    <span id="author_date">De {{ post.username }}, le {{ post.reviewDate }}</span>
-{% endautoescape %}
+    {% autoescape false %}
+        <h1 id="review_title">{{ post.reviewTitle }}</h1>
+        <span id="author_date">De {{ post.username }}, le {{ post.reviewDate }}</span>
+    {% endautoescape %}
 {% endblock %}
 
 {% block content %}
 {% autoescape false %}
+
 <section id="review_container">
     <div id="review">
         <p>{{ post.content|htmlspecialchars_decode }}</p>

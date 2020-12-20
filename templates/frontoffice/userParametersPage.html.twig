@@ -71,28 +71,37 @@
                             Et si vous appréciez autant lire des avis autant qu'en écrire, pourquoi ne pas devenir EDITOR. Qui a la lourde tâche,
                             à la manière d'un secrétaire de rédaction, de corriger les reviews avant publication, et de modérer les commentaires.
                         </span>
-                        <form id='select_role' action="index.php?action=change_user_rank&id={{ user.userId }}" id="role_form">
+                        <form id='select_role' method='post' action="index.php?action=change_rank_demand&id={{ user.userId }}" id="role_form">
+                            <input type='hidden' name='hidden_input_token' value={{ session.token }}>
                             <div>
                                 {% if session.userRank == 'ROLE_MEMBER' %}
-                                    <input type='radio' id='member' name='member' value='ROLE_MEMBER' disabled>
+                                    <input type='radio' id='member' name='new_role' value='ROLE_MEMBER' disabled>
                                     {% else %}
-                                        <input type='radio' id='member' name='member' value='ROLE_MEMBER'>
+                                        <input type='radio' id='member' name='new_role' value='ROLE_MEMBER'>
                                 {% endif %}
                                 <label for="member">Member</label>
                             </div>
                             <div>
                                 {% if session.userRank == 'ROLE_REVIEWER' %}
-                                    <input type='radio' id='editor' name='editor' value='ROLE_EDITOR' disabled>
+                                    <input type='radio' id='reviewer' name='new_role' value='ROLE_REVIEWER' disabled>
                                     {% else %}
-                                        <input type='radio' id='editor' name='editor' value='ROLE_EDITOR'>
+                                        <input type='radio' id='member' name='new_role' value='ROLE_REVIEWER'>
+                                {% endif %}
+                                <label for="reviewer">Reviewer</label>
+                            </div>
+                            <div>
+                                {% if session.userRank == 'ROLE_EDITOR' %}
+                                    <input type='radio' id='editor' name='new_role' value='ROLE_EDITOR' disabled>
+                                    {% else %}
+                                        <input type='radio' id='editor' name='new_role' value='ROLE_EDITOR'>
                                 {% endif %}
                                 <label for="editor">Editor</label>
                             </div>
                             <div>
                                 {% if session.userRank == 'ROLE_ADMIN' %}
-                                    <input type='radio' id='admin' name='admin' value='ROLE_ADMIN' DISABLED>
+                                    <input type='radio' id='admin' name='new_role' value='ROLE_ADMIN' disabled>
                                     {% else %}
-                                        <input type='radio' id='admin' name='admin' value='ROLE_ADMIN'>
+                                        <input type='radio' id='admin' name='new_role' value='ROLE_ADMIN'>
                                 {% endif %}
                                 <label for="admin">Administrator</label>
                             </div>

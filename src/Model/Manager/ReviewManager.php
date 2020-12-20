@@ -28,7 +28,9 @@ final class ReviewManager
     {
         // renvoie les 6 dernières reviews
         
-        return $this->reviewRepo->findByDate();
+        $reviews = $this->reviewRepo->findByDate();
+        return $reviews;
+
     }
 
     public function showOne(int $id): ?Review
@@ -69,6 +71,16 @@ final class ReviewManager
         $review->setReviewStatus(2);
         
         return $this->reviewRepo->create($review);
+    }
+
+    public function submitUpdate(array $updateForm, int $reviewId): bool
+    {
+        $review = new Review();
+        $review->setReviewTitle($updateForm['review_title']);
+        $review->setContent($updateForm['review_modification']);
+        $review->setReviewStatus(2);
+
+        return $this->reviewRepo->updateToValidate($review, $reviewId);
     }
 
     public function addReview(array $reviewData): bool
