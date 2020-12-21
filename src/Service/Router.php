@@ -60,7 +60,7 @@ final class Router
         $this->draftManager = new draftManager($this->reviewRepo, $this->token);
         $this->commentManager = new CommentManager($this->commentRepo, $this->session, $this->token);
         $this->userManager = new UserManager($this->userRepository, $this->session);
-        $this->draftController = new draftController($this->draftManager, $this->request, $this->view, $this->session, $this->token);
+        $this->draftController = new draftController($this->draftManager, $this->request, $this->view, $this->session, $this->token, $this->accessControl);
         $this->reviewController = new ReviewController($this->reviewManager, $this->view, $this->commentManager, $this->token, $this->session, $this->request);
         $this->commentController = new CommentController($this->commentManager, $this->request);
         $this->dashboardController = new DashboardController($this->reviewManager, $this->view, $this->request, $this->commentManager, $this->token, $this->session, $this->accessControl);
@@ -195,6 +195,9 @@ final class Router
             break;
             case 'cancel_rank_demand':
                 $this->userController->updateRankCancel();
+            break;
+            case 'all_reviews_all_users_all_status':
+                $this->dashboardController->showTotalReviews();
             break;
         }
 

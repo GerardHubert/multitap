@@ -63,6 +63,7 @@
 
             <section id='rank_and_account_form'>
                 <h5>GERER MON ROLE ET SUPPRIMER MON COMPTE</h5>
+
                 <div id="rank_form">
                     <div class="label_and_value">
                         <span class='legend'>CHANGER DE RÔLE (actuellement : {{ session.userRank|slice(5,) }})</span>
@@ -74,7 +75,7 @@
                         <form id='select_role' method='post' action="index.php?action=change_rank_demand&id={{ user.userId }}" id="role_form">
                             <input type='hidden' name='hidden_input_token' value={{ session.token }}>
                             <div>
-                                {% if session.userRank == 'ROLE_MEMBER' %}
+                                {% if session.userRank == 'ROLE_MEMBER' or user.userDemand != 'none' %}
                                     <input type='radio' id='member' name='new_role' value='ROLE_MEMBER' disabled>
                                     {% else %}
                                         <input type='radio' id='member' name='new_role' value='ROLE_MEMBER'>
@@ -82,7 +83,7 @@
                                 <label for="member">Member</label>
                             </div>
                             <div>
-                                {% if session.userRank == 'ROLE_REVIEWER' %}
+                                {% if session.userRank == 'ROLE_REVIEWER' or user.userDemand != 'none' %}
                                     <input type='radio' id='reviewer' name='new_role' value='ROLE_REVIEWER' disabled>
                                     {% else %}
                                         <input type='radio' id='member' name='new_role' value='ROLE_REVIEWER'>
@@ -90,7 +91,7 @@
                                 <label for="reviewer">Reviewer</label>
                             </div>
                             <div>
-                                {% if session.userRank == 'ROLE_EDITOR' %}
+                                {% if session.userRank == 'ROLE_EDITOR' or user.userDemand != 'none' %}
                                     <input type='radio' id='editor' name='new_role' value='ROLE_EDITOR' disabled>
                                     {% else %}
                                         <input type='radio' id='editor' name='new_role' value='ROLE_EDITOR'>
@@ -98,15 +99,20 @@
                                 <label for="editor">Editor</label>
                             </div>
                             <div>
-                                {% if session.userRank == 'ROLE_ADMIN' %}
+                                {% if session.userRank == 'ROLE_ADMIN' or user.userDemand != 'none' %}
                                     <input type='radio' id='admin' name='new_role' value='ROLE_ADMIN' disabled>
                                     {% else %}
                                         <input type='radio' id='admin' name='new_role' value='ROLE_ADMIN'>
                                 {% endif %}
                                 <label for="admin">Administrator</label>
                             </div>
-                            <button type='submit' class='update_rank_button'>Envoyer</button>
+                            {% if user.userDemand != 'none' %}
+                                <button type='submit' class='update_rank_button' disabled>Envoyer</button>
+                                {% else %}
+                                    <button type='submit' class='update_rank_button'>Envoyer</button>
+                            {% endif %}
                         </form>
+                        <p class='no_demand'>Une demande de changement de rôle est en cours</p>
                     </div>
                     
                 </div>

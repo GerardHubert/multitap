@@ -111,6 +111,25 @@ final class ReviewRepository
         return $reviews;
     }
 
+    public function findByEverything(): ?array
+    {
+        $request = $this->database->prepare("SELECT *, DATE_FORMAT(reviewDate, '%d/%m/%Y - %H:%i:%s') AS reviewDate
+            FROM reviews
+            INNER JOIN users
+            ON users.userId = reviews.userId
+            ORDER BY reviewDate DESC");
+        $request->bindParam(':reviewStatus', $status);
+        $request->setFetchMode(PDO::FETCH_CLASS, Review::class);
+        $request->execute();
+        $reviews = $request->fetchAll();
+ 
+        if ($reviews === null) {
+            return null;
+        }
+
+        return $reviews;
+    }
+
     public function create(Review $reviewData) : bool
     {
         $gameId = $reviewData->getApiGameId();

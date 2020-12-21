@@ -517,7 +517,7 @@ button{
     color: white;
 }
 
-#user_reviews, #user_drafts, #comments_moderation, #members{
+#user_reviews, #user_drafts, #comments_moderation, #members, #all_reviews_all_users{
     margin-left: 18%;
     margin-right: 5%;
     margin-top: 50px;
@@ -836,6 +836,11 @@ button{
 #rank_form, #account_form{
     width: 100%;
     display: flex;
+}
+
+.no_demand{
+    margin-top: 0;
+    text-align: center;
 }
 
 #select_role{

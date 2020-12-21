@@ -133,4 +133,9 @@ final class ReviewManager
 
         return $this->reviewRepo->updateToValidate($review, $reviewId);
     }
+
+    public function showEverything(): ?array
+    {
+        return $this->reviewRepo->findByEverything();
+    }
 }

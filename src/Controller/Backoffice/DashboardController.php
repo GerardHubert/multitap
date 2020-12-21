@@ -108,7 +108,7 @@ class DashboardController
     {
         $this->checkAccess();
 
-        if ($this->session->getUserRank() === 'ROLE_REVIEWER') {
+        if ($this->session->getUserRank() === 'ROLE_REVIEWER' || $this->accessControl->getRole() === 'ROLE_MEMBER') {
             $this->session->setFlashMessage('Vous n\'êtes pas autorisé à accéder à cette page. Demandez à changer de rôle');
             header('Location: index.php?action=user_parameters_page');
             exit;
@@ -130,25 +130,35 @@ class DashboardController
     {
         $this->checkAccess();
 
-        if ($this->session->getUserRank() === 'ROLE_REVIEWER') {
-            $status = 2;
-        } else {
-            $status = 0;
-        }
-
-        $this->reviewManager->validateReview($status, (int) $this->request->cleanGet()['id'], $this->request->cleanPost());
-
-        if ($this->session->getUserRank() === 'ROLE_REVIEWER') {
-            header('Location: index.php?action=show_waiting_reviews&status=2');
-            exit;
-        } elseif ($this->session->getUserRank() === 'ROLE_ADMIN' || $this->session->getUSerRank() === 'ROLE_EDITOR') {
-            header('Location: index.php?action=show_reviews_to_validate');
-            exit;
+        switch ($this->request->cleanPost()['hidden_input_token'] === $this->session->getToken()) {
+            case true:
+                if ($this->session->getUserRank() === 'ROLE_REVIEWER') {
+                    $status = 2;
+                } else {
+                    $status = 0;
+                }
+        
+                $this->reviewManager->validateReview($status, (int) $this->request->cleanGet()['id'], $this->request->cleanPost());
+        
+                if ($this->session->getUserRank() === 'ROLE_REVIEWER') {
+                    header('Location: index.php?action=show_waiting_reviews&status=2');
+                    exit;
+                } elseif ($this->session->getUserRank() === 'ROLE_ADMIN' || $this->session->getUSerRank() === 'ROLE_EDITOR') {
+                    header('Location: index.php?action=show_reviews_to_validate');
+                    exit;
+                }
+            break;
+            case false:
+                $this->session->endSession();
+                header('Location: index.php?action=logInPage');
+            break;
         }
     }
 
     public function submitReviewAction(): void
     {
+        $this->checkAccess();
+
         $inputToken = $this->request->cleanPost()['hidden_input_token'];
         $sessionToken = $this->session->getToken();
 
@@ -165,6 +175,7 @@ class DashboardController
 
     public function submitUpdateAction(): void
     {
+        $this->checkAccess();
         
         $inputToken = $this->request->cleanPost()['hidden_input_token'];
         $sessionToken = $this->session->getToken();
@@ -253,6 +264,12 @@ class DashboardController
     {
         $this->checkAccess();
 
+        if ($this->accessControl->getRole() !== 'ROLE_ADMIN' && $this->accessControl->getRole() !== 'ROLE_EDITOR'){
+            $this->session->endSession();
+            header('Location: index.php?action=logInPage');
+            exit;
+        }
+
         $commentStatus = 1;
         $flagComments = $this->commentManager->showAllFromStatus($commentStatus);
         
@@ -269,6 +286,12 @@ class DashboardController
     {
         $this->checkAccess();
 
+        if ($this->accessControl->getRole() !== 'ROLE_ADMIN' && $this->accessControl->getRole() !== 'ROLE_EDITOR'){
+            $this->session->endSession();
+            header('Location: index.php?action=logInPage');
+            exit;
+        }
+
         $this->commentManager->deleteFromId((int) $this->request->cleanGet()['id']);
         
         header('Location: index.php?action=show_comments_to_moderate');
@@ -279,6 +302,12 @@ class DashboardController
     {
         $this->checkAccess();
 
+        if ($this->accessControl->getRole() !== 'ROLE_ADMIN' && $this->accessControl->getRole() !== 'ROLE_EDITOR'){
+            $this->session->endSession();
+            header('Location: index.php?action=logInPage');
+            exit;
+        }
+
         $status = 2;
         $commentId = $this->request->cleanGet()['id'];
         $likes = $this->request->cleanGet()['likes'];
@@ -287,5 +316,25 @@ class DashboardController
 
         header('Location: index.php?action=show_comments_to_moderate');
         exit;
+    }
+
+    public function showTotalReviews(): void
+    {
+        $this->checkAccess();
+
+        if ($this->accessControl->getRole() !== 'ROLE_ADMIN') {
+            $this->session->endSession();
+            header('Location: index.php?action=logInPage');
+            exit;
+        }
+        $reviews = $this->reviewManager->showEverything();
+
+        $this->view->render([
+            'path' => 'backoffice',
+            'template' => 'allReviewsAllUsersAllStatus',
+            'data' => [
+                'reviews' => $reviews
+            ]
+        ]);
     }
 }

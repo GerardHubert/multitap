@@ -111,6 +111,13 @@ class UserController
 
     public function deleteUserAction(): void
     {
+        //controle d'acces
+        if ($this->accessControl->isConnected === false || $this->accessControl->getRole() !== 'ROLE_ADMIN') {
+            $this->session->endSession();
+            header('Location: index.php?action=logInPage');
+            exit;
+        }
+
         /***
          * Récupérer toutes les reviews postées par ce user
          * pour les set par un user anonyme
@@ -156,6 +163,12 @@ class UserController
 
     public function updateUsernameAndEmail(): void
     {
+        if ($this->accessControl->isConnected() === false) {
+            $this->session->endSession();
+            header('Location: index.php?action=logInPage');
+            exit;
+        }
+
         if ($this->request->cleanPost()['token'] !== $this->session->getToken()) {
             $this->session->setFlashMessage('Vous ne disposez pas des droits nécessaires');
             header('Location: index.php?action=user_parameters_page');
@@ -206,11 +219,18 @@ class UserController
 
     public function updatePasswordAction(): void
     {
+        if ($this->accessControl->isConnected() === false) {
+            $this->session->endSession();
+            header('Location: index.php?action=logInPage');
+            exit;
+        }
+
         if ($this->request->cleanPost()['token'] !== $this->session->getToken()) {
             $this->session->setFlashMessage('Vous ne disposez pas des droits nécessaires');
             header('Location: index.php?action=user_parameters_page');
             exit;
         }
+
         $user = $this->userManager->showOneFromId((int) $this->request->cleanGet()['id']);
         $this->userManager->updatePassword($user, $this->request->cleanPost());
         $this->session->endSession();
@@ -220,6 +240,12 @@ class UserController
 
     public function updateRankDemand(): void
     {
+        if ($this->accessControl->isConnected() === false) {
+            $this->session->endSession();
+            header('Location: index.php?action=logInPage');
+            exit;
+        }
+
         if ($this->session->getToken() !== $this->request->cleanPost()['hidden_input_token']) {
             $this->session->endSession();
             header('Location: index.php?action=logInPage');
@@ -234,6 +260,12 @@ class UserController
 
     public function updateRankValidation(): void
     {
+        if ($this->accessControl->isConnected() === false || $this->accessControl->getRole() !== 'ROLE_ADMIN') {
+            $this->session->endSession();
+            header('Location: index.php?action=logInPage');
+            exit;
+        }
+
         $this->userManager->updateRank($this->userManager->showOneFromId((int) $this->request->cleanGet()['id']));
         header('Location: index.php?action=members_management');
         exit;
@@ -241,9 +273,14 @@ class UserController
 
     public function updateRankCancel(): void
     {
+        if ($this->accessControl->isConnected() === false || $this->accessControl->getRole() !== 'ROLE_ADMIN') {
+            $this->session->endSession();
+            header('Location: index.php?action=logInPage');
+            exit;
+        }
+
         $this->userManager->cancelRankDemand($this->userManager->showOneFromId((int) $this->request->cleanGet()['id']));
         header('Location: index.php?action=members_management');
         exit;
-
     }
 }

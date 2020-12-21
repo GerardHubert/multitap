@@ -9,6 +9,7 @@ use App\Service\Http\Request;
 use App\Service\Http\Session;
 use App\Service\Security\Token;
 use App\View\View;
+use App\Service\Security\AccessControl;
 
 class DraftController
 {
@@ -17,18 +18,30 @@ class DraftController
     private $view;
     private $session;
     private $token;
+    private $accessControl;
 
-    public function __construct(DraftManager $draftManager, Request $request, View $view, Session $session, Token $token)
+    public function __construct(DraftManager $draftManager, Request $request, View $view, Session $session, Token $token, AccessControl $accessControl)
     {
         $this->draftManager = $draftManager;
         $this->request = $request;
         $this->view = $view;
         $this->session = $session;
         $this->token = $token;
+        $this->accessControl = $accessControl;
+    }
+
+    public function checkAccess() {
+        if ($this->accessControl->isConnected() === false || $this->accessControl->getUsername() === null) {
+            $this->session->endSession();
+            header('Location: index.php?action=logInPage');
+            exit;
+        }
     }
 
     public function displayDraftsAction(): void
     {
+        $this->checkAccess();
+
         $draftStatus = 1;
         $drafts = $this->draftManager->showAllDrafts($draftStatus, (int) $this->session->getUserId());
         $this->view->render([
@@ -42,6 +55,8 @@ class DraftController
 
     public function saveDraftAction(): void
     {
+        $this->checkAccess();
+
         $inputToken = $this->request->cleanPost()['hidden_input_token'];
         $sessionToken = $this->session->getToken();
 
@@ -58,6 +73,8 @@ class DraftController
 
     public function publishDraftFromListAction(): void
     {
+        $this->checkAccess();
+
         $this->draftManager->publishDraftAsReview((int) $this->request->cleanGet()['id']);
         header('Location: index.php?action=dashboard');
         exit;
@@ -65,6 +82,8 @@ class DraftController
 
     public function publishDraftAction(): void
     {
+        $this->checkAccess();
+
         $inputToken = $this->request->cleanPost()['hidden_input_token'];
         $sessionToken = $this->session->getToken();
 
@@ -82,6 +101,8 @@ class DraftController
 
     public function updateDraftPage(): void
     {
+        $this->checkAccess();
+
         $this->token->setToken();
         $draft = $this->draftManager->showOne((int) $this->request->cleanGet()['id']);
 
@@ -96,6 +117,8 @@ class DraftController
 
     public function updateDraftAction(): void
     {
+        $this->checkAccess();
+
         $inputToken = $this->request->cleanPost()['hidden_input_token'];
         $sessionToken = $this->session->getToken();
 
@@ -117,6 +140,8 @@ class DraftController
 
     public function deleteDraftAction(): void
     {
+        $this->checkAccess();
+        
         $suppression = $this->draftManager->deleteDraft((int) $this->request->cleanGet()['id']);
         switch ($suppression) {
             case true:

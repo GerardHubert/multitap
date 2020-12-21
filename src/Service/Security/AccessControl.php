@@ -30,4 +30,12 @@ class AccessControl
         }
         return null;
     }
+
+    public function getUsername(): ?string
+    {
+        if (!empty($this->session->getUsername()) && $this->session->getUsername() !== null) {
+            return $this->session->getUsername();
+        }
+        return null;
+    }
 }

@@ -1,0 +1,41 @@
+{% extends '/backoffice/layout.html.twig' %}
+
+{% block title %}Toutes les reviews{% endblock %}
+
+{% block content %}
+<section id="all_reviews_all_users">
+    <h1 class='dashboard_section_title'>Toutes les reviews / reviewers / etat</h1>
+    <div class="dashboard_review_details">
+        <table id="reviews_table">
+            <thead>
+                <tr>
+                    <th>REVIEWER</th>
+                    <th>TITRE</th>
+                    <th>JEU</th>
+                    <th>DATE DE PUBLICATION / SOUMISSION</th>
+                    <th>ETAT</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for review in reviews %}
+                <tr class='review_line'>
+                    <td>{{ review.username }}</td>
+                    <td>{{ review.reviewTitle|raw }}</td>
+                    <td>{{ review.gameTitle|raw }}</td>
+                    <td>{{ review.reviewDate }}</td>
+                    <td>{% if review.reviewStatus == 0 %}
+                            Publiée
+                            {% elseif review.reviewStatus == 1 %}
+                                Brouillon
+                            {% elseif review.reviewStatus == 2 %}
+                                A valider
+                        {% endif %}
+                    </td>
+                    
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</section>
+{% endblock %}
