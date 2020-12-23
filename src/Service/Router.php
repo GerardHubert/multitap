@@ -52,7 +52,6 @@ final class Router
         $this->token = new Token($this->session);
         $this->database = new Database();
         $this->request = new Request();
-        $this->view = new View($this->session);
         $this->userRepository = new UserRepository($this->database);
         $this->reviewRepo = new ReviewRepository($this->database);
         $this->commentRepo = new CommentRepository($this->database);
@@ -60,6 +59,7 @@ final class Router
         $this->draftManager = new draftManager($this->reviewRepo, $this->token);
         $this->commentManager = new CommentManager($this->commentRepo, $this->session, $this->token);
         $this->userManager = new UserManager($this->userRepository, $this->session);
+        $this->view = new View($this->session, $this->userManager, $this->reviewManager);
         $this->draftController = new draftController($this->draftManager, $this->request, $this->view, $this->session, $this->token, $this->accessControl);
         $this->reviewController = new ReviewController($this->reviewManager, $this->view, $this->commentManager, $this->token, $this->session, $this->request);
         $this->commentController = new CommentController($this->commentManager, $this->request);

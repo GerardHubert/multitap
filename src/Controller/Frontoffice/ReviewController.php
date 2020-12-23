@@ -69,7 +69,7 @@ final class ReviewController
     public function displayAllAction(): void
     {
         $page = (int) $this->request->cleanGet()['page'];
-        $reviews = $this->reviewManager->showTwo($page);
+        $reviews = $this->reviewManager->showFive($page);
 
         $this->view->render([
             'path' => 'frontoffice',

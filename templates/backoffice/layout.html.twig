@@ -35,17 +35,35 @@
                     <li><a href='index.php?action=show_drafts'>Mes brouillons</a></li>
                     {% if (session.userRank == 'ROLE_ADMIN') or (session.userRank == 'ROLE_EDITOR') %}
                         <li><a href='index.php?action=show_comments_to_moderate'>Les commentaires à modérer</a></li>
-                        <li><a href='index.php?action=show_reviews_to_validate'>Les Reviews à valider</a></li>
+                        <li><a href='index.php?action=show_reviews_to_validate'>Les Reviews à valider</a>
+                            {% set reviewCount = 0 %}
+                            {% for review in reviewsListTwo %}
+                                {% set reviewCount = reviewCount + 1 %}
+                            {% endfor %}
+                            {% if reviewCount > 0 %}
+                                <span class='dashboard_alert'>{{ reviewCount }}</span>
+                            {% endif %}
+                        </li>
                         <li><a href='index.php?action=all_reviews_all_users_all_status'>Toutes les reviews</a></li>
                     {% endif %}
                     {% if session.userRank == 'ROLE_ADMIN' %}
-                        <li><a href='index.php?action=members_management'>Gestion des membres</a>{% block userAlert %}{% endblock %}</li>
+                        <li><a href='index.php?action=members_management'>Gestion des membres</a>
+                            {% set count = 0 %}
+                            {% for user in usersList %}
+                                {% if user.userDemand != 'none' %}
+                                    {% set count = count + 1 %}
+                                {% endif %}
+                            {% endfor %}
+                            {% if count > 0 %}
+                                <span class='dashboard_alert'>{{ count }}</span>
+                            {% endif %}
+                        </li>
                     {% endif %}
                 </ul>
             </nav>
-            
+
             {% block content %}{% endblock %}
-            
+
         </main>
 
         {% block javascript %}{% endblock %}

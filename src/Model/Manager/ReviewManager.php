@@ -38,10 +38,10 @@ final class ReviewManager
         return $this->reviewRepo->findById($id);
     }
 
-    public function showTwo(int $page): array
+    public function showFive(int $page): array
     {
         $status = 0;
-        $reviewsPerPage = 3;
+        $reviewsPerPage = 5;
         $pageToDisplay = $page - 1;
         $offset = $pageToDisplay * $reviewsPerPage;
         $totalReviews = count($this->reviewRepo->findByAll($status));

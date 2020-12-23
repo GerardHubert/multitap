@@ -456,6 +456,16 @@ button{
 *DASHBOARD  
 **/
 
+.dashboard_alert{
+    background-color: white;
+    color: #451c93;
+    display: inline-block;
+    width: 1.5rem;
+    height: 1.5rem;
+    text-align: center;
+    border-radius: 50%;
+}
+
 .dashboard_section_title{
     background-color: rgba(69, 28, 147, 0.3);
     text-align: center;
@@ -838,9 +848,14 @@ button{
     display: flex;
 }
 
-.no_demand{
+.disabled_demand{
     margin-top: 0;
     text-align: center;
+    background-color: rgba(249, 117, 88, 1);
+    padding-top: 5px;
+    padding-bottom: 5px;
+    border-radius: .5rem;
+    font-family: roboto_bold;
 }
 
 #select_role{

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3308
--- Généré le :  lun. 14 déc. 2020 à 00:50
+-- Généré le :  mer. 23 déc. 2020 à 01:19
 -- Version du serveur :  8.0.18
 -- Version de PHP :  7.3.12
 
@@ -30,8 +30,8 @@ SET time_zone = "+00:00";
 
 DROP TABLE IF EXISTS `comments`;
 CREATE TABLE IF NOT EXISTS `comments` (
-  `commentId` tinyint(11) NOT NULL AUTO_INCREMENT,
-  `reviewId` tinyint(11) NOT NULL,
+  `commentId` int(11) NOT NULL AUTO_INCREMENT,
+  `reviewId` int(11) NOT NULL,
   `userId` int(11) NOT NULL,
   `content` text NOT NULL,
   `thumbsUp` int(11) NOT NULL,
@@ -39,9 +39,9 @@ CREATE TABLE IF NOT EXISTS `comments` (
   `commentDate` datetime NOT NULL,
   `commentStatus` int(5) NOT NULL,
   PRIMARY KEY (`commentId`),
-  KEY `cascade` (`reviewId`),
-  KEY `fk_user` (`userId`)
-) ENGINE=InnoDB AUTO_INCREMENT=123 DEFAULT CHARSET=utf8;
+  KEY `fk_comments_userId` (`userId`),
+  KEY `fk_comments_reviewId` (`reviewId`)
+) ENGINE=InnoDB AUTO_INCREMENT=129 DEFAULT CHARSET=utf8;
 
 --
 -- Déchargement des données de la table `comments`
@@ -49,7 +49,10 @@ CREATE TABLE IF NOT EXISTS `comments` (
 
 INSERT INTO `comments` (`commentId`, `reviewId`, `userId`, `content`, `thumbsUp`, `thumbsDown`, `commentDate`, `commentStatus`) VALUES
 (115, 37, 12, 'on essaie de laisser un commentaire ici', 0, 0, '2020-12-12 00:45:02', 0),
-(116, 43, 7, 'un commentaire du user 01 ici', 0, 0, '2020-12-13 02:03:28', 0);
+(116, 43, 7, 'un commentaire du user 01 ici', 0, 0, '2020-12-13 02:03:28', 0),
+(125, 37, 12, 'commentaire 1', 0, 0, '2020-12-19 00:03:35', 0),
+(127, 37, 12, 'commentaire 2', 0, 0, '2020-12-19 00:03:41', 0),
+(128, 47, 15, 'commentaire de la mort qui tue', 0, 0, '2020-12-19 01:34:16', 0);
 
 -- --------------------------------------------------------
 
@@ -59,7 +62,7 @@ INSERT INTO `comments` (`commentId`, `reviewId`, `userId`, `content`, `thumbsUp`
 
 DROP TABLE IF EXISTS `reviews`;
 CREATE TABLE IF NOT EXISTS `reviews` (
-  `reviewId` tinyint(11) NOT NULL AUTO_INCREMENT,
+  `reviewId` int(11) NOT NULL AUTO_INCREMENT,
   `reviewTitle` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
   `gameTitle` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
   `apiGameId` int(11) NOT NULL,
@@ -68,8 +71,8 @@ CREATE TABLE IF NOT EXISTS `reviews` (
   `reviewStatus` int(11) NOT NULL,
   `reviewDate` datetime NOT NULL,
   PRIMARY KEY (`reviewId`),
-  KEY `fk_user_id` (`userId`)
-) ENGINE=InnoDB AUTO_INCREMENT=46 DEFAULT CHARSET=utf8;
+  KEY `fk_reviews_userId` (`userId`)
+) ENGINE=InnoDB AUTO_INCREMENT=52 DEFAULT CHARSET=utf8;
 
 --
 -- Déchargement des données de la table `reviews`
@@ -82,7 +85,12 @@ INSERT INTO `reviews` (`reviewId`, `reviewTitle`, `gameTitle`, `apiGameId`, `con
 (39, 'Le prochain FPS de Bungie', 'Halo: Reach', 28613, '&#60;p&#62;N&#39;a pas fait forte impression lors des premi&#38;egrave;res vid&#38;eacute;os de gameplay... Heureusement qu&#39;il y a encore un peu de temps avant sa sortie.&#60;/p&#62;', 6, 0, '2020-12-10 23:49:08'),
 (41, 'Voyage en mythologie greque', 'Assassin&#39;s Creed Odyssey', 58616, '&#60;p&#62;Et rencontre avec Herodote, P&#38;eacute;ricl&#38;egrave;s, et autres figures historiques de la Gr&#38;egrave;ce antique ! En compagnie de Kassadra ou d&#39;Alexios!&#60;/p&#62;', 12, 0, '2020-12-11 01:08:32'),
 (43, 'Du remake, du vrai, du bon !', 'Crash Bandicoot N. Sane Trilogy', 34, '&#60;p&#62;Comme on aimerait en voir plus souvent !&#60;/p&#62;', 14, 0, '2020-12-11 17:01:11'),
-(44, 'La physique des éléments', 'Dead or Alive Xtreme 3: Scarlet', 304898, '&#60;p&#62;Voici le meilleur moteur physique de tous les temps !! Ninja theory: les rois de la mod&#38;eacute;lisation ! Et du fameux effet &#34;boing-boing&#34; !&#60;/p&#62;', 7, 0, '2020-12-11 17:07:22');
+(44, 'La physique des éléments', 'Dead or Alive Xtreme 3: Scarlet', 304898, '&#60;p&#62;Voici le meilleur moteur physique de tous les temps !! Ninja theory: les rois de la mod&#38;eacute;lisation ! Et du fameux effet &#34;boing-boing&#34; !&#60;/p&#62;', 7, 0, '2020-12-11 17:07:22'),
+(46, 'Mort aux rats', 'A Plague Tale: Innocence', 59359, '&#60;p&#62;Invasion de nuisibles pendant l&#39;inquisition ! Mias au final, ,y a pas beaucoup moins de rats que dans un parc parisien aujourd&#39;hui... &#60;strong&#62;Cette r&#38;eacute;vision (modification apr&#38;egrave;s publication, et donc apr&#38;egrave;s validation par l&#39;admin) doit faire l&#39;objet d&#39;une nouvelle validation de l&#39;admin.&#38;nbsp;&#60;/strong&#62;&#60;em&#62;Cette ultime r&#38;eacute;vision, la troisi&#38;egrave;me, devrait mettre &#38;agrave; jour la version d&#38;eacute;j&#38;agrave; en attente de validation chez l&#39;admin et l&#39;editor.&#38;nbsp;&#60;/em&#62;&#60;/p&#62;&#13;&#10;&#60;p&#62;Cette derni&#38;egrave;re r&#38;eacute;vision a &#38;eacute;t&#38;eacute; apport&#38;eacute;e par l&#39;editor.&#60;/p&#62;', 12, 0, '2020-12-20 20:07:33'),
+(47, 'Le JRPG dans tout son classicisme', 'Octopath Traveler', 46667, '&#60;p&#62;et toute sa splendeur ! &#60;strong&#62;R&#38;eacute;vision 1!&#60;/strong&#62;&#38;nbsp;&#60;em&#62;R&#38;eacute;vision 2 en italique ! R&#38;eacute;vision 3 donne publication !!&#60;/em&#62; Et boom !&#60;/p&#62;', 12, 2, '2020-12-14 13:25:56'),
+(48, 'La review de l&#39;admin', 'Assassin&#39;s Creed Valhalla', 437059, '&#60;p&#62;Parce que je le vaut bien !&#60;/p&#62;', 6, 0, '2020-12-14 13:28:29'),
+(50, 'Un peu moins bondé que le métro parisien', 'Metro: Last Light Redux', 3604, '&#60;p&#62;Pas de multijoueurs. Pas de map, d&#39;add-ons, de patch pour r&#38;eacute;&#38;eacute;quilibrer quoi que ce soit. Juste une ambiance prenante, un solo solide, et une aventure m&#38;eacute;morable ! Mise en ligne avec modification de l&#39;admin.&#60;/p&#62;', 12, 0, '2020-12-23 02:18:15'),
+(51, 'D&#39;la merde', 'Cyberpunk 2077', 41494, '&#60;p&#62;plein de bugs !&#60;/p&#62;&#13;&#10;&#60;p&#62;r&#38;eacute;vision 1.&#60;/p&#62;&#13;&#10;&#60;p&#62;r&#38;eacute;vision de l&#39;editor !&#60;/p&#62;&#13;&#10;&#60;p&#62;r&#38;eacute;vision apr&#38;egrave;s publication&#60;/p&#62;', 15, 0, '2020-12-21 17:48:36');
 
 -- --------------------------------------------------------
 
@@ -93,24 +101,24 @@ INSERT INTO `reviews` (`reviewId`, `reviewTitle`, `gameTitle`, `apiGameId`, `con
 DROP TABLE IF EXISTS `users`;
 CREATE TABLE IF NOT EXISTS `users` (
   `userId` int(11) NOT NULL AUTO_INCREMENT,
-  `username` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+  `username` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
   `pass` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
   `email` text CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
   `userRank` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
   `userDemand` varchar(50) NOT NULL DEFAULT 'none',
   PRIMARY KEY (`userId`)
-) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8 COMMENT='rank values = string = admin, reviewer, chief_editor';
+) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=utf8 COMMENT='rank values = string = admin, reviewer, chief_editor';
 
 --
 -- Déchargement des données de la table `users`
 --
 
 INSERT INTO `users` (`userId`, `username`, `pass`, `email`, `userRank`, `userDemand`) VALUES
-(6, 'papa_joueur', '$2y$10$G7a94K26Bvfx3S0toorgJ.ifT3C64XeaFqvKQNOZkr.zOwV2XfaNi', 'mikado842@gmail.com', 'ROLE_ADMIN', 'none'),
+(6, 'papa_joueur', '$2y$10$G7a94K26Bvfx3S0toorgJ.ifT3C64XeaFqvKQNOZkr.zOwV2XfaNi', 'mikado@gmail.com', 'ROLE_ADMIN', 'none'),
 (7, 'user01', '$2y$10$ijuMVMUH8qfI6HKTRV.GzujzRmw.YjGQAbncBx8XknpF/nTHg3Pxq', 'test1@test.com', 'ROLE_EDITOR', 'none'),
-(12, 'user03', '$2y$10$VpCTr.Flf5aD7ogaR9a2F.BSQpdgICUfuRZ1R8TvHXbfxUnlNeqF6', 'test3@test.com', 'ROLE_REVIEWER', 'none'),
+(12, 'user03', '$2y$10$jXXKlu.5PPxkJYUOkh42qOSbrG8QO2LKcMNOxOWj/jgaJh2wYyI5m', 'test3@test.com', 'ROLE_REVIEWER', 'ROLE_EDITOR'),
 (14, 'Anonyme', '$2y$10$pJju4bUqOj2r4jvAmPEFRecRojGbTezecPu8VTtDofm0r28gi2Sz2', 'mikado842@gmail.com', 'ROLE_ANONYME', 'none'),
-(15, 'albert02', '$2y$10$.08qg6DYpWFQo6OlXntiWebGVN8elJ3XxLuPXvHieR8bxFRG2kcmK', 'user02@test.com', 'ROLE_MEMBER', 'REVIEWER_DEMAND');
+(15, 'user02', '$2y$10$.08qg6DYpWFQo6OlXntiWebGVN8elJ3XxLuPXvHieR8bxFRG2kcmK', 'user02@test.com', 'ROLE_MEMBER', 'none');
 
 --
 -- Contraintes pour les tables déchargées
@@ -120,14 +128,14 @@ INSERT INTO `users` (`userId`, `username`, `pass`, `email`, `userRank`, `userDem
 -- Contraintes pour la table `comments`
 --
 ALTER TABLE `comments`
-  ADD CONSTRAINT `cascade` FOREIGN KEY (`reviewId`) REFERENCES `reviews` (`reviewId`) ON DELETE CASCADE ON UPDATE RESTRICT,
-  ADD CONSTRAINT `fk_user` FOREIGN KEY (`userId`) REFERENCES `users` (`userId`) ON DELETE CASCADE ON UPDATE RESTRICT;
+  ADD CONSTRAINT `fk_comments_reviewId` FOREIGN KEY (`reviewId`) REFERENCES `reviews` (`reviewId`) ON DELETE CASCADE ON UPDATE RESTRICT,
+  ADD CONSTRAINT `fk_comments_userId` FOREIGN KEY (`userId`) REFERENCES `users` (`userId`) ON DELETE CASCADE ON UPDATE RESTRICT;
 
 --
 -- Contraintes pour la table `reviews`
 --
 ALTER TABLE `reviews`
-  ADD CONSTRAINT `fk_user_id` FOREIGN KEY (`userId`) REFERENCES `users` (`userId`) ON DELETE CASCADE ON UPDATE RESTRICT;
+  ADD CONSTRAINT `fk_reviews_userId` FOREIGN KEY (`userId`) REFERENCES `users` (`userId`) ON DELETE CASCADE ON UPDATE RESTRICT;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

@@ -65,7 +65,7 @@ final class ReviewRepository
             ON users.userId = reviews.userId
             WHERE reviewStatus = 0
             ORDER BY reviewDate ASC
-            LIMIT 3 OFFSET :offset");
+            LIMIT 5 OFFSET :offset");
         $request->bindParam(':offset', $offset, PDO::PARAM_INT);
         $request->setFetchMode(PDO::FETCH_CLASS, Review::class);
         $request->execute();

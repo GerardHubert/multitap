@@ -112,7 +112,9 @@
                                     <button type='submit' class='update_rank_button'>Envoyer</button>
                             {% endif %}
                         </form>
-                        <p class='no_demand'>Une demande de changement de rôle est en cours</p>
+                        {% if user.userDemand != 'none' %}
+                            <p class='disabled_demand'>Indisponible: une demande de changement de rôle est en cours</p>
+                        {% endif %}
                     </div>
                     
                 </div>
