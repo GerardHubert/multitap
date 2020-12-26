@@ -460,10 +460,12 @@ button{
     background-color: white;
     color: #451c93;
     display: inline-block;
-    width: 1.5rem;
-    height: 1.5rem;
+    width: 1.2rem;
+    height: 1.2rem;
     text-align: center;
     border-radius: 50%;
+    font-size: .9rem;
+    font-weight: bold;
 }
 
 .dashboard_section_title{
@@ -782,6 +784,19 @@ button{
 
 #login_form a:hover{
     color: rgba(249, 117, 88, 1)
+}
+
+.username_input_neutral, .password_input_neutral, .email_input_neutral, .password_confirm_input_neutral{
+    background-color: white;
+}
+
+.username_input_invalid, .password_input_invalid, .email_input_invalid, .password_confirm_input_invalid{
+    background-color: rgba(241, 60, 84, 0.5);
+}
+
+.username_input_valid, .password_input_valid, .email_input_valid, .password_confirm_input_valid{
+    background-color:rgba(0, 128, 0, 0.5);
+    transition: background-color 1s;
 }
 
 /**

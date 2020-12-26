@@ -7,9 +7,9 @@ namespace  App\Controller\Backoffice;
 use App\Model\Manager\DraftManager;
 use App\Service\Http\Request;
 use App\Service\Http\Session;
+use App\Service\Security\AccessControl;
 use App\Service\Security\Token;
 use App\View\View;
-use App\Service\Security\AccessControl;
 
 class DraftController
 {
@@ -30,7 +30,8 @@ class DraftController
         $this->accessControl = $accessControl;
     }
 
-    public function checkAccess() {
+    public function checkAccess(): void
+    {
         if ($this->accessControl->isConnected() === false || $this->accessControl->getUsername() === null) {
             $this->session->endSession();
             header('Location: index.php?action=logInPage');

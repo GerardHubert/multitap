@@ -181,11 +181,11 @@ class UserController
             $this->session->endSession();
             header('Location: index.php?action=user_parameters_page');
             exit;
-        }   elseif (!empty($this->request->cleanpost()['new_email'])) {
-                $user = $this->userManager->showOneFromId((int) $this->request->cleanGet()['id']);
-                $this->userManager->updateEmail($user, $this->request->cleanPost());
-                header('Location: index.php?action=user_parameters_page');
-                exit;
+        } elseif (!empty($this->request->cleanpost()['new_email'])) {
+            $user = $this->userManager->showOneFromId((int) $this->request->cleanGet()['id']);
+            $this->userManager->updateEmail($user, $this->request->cleanPost());
+            header('Location: index.php?action=user_parameters_page');
+            exit;
         }
     }
 

@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace App\View;
 
+use App\Model\Manager\ReviewManager;
+use App\Model\Manager\UserManager;
 use App\Service\Http\Session;
 use Twig\Environment;
 use Twig\Loader\FilesystemLoader;
-use App\Model\Manager\UserManager;
-use App\Model\Manager\ReviewManager;
 
 final class View
 {

@@ -30,7 +30,6 @@ final class ReviewManager
         
         $reviews = $this->reviewRepo->findByDate();
         return $reviews;
-
     }
 
     public function showOne(int $id): ?Review

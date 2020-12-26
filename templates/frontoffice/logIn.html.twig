@@ -10,17 +10,13 @@
         <div class='label_and_input'>
             <label for="username">Nom d'utilisateur</label>
             <input class='username_input' type="text" name='username'
-                required
-                minlength='2'
                 maxlength='50'>
         </div>
         <div class='label_and_input'>
             <label for="password">Mot de passe</label>
-            <input class='password_input' type="password" name='password'
-                required
-                minlength='6'>
+            <input class='password_input' type="password" name='password'>
         </div>
-        <input class='login_button' type="submit" value="Se connecter">
+        <input class='login_button' type="submit" value="Se connecter" disabled>
         <input type="hidden" name='hidden_input_token' class="hidden_input_token" value={{ session.token }}>
     </fieldset>
 
@@ -31,4 +27,8 @@
     <p><a href="index.php?action=forgottenPassword">Mot de passe oublié ?</a> | <a href='index.php?action=changePassword'>Modifier mon mot de passe</a></p>
 </form>
 
+{% endblock %}
+
+{% block script %}
+    <script src='js/LoginValidation.js'></script>
 {% endblock %}

@@ -24,14 +24,14 @@ class UserManager
         $email = $form['email'];
         $password = $form['password'];
         $passwordConfirm = $form['password_confirm'];
-        $passwordRegExp = "#(?=.*[a-z]+)(?=.*[0-9]+)(?=.*[A-Z]+)#";
+        /*$passwordRegExp = "#(?=.*[a-z]+)(?=.*[0-9]+)(?=.*[A-Z]+)#";
         $usernameRegExp = "#^[A-Za-zéèçàâäêëîïôöòûüùñ_0-9]?[\s?\-?a-zéèçàâäêëîïôöòûüùñ_0-9]+?$#";
         $emailRegExp = "#^[a-z0-9._-]+@[a-z0-9._-]{2,}\.[a-z]{2,4}$#";
 
         $usernameValidation = preg_match($usernameRegExp, $username);
         $emailValidation = preg_match($emailRegExp, $email);
         $passwordValidation = preg_match($passwordRegExp, $password);
-            
+
         if ($usernameValidation === 0) {
             $this->session->setFlashMessage('le nom est incorrect, certains caractères sont interdits');
             header('Location: index.php?action=signInPage');
@@ -52,7 +52,7 @@ class UserManager
             $this->session->setFlashMessage('les mots de passe ne correspondent pas');
             header('Location: index.php?action=signInPage');
             exit;
-        }
+        }*/
              
         $this->session->deleteFlashMessage();
                 
@@ -172,7 +172,7 @@ class UserManager
             $this->session->setFlashMessage('Le mot de passe chosi est trop court');
             header('Location: index.php?action=user_parameters_page');
             exit;
-        }   elseif ($form['new_pass'] !== $form['confirm_new_pass']) {
+        } elseif ($form['new_pass'] !== $form['confirm_new_pass']) {
             $this->session->setFlashMessage('Les mots de passe ne correspondent pas');
             header('Location: index.php?action=user_parameters_page');
             exit;

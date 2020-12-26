@@ -118,7 +118,6 @@ final class ReviewRepository
             INNER JOIN users
             ON users.userId = reviews.userId
             ORDER BY reviewDate DESC");
-        $request->bindParam(':reviewStatus', $status);
         $request->setFetchMode(PDO::FETCH_CLASS, Review::class);
         $request->execute();
         $reviews = $request->fetchAll();

@@ -264,7 +264,7 @@ class DashboardController
     {
         $this->checkAccess();
 
-        if ($this->accessControl->getRole() !== 'ROLE_ADMIN' && $this->accessControl->getRole() !== 'ROLE_EDITOR'){
+        if ($this->accessControl->getRole() !== 'ROLE_ADMIN' && $this->accessControl->getRole() !== 'ROLE_EDITOR') {
             $this->session->endSession();
             header('Location: index.php?action=logInPage');
             exit;
@@ -286,7 +286,7 @@ class DashboardController
     {
         $this->checkAccess();
 
-        if ($this->accessControl->getRole() !== 'ROLE_ADMIN' && $this->accessControl->getRole() !== 'ROLE_EDITOR'){
+        if ($this->accessControl->getRole() !== 'ROLE_ADMIN' && $this->accessControl->getRole() !== 'ROLE_EDITOR') {
             $this->session->endSession();
             header('Location: index.php?action=logInPage');
             exit;
@@ -302,7 +302,7 @@ class DashboardController
     {
         $this->checkAccess();
 
-        if ($this->accessControl->getRole() !== 'ROLE_ADMIN' && $this->accessControl->getRole() !== 'ROLE_EDITOR'){
+        if ($this->accessControl->getRole() !== 'ROLE_ADMIN' && $this->accessControl->getRole() !== 'ROLE_EDITOR') {
             $this->session->endSession();
             header('Location: index.php?action=logInPage');
             exit;
