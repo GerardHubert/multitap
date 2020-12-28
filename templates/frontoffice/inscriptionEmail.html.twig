@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel='stylesheet' href='css/style.css' />
+        <title>Multitap: Confirmation d'inscription</title>
+    </head>
+
+    <body id='sent_email'>
+        <p id='explanation'>Bonjour {{ form.username }}, <br>
+            Afin de finaliser votre inscription sur Multitap, copiez le jeton ci-dessous dans la page de confirmation dans les 5 minutes<br>
+            A très bientôt !
+        </p>
+
+        <input id='token_mail' type='text' readonly value={{ session.token }}>
+
+        <style>
+
+            #sent_email{
+                width: 100%;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+            }
+
+            #sent_mail #token_mail{
+                width: 50%;
+            }
+        
+        </style>
+    </body>
+
+</html>

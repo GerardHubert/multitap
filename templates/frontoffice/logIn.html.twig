@@ -10,11 +10,14 @@
         <div class='label_and_input'>
             <label for="username">Nom d'utilisateur</label>
             <input class='username_input' type="text" name='username'
-                maxlength='50'>
+                maxlength='50'
+                placeholder='Au moins 1 caractère'>
         </div>
         <div class='label_and_input'>
             <label for="password">Mot de passe</label>
-            <input class='password_input' type="password" name='password'>
+            <input class='password_input' type="password"
+                name='password'
+                placeholder='Au moins 6 caracatères'>
         </div>
         <input class='login_button' type="submit" value="Se connecter" disabled>
         <input type="hidden" name='hidden_input_token' class="hidden_input_token" value={{ session.token }}>

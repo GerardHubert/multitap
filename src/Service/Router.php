@@ -21,6 +21,7 @@ use App\Service\Http\Session;
 use App\Service\Security\AccessControl;
 use App\Service\Security\Token;
 use App\View\View;
+use App\Service\Email;
 
 final class Router
 {
@@ -42,6 +43,7 @@ final class Router
     private $userManager;
     private $userRepository;
     private $accessControl;
+    private $email;
 
 
     public function __construct()
@@ -60,11 +62,12 @@ final class Router
         $this->commentManager = new CommentManager($this->commentRepo, $this->session, $this->token);
         $this->userManager = new UserManager($this->userRepository, $this->session);
         $this->view = new View($this->session, $this->userManager, $this->reviewManager);
+        $this->email = new Email($this->view);
         $this->draftController = new draftController($this->draftManager, $this->request, $this->view, $this->session, $this->token, $this->accessControl);
         $this->reviewController = new ReviewController($this->reviewManager, $this->view, $this->commentManager, $this->token, $this->session, $this->request);
         $this->commentController = new CommentController($this->commentManager, $this->request);
         $this->dashboardController = new DashboardController($this->reviewManager, $this->view, $this->request, $this->commentManager, $this->token, $this->session, $this->accessControl);
-        $this->userController = new UserController($this->view, $this->request, $this->token, $this->session, $this->userManager, $this->accessControl, $this->reviewManager);
+        $this->userController = new UserController($this->view, $this->request, $this->token, $this->session, $this->userManager, $this->accessControl, $this->reviewManager, $this->email);
     }
 
     public function run(): void
@@ -158,7 +161,11 @@ final class Router
                 $this->userController->signInPage();
             break;
             case 'sign-in':
-                $this->userController->newUserAction();
+                $this->userController->confirmationPage();
+                //$this->userController->newUserAction();
+            break;
+            case 'check_token':
+                $this->userController->checkToken();
             break;
             case 'logInPage':
                 $this->userController->logInPage();

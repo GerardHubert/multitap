@@ -11,6 +11,7 @@ use App\Service\Http\Session;
 use App\Service\Security\AccessControl;
 use App\Service\Security\Token;
 use App\View\View;
+use App\Service\Email;
 
 class UserController
 {
@@ -21,8 +22,9 @@ class UserController
     private $userManager;
     private $reviewManager;
     private $accessControl;
+    private $email;
 
-    public function __construct(View $view, Request $request, Token $token, Session $session, UserManager $userManager, AccessControl $accessControl, ReviewManager $reviewManager)
+    public function __construct(View $view, Request $request, Token $token, Session $session, UserManager $userManager, AccessControl $accessControl, ReviewManager $reviewManager, Email $email)
     {
         $this->view = $view;
         $this->request = $request;
@@ -31,6 +33,7 @@ class UserController
         $this->userManager = $userManager;
         $this->accessControl = $accessControl;
         $this->reviewManager = $reviewManager;
+        $this->email = $email;
     }
 
     public function signInPage(): void
@@ -44,26 +47,77 @@ class UserController
         ]);
     }
 
+    public function confirmationPage(): void
+    {
+        /**
+         * methode pour créer un token a durée limitée et l'envoyer au user pour valider l'inscription
+         * les données du formulaire sont enregistrées en session en attendant la confirmation
+         */
+
+        $creation = time();
+        $expiration = $creation + (60*5);
+        $emailToken = $this->token->setToken();
+        $this->session->setTokenExpiration($expiration);
+        $this->session->setInscriptionForm($this->request->cleanPost());
+        $this->email->sendInscriptionEmail($this->request->cleanPost());
+
+        $this->view->render([
+            'path' => 'frontoffice',
+            'template' => 'confirmInscription',
+            'data' => []
+        ]);
+    }
+
+    public function checkToken(): void
+    {
+        $clickedAt = time();
+
+        if ($clickedAt > $this->session->getTokenExpiration()) {
+            // On vérifie ici que le user valide le token avant son expiration
+
+            $this->session->setFlashMessage('Le token a expiré');
+            header('location: index.php?action=signInPage');
+            $this->session->endSession();
+            exit;
+
+        } elseif ($this->request->cleanPost()['token_check'] === $this->session->getToken()) {
+            // si le token n'a pas expiré et que les tokens correspondent
+
+            $this->userManager->saveNewUser($this->session->getInscriptionForm());
+    
+        } elseif ($this->request->cleanPost()['token_check'] !== $this->session->getToken()) {
+            // si le token n'a pas expiré mais qu'ils ne correspondent pas
+
+            $this->session->setFlashMessage('Le token ne correspond pas');
+            header('Location: index.php?action=signInPage');
+            $this->session->endSession();
+            exit;
+
+        }
+    }
+
     public function newUserAction(): void
     {
         $sessionToken = $this->session->getToken();
         $inputToken = $this->request->cleanPost()['hidden_input_token'];
 
         if ($sessionToken === $inputToken) {
+
             $this->userManager->saveNewUser($this->request->cleanPost());
+
             header('Location: index.php?action=home');
             exit;
         }
-         
+        
         $this->session->setFlashMessage("Vous n'êtes pas autorisé à ouvrir un compte");
         header('Location: index.php?action=signInPage');
         exit;
+        
     }
 
     public function logInPage(): void
     {
         $this->token->setToken();
-
         $this->view->render([
             'path' => 'frontoffice',
             'template' => 'logIn',
@@ -112,7 +166,7 @@ class UserController
     public function deleteUserAction(): void
     {
         //controle d'acces
-        if ($this->accessControl->isConnected === false || $this->accessControl->getRole() !== 'ROLE_ADMIN') {
+        if ($this->accessControl->isConnected() === false) {
             $this->session->endSession();
             header('Location: index.php?action=logInPage');
             exit;
@@ -135,7 +189,7 @@ class UserController
 
         if ($this->session->getUserRank() !== "ROLE_ADMIN") {
             $this->session->endSession();
-            header('Location: index.php?action=signInPage');
+            header('Location: index.php?action=home');
         }
 
         header('Location: index.php?action=members_management');

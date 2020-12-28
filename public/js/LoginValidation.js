@@ -1,4 +1,4 @@
-class InputValidation {
+class LoginValidation {
 
     constructor() {
 
@@ -6,7 +6,7 @@ class InputValidation {
         this.passElement = document.querySelector('.password_input');
         this.loginButton = document.querySelector('.login_button');
 
-        this.usernameRegex = /^[A-Za-zéèçàâäêëîïôöòûüùñ_0-9]?[\s?\-?a-zéèçàâäêëîïôöòûüùñ_0-9]+?$/
+        this.usernameRegex = /^[A-Za-zéèçàâäêëîïôöòûüùñ_0-9][\s?\-?a-zéèçàâäêëîïôöòûüùñ_0-9]+?$/
         this.emailRegex = /^[a-z0-9._-]+@[a-z0-9._-]{2,}\.[a-z]{2,4}$/;
         this.passwordRegex = /(?=.*[a-z]+)(?=.*[0-9]+)(?=.*[A-Z]+)/
 
@@ -24,7 +24,7 @@ class InputValidation {
         switch (document.activeElement) {
 
             case this.usernameElement:
-                if (this.usernameElement.value.length < 6) {
+                if (this.usernameElement.value.length < 1) {
                     this.usernameElement.className = 'username_input_invalid';
                 }
                     else {

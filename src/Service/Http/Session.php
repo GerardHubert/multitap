@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Service\Http;
 
+use DateTime;
+
 class Session
 {
     public function __construct()
@@ -64,6 +66,36 @@ class Session
     public function getUSerRank(): ?string
     {
         return !empty($_SESSION['userRank']) ? $_SESSION['userRank'] : null;
+    }
+
+    public function setTokenExpiration(int $expiration): void
+    {
+        $_SESSION['expiration'] = $expiration;
+    }
+
+    public function getTokenExpiration(): ?int
+    {
+        return !empty($_SESSION['expiration']) ? $_SESSION['expiration'] : null;
+    }
+
+    public function deleteTokenExpiration(): void
+    {
+        unset($_SESSION['expiration']);
+    }
+
+    public function setInscriptionForm(array $inscription): void
+    {
+        $_SESSION['inscription'] = $inscription;
+    }
+
+    public function getInscriptionForm(): ?array
+    {
+        return !empty($_SESSION['inscription']) ? $_SESSION['inscription'] : null;
+    }
+
+    public function deleteInscriptionForm(): void
+    {
+        unset($_SESSION['inscription']);
     }
 
     public function endSession(): void

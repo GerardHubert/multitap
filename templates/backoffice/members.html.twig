@@ -34,11 +34,9 @@
                                     Aucune demande en cours
                             {% endif %}
                         </td>
-                        <td><a href='index.php?action=deleteUser&id={{ user.userId }}'><button class='dash_button'>Supprimer le compte</button></a></td>
-                        {% if user.userDemand != 'none' %}
-                            <td><a href='index.php?action=change_rank_validation&id={{ user.userId }}'><button class='dash_button'>Changer le rôle</button></a></td>
-                            <td><a href='index.php?action=cancel_rank_demand&id={{ user.userId }}'><button class='dash_button'>Annuler la demande</button></a></td>
-                        {% endif %}
+                        <td><a href='index.php?action=deleteUser&id={{ user.userId }}'><button class='members_button'>Supprimer le compte</button></a></td>
+                        <td><a href='index.php?action=change_rank_validation&id={{ user.userId }}'><button class='members_button' {% if user.userDemand == 'none' %}disabled{% endif %}>Changer le rôle</button></a></td>
+                        <td><a href='index.php?action=cancel_rank_demand&id={{ user.userId }}'><button class='members_button' {% if user.userDemand == 'none' %}disabled{% endif %}>Annuler la demande</button></a></td>
                     </tr>
                 {% endfor %}
             </tbody>

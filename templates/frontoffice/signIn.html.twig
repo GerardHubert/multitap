@@ -21,7 +21,7 @@
             <label for="password">Mot de passe</label>
             <input class='password_input' type="password" name='password'
                 required
-                placeholder='min. 6 caractères dont 1 majuscule, 1 minuscule et 1 chiffre'>
+                placeholder='Min. 6 caractères dont 1 majuscule, 1 minuscule et 1 chiffre'>
         </div>
         <div class='label_and_input'>
             <label for="password_confirm">Confirmer le mot de passe</label>
@@ -34,7 +34,7 @@
     </fieldset>
 
     {% if session.flashMessage == true %}
-        <p>{{ session.flashMessage }}</p>
+        <p class='signin_flash_message'>{{ session.flashMessage }}</p>
     {% endif %}
     
 </form>

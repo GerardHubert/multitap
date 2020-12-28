@@ -53,11 +53,13 @@ class SignInValidation {
     }
 
     enableButton() {
+
         if (this.usernameInput.className === 'username_input_valid' && this.emailInput.className === 'email_input_valid' && this.passwordInput.className === 'password_input_valid' && this.passwordConfirm.className === 'password_confirm_input_valid' && this.passwordInput.value === this.passwordConfirm.value) {
             this.inscriptionButton.removeAttribute('disabled');
         } else {
             this.inscriptionButton.setAttribute('disabled', '');
         }
+        
     }
 }
 

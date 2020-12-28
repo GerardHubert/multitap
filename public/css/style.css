@@ -575,6 +575,12 @@ button{
     height: 20px;
 }
 
+.members_button{
+    width: 100%;
+    border-radius: 0;
+    height: 35px;
+}
+
 .dash_buttons:hover{
     cursor: pointer;
 }
@@ -762,6 +768,39 @@ button{
     font-family: roboto_bold;
 }
 
+#token_check_container{
+    width: 50%;
+    margin: auto;
+    margin-top: 150px;
+    border: 1px solid black;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border: 1px solid rgba(249, 117, 88, 1);
+    background-color: rgba(249, 117, 88, 0.3);
+    border-radius: 15px;
+}
+
+#token_verification_form{
+    width: 65%;
+    height: 80px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+
+#token_verification_form .submit_button{
+    text-align: center;
+}
+
+.signin_flash_message{
+    width: 100%;
+    background-color: rgba(249, 117, 88, 0.5);
+    border: 1px solid rgba(249, 117, 88, 1);
+    text-align: center;
+    font-family: roboto_black;
+}
+
 /**
 * LOGIN FORM
 **/
@@ -773,7 +812,7 @@ button{
     height: 200px;
 }
 
-#login_form p{
+#login_form p, #token_check_container p{
     font-family: roboto_bold;
     text-align: center;
 }

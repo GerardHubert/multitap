@@ -113,7 +113,7 @@
                             {% endif %}
                         </form>
                         {% if user.userDemand != 'none' %}
-                            <p class='disabled_demand'>Indisponible: une demande de changement de rôle est en cours</p>
+                            <p class='disabled_demand'>Indisponible: une demande de changement de rôle est déjà en cours</p>
                         {% endif %}
                     </div>
                     
@@ -133,8 +133,4 @@
     </section>
     
 
-{% endblock %}
-
-{% block script %}
-    <script src='js/UserManagement.js'></script>
 {% endblock %}
