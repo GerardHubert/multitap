@@ -321,6 +321,7 @@ class DashboardController
     public function showTotalReviews(): void
     {
         $this->checkAccess();
+        $page = $this->request->cleanGet()['page'];
 
         if ($this->accessControl->getRole() !== 'ROLE_ADMIN') {
             $this->session->endSession();

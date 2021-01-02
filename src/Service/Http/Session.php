@@ -38,6 +38,96 @@ class Session
         unset($_SESSION['flashMessage']);
     }
 
+    public function setUsernameMessage(string $message): void
+    {
+        $_SESSION['username_message'] = $message;
+    }
+
+    public function getUsernameMessage(): ?string
+    {
+        return !empty($_SESSION['username_message']) ? $_SESSION['username_message'] : null;
+    }
+
+    public function deleteUsernameMessage(): void
+    {
+        unset($_SESSION['username_message']);
+    }
+
+    public function setPassMessage(string $message): void
+    {
+        $_SESSION['pass_message'] = $message;
+    }
+
+    public function getPassMessage(): ?string
+    {
+        return !empty($_SESSION['pass_message']) ? $_SESSION['pass_message'] : null;
+    }
+
+    public function deletePassMessage(): void
+    {
+        unset($_SESSION['pass_message']);
+    }
+
+    public function setMailMessage(string $message): void
+    {
+        $_SESSION['mail_message'] = $message;
+    }
+
+    public function getMailMessage(): ?string
+    {
+        return !empty($_SESSION['mail_message']) ? $_SESSION['mail_message'] : null;
+    }
+
+    public function deleteMailMessage(): void
+    {
+        unset($_SESSION['mail_message']);
+    }
+
+    public function setRecorded(string $message): void
+    {
+        $_SESSION['recorded'] = $message;
+    }
+
+    public function getRecorded(): ?string
+    {
+        return !empty($_SESSION['recorded']) ? $_SESSION['recorded'] : null;
+    }
+
+    public function deleteRecorded(): void
+    {
+        unset($_SESSION['recorded']);
+    }
+
+    public function setRankMessage(string $message): void
+    {
+        $_SESSION['rankMessage'] = $message;
+    }
+
+    public function deleteRankMessage(): void
+    {
+        unset($_SESSION['rankMessage']);
+    }
+
+    public function getRankMessage(): ?string
+    {
+        return !empty($_SESSION['rankMessage']) ? $_SESSION['rankMessage'] : null;
+    }
+
+    public function setGrantedMessage(string $message): void
+    {
+        $_SESSION['grantedMessage'] = $message;
+    }
+
+    public function getGrantedMessage(): ?string
+    {
+        return !empty($_SESSION['granted_message']) ? $_SESSION['grantedMessage'] : null;
+    }
+
+    public function deleteGrantedMessage(): void
+    {
+        unset($_SESSION['grantedMessage']);
+    }
+
     public function setUserId(int $userId): void
     {
         $_SESSION['userId'] = $userId;

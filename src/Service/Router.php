@@ -16,12 +16,13 @@ use App\Model\Manager\UserManager;
 use App\Model\Repository\CommentRepository;
 use App\Model\Repository\ReviewRepository;
 use App\Model\Repository\UserRepository;
+use App\Service\Email;
+use App\Service\Http\Cookies;
 use App\Service\Http\Request;
 use App\Service\Http\Session;
 use App\Service\Security\AccessControl;
 use App\Service\Security\Token;
 use App\View\View;
-use App\Service\Email;
 
 final class Router
 {
@@ -44,12 +45,14 @@ final class Router
     private $userRepository;
     private $accessControl;
     private $email;
+    private $cookies;
 
 
     public function __construct()
     {
         // dépendances
         $this->session = new Session();
+        $this->cookies = new Cookies();
         $this->accessControl = new AccessControl($this->session);
         $this->token = new Token($this->session);
         $this->database = new Database();
@@ -67,7 +70,7 @@ final class Router
         $this->reviewController = new ReviewController($this->reviewManager, $this->view, $this->commentManager, $this->token, $this->session, $this->request);
         $this->commentController = new CommentController($this->commentManager, $this->request);
         $this->dashboardController = new DashboardController($this->reviewManager, $this->view, $this->request, $this->commentManager, $this->token, $this->session, $this->accessControl);
-        $this->userController = new UserController($this->view, $this->request, $this->token, $this->session, $this->userManager, $this->accessControl, $this->reviewManager, $this->email);
+        $this->userController = new UserController($this->view, $this->request, $this->token, $this->session, $this->userManager, $this->accessControl, $this->reviewManager, $this->email, $this->cookies);
     }
 
     public function run(): void

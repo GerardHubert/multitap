@@ -6,7 +6,7 @@ class LoginValidation {
         this.passElement = document.querySelector('.password_input');
         this.loginButton = document.querySelector('.login_button');
 
-        this.usernameRegex = /^[A-Za-zéèçàâäêëîïôöòûüùñ_0-9][\s?\-?a-zéèçàâäêëîïôöòûüùñ_0-9]+?$/
+        this.usernameRegex = /^[A-Za-zéèçàâäêëîïôöòûüùñ_0-9]?[\s?\-?A-Za-zéèçàâäêëîïôöòûüùñ_0-9]+?$/
         this.emailRegex = /^[a-z0-9._-]+@[a-z0-9._-]{2,}\.[a-z]{2,4}$/;
         this.passwordRegex = /(?=.*[a-z]+)(?=.*[0-9]+)(?=.*[A-Z]+)/
 

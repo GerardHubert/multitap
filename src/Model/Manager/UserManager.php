@@ -87,12 +87,14 @@ class UserManager
         $usernameValidation = preg_match($usernameRegExp, $newUsername);
 
         if ($usernameValidation === 0) {
-            $this->session->setFlashMessage('le nom est incorrect, certains caractères sont interdits');
+            $this->session->setUsernameMessage('le nom est incorrect, certains caractères sont interdits');
+            $this->session->deletePassMessage();
+            $this->session->deleteMailMessage();
             header('Location: index.php?action=user_parameters_page');
             exit;
         }
 
-        $this->session->deleteFlashMessage();
+        $this->session->deleteUsernameMessage();
 
         $user->setUsername($newUsername);
         return $this->userRepo->updateUsernameFromUser($user);
@@ -105,12 +107,14 @@ class UserManager
         $emailValidation = preg_match($emailRegExp, $newEmail);
 
         if ($emailValidation === 0) {
-            $this->session->setFlashMessage('Cette adresse mail n\'est pas valide');
+            $this->session->setMailMessage('Cette adresse mail n\'est pas valide');
+            $this->session->deleteUsernameMessage();
+            $this->session->deletePassMessage();
             header('Location: index.php?action=user_parameters_page');
             exit;
         }
 
-        $this->session->deleteFlashMessage();
+        $this->session->deleteMailMessage();
 
         $user->setEmail($newEmail);
         return $this->userRepo->updateEmailFromUser($user);
@@ -119,22 +123,24 @@ class UserManager
     public function updatePassword(User $user, array $form): bool
     {
         if (password_verify($form['actual_pass'], $user->getPass()) === false) {
-            $this->session->setFlashMessage('mot de passe incorrect');
+            $this->session->setPassMessage('mot de passe incorrect');
+            $this->session->deleteUsernameMessage();
+            $this->session->deleteMailMessage();
             header('Location: index.php?action=user_parameters_page');
             exit;
         };
 
         if (mb_strlen($form['new_pass']) < 6) {
-            $this->session->setFlashMessage('Le mot de passe chosi est trop court');
+            $this->session->setPassMessage('Le mot de passe chosi est trop court');
             header('Location: index.php?action=user_parameters_page');
             exit;
         } elseif ($form['new_pass'] !== $form['confirm_new_pass']) {
-            $this->session->setFlashMessage('Les mots de passe ne correspondent pas');
+            $this->session->setPassMessage('Les mots de passe ne correspondent pas');
             header('Location: index.php?action=user_parameters_page');
             exit;
         }
 
-
+        $this->session->deletePassMessage();
         $user->setPass(password_hash($form['new_pass'], PASSWORD_BCRYPT));
         return $this->userRepo->updatePassFromUser($user);
     }

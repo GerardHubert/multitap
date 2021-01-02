@@ -6,10 +6,6 @@
 
     <section id="member_info">
         <h3>Mon compte</h3>
-
-        {% if session.flashMessage %}
-                <p id='user_parameters_message'>{{ session.flashMessage }}</p>
-            {% endif %}
         
         <section class="forms">
 
@@ -25,6 +21,7 @@
                         <input class='update_user_new_values' type='text' name='new_username'>
                     </div>
                     <input type='hidden' name='token' value={{ session.token }}>
+                    <p class='parameters_page_message'>{{ session.usernameMessage }}</p>
                 </section>
 
                 <section id='email_form'>
@@ -37,6 +34,7 @@
                         <input type="mail" name='new_email' class="update_user_new_values">
                     </div>
                     <input type='hidden' name='token' value={{ session.token }}>
+                    <p class='parameters_page_message'>{{ session.mailMessage }}</p>
                 </section>
 
                 <button class='update_name_and_email' type='submit'>Modifier</button>
@@ -59,6 +57,8 @@
                 </div>
                 <input type='hidden' name='token' value={{ session.token }}>
                 <button class='update_pass_button' type='submit'>Modifier</button>
+
+                <p class='parameters_page_message'>{{ session.passMessage }}</p>
             </form>
 
             <section id='rank_and_account_form'>
@@ -76,7 +76,7 @@
                             <input type='hidden' name='hidden_input_token' value={{ session.token }}>
                             <div>
                                 {% if session.userRank == 'ROLE_MEMBER' or user.userDemand != 'none' %}
-                                    <input type='radio' id='member' name='new_role' value='ROLE_MEMBER' disabled>
+                                    <input class='box' type='radio' id='member' name='new_role' value='ROLE_MEMBER' disabled>
                                     {% else %}
                                         <input type='radio' id='member' name='new_role' value='ROLE_MEMBER'>
                                 {% endif %}
@@ -84,15 +84,15 @@
                             </div>
                             <div>
                                 {% if session.userRank == 'ROLE_REVIEWER' or user.userDemand != 'none' %}
-                                    <input type='radio' id='reviewer' name='new_role' value='ROLE_REVIEWER' disabled>
+                                    <input class='box' type='radio' id='reviewer' name='new_role' value='ROLE_REVIEWER' disabled>
                                     {% else %}
-                                        <input type='radio' id='member' name='new_role' value='ROLE_REVIEWER'>
+                                        <input type='radio' id='reviewer' name='new_role' value='ROLE_REVIEWER'>
                                 {% endif %}
                                 <label for="reviewer">Reviewer</label>
                             </div>
                             <div>
                                 {% if session.userRank == 'ROLE_EDITOR' or user.userDemand != 'none' %}
-                                    <input type='radio' id='editor' name='new_role' value='ROLE_EDITOR' disabled>
+                                    <input class='box' type='radio' id='editor' name='new_role' value='ROLE_EDITOR' disabled>
                                     {% else %}
                                         <input type='radio' id='editor' name='new_role' value='ROLE_EDITOR'>
                                 {% endif %}
@@ -100,21 +100,25 @@
                             </div>
                             <div>
                                 {% if session.userRank == 'ROLE_ADMIN' or user.userDemand != 'none' %}
-                                    <input type='radio' id='admin' name='new_role' value='ROLE_ADMIN' disabled>
+                                    <input class='box' type='radio' id='admin' name='new_role' value='ROLE_ADMIN' disabled>
                                     {% else %}
                                         <input type='radio' id='admin' name='new_role' value='ROLE_ADMIN'>
                                 {% endif %}
                                 <label for="admin">Administrator</label>
                             </div>
-                            {% if user.userDemand != 'none' %}
-                                <button type='submit' class='update_rank_button' disabled>Envoyer</button>
-                                {% else %}
-                                    <button type='submit' class='update_rank_button'>Envoyer</button>
-                            {% endif %}
+                            <button type='submit' class='update_rank_button' disabled>Envoyer</button>
                         </form>
-                        {% if user.userDemand != 'none' %}
-                            <p class='disabled_demand'>Indisponible: une demande de changement de rôle est déjà en cours</p>
-                        {% endif %}
+                        
+                        <p class='disabled_demand'>
+                            {% if session.rankMessage %}
+                                {{ session.rankMessage }}
+                            {% elseif session.recorded %}
+                                {{ session.recorded }}
+                            {% elseif session.grantedMessage %}
+                                {{ session.grantedMessage }}
+                            {% endif %}
+                        </p>
+                        
                     </div>
                     
                 </div>
@@ -133,4 +137,8 @@
     </section>
     
 
+{% endblock %}
+
+{% block script %}
+<script src='js/UserParameters.js'></script>
 {% endblock %}

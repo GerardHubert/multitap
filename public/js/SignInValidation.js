@@ -36,7 +36,7 @@ class SignInValidation {
                 }
             break;
             case this.passwordInput:
-                if (this.passwordRegex.test(this.passwordInput.value) === false) {
+                if (this.passwordRegex.test(this.passwordInput.value) === false || this.passwordInput.value.length < 6) {
                     this.passwordInput.className = 'password_input_invalid';
                 } else if (this.passwordRegex.test(this.passwordInput.value) === true) {
                     this.passwordInput.className = 'password_input_valid';
