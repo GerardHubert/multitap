@@ -37,5 +37,18 @@
             </tbody>
         </table>
     </div>
+
+    <div id="pagination">
+        <span id="actual_total">Page {{ page }} / {{ totalPages }}</span>
+            <span id="navigation_buttons">
+                {% if page > 1 %}
+                    <a href='index.php?action=all_reviews_all_users_all_status&page={{ page - 1 }}'><i class='fas fa-arrow-circle-left'></i></a>
+                {% endif %}
+                {% if page < totalPages %}
+                    <a href='index.php?action=all_reviews_all_users_all_status&page={{ page + 1 }}'><i class='fas fa-arrow-circle-right'></i></a>
+                {% endif %}
+            </span>
+    </div>
+
 </section>
 {% endblock %}

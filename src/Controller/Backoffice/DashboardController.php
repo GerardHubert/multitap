@@ -328,13 +328,15 @@ class DashboardController
             header('Location: index.php?action=logInPage');
             exit;
         }
-        $reviews = $this->reviewManager->showEverything();
+        $reviews = $this->reviewManager->showEverything((int) $page);
 
         $this->view->render([
             'path' => 'backoffice',
             'template' => 'allReviewsAllUsersAllStatus',
             'data' => [
-                'reviews' => $reviews
+                'reviews' => $reviews[0],
+                'totalPages' => $reviews[1],
+                'page' => $page
             ]
         ]);
     }

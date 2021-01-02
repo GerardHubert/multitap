@@ -57,7 +57,7 @@ final class ReviewRepository
         return $reviews;
     }
 
-    public function findByOffset(int $offset) : array
+    public function findByOffset(int $offset, int $reviewsPerPage) : array
     {
         $request = $this->database->prepare("SELECT *, substring(content, 1, 300) AS content, DATE_FORMAT(reviewDate, '%d/%m/%Y - %H:%i:%s') AS reviewDate
             FROM reviews
@@ -65,8 +65,9 @@ final class ReviewRepository
             ON users.userId = reviews.userId
             WHERE reviewStatus = 0
             ORDER BY reviewDate ASC
-            LIMIT 5 OFFSET :offset");
+            LIMIT :reviewsPerPage OFFSET :offset");
         $request->bindParam(':offset', $offset, PDO::PARAM_INT);
+        $request->bindParam(':reviewsPerPage', $reviewsPerPage, PDO::PARAM_INT);
         $request->setFetchMode(PDO::FETCH_CLASS, Review::class);
         $request->execute();
         return $request->fetchAll();
@@ -127,6 +128,21 @@ final class ReviewRepository
         }
 
         return $reviews;
+    }
+
+    public function findEverythingByOffset(int $offset, int $reviewsPerPage): ?array
+    {
+        $request = $this->database->prepare("SELECT *, DATE_FORMAT(reviewDate, '%d/%m/%Y - %H:%i:%s') AS reviewDate
+            FROM reviews
+            INNER JOIN users
+            ON users.userId = reviews.userId
+            ORDER BY reviewDate ASC
+            LIMIT :reviewsPerPage OFFSET :offset");
+        $request->bindParam(':offset', $offset, PDO::PARAM_INT);
+        $request->bindParam(':reviewsPerPage', $reviewsPerPage, PDO::PARAM_INT);
+        $request->setFetchMode(PDO::FETCH_CLASS, Review::class);
+        $request->execute();
+        return $request->fetchAll();
     }
 
     public function create(Review $reviewData) : bool

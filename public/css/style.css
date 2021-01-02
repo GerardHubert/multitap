@@ -447,9 +447,14 @@ button{
 }
 
 #pagination{
+    margin-top: 25px;
     display: flex;
     flex-direction: column;
     align-items: center;
+}
+
+#actual_total{
+    font-family: roboto_black;
 }
 
 /**

@@ -45,7 +45,7 @@ final class ReviewManager
         $offset = $pageToDisplay * $reviewsPerPage;
         $totalReviews = count($this->reviewRepo->findByAll($status));
         $totalPages = ceil($totalReviews / $reviewsPerPage);
-        return [$this->reviewRepo->findByOffset($offset), $totalPages];
+        return [$this->reviewRepo->findByOffset($offset, $reviewsPerPage), $totalPages];
     }
 
     public function showAll(): array
@@ -133,8 +133,13 @@ final class ReviewManager
         return $this->reviewRepo->updateToValidate($review, $reviewId);
     }
 
-    public function showEverything(): ?array
+    public function showEverything(int $page): ?array
     {
-        return $this->reviewRepo->findByEverything();
+        $reviewsPerPage = 10;
+        $pageToDisplay = $page - 1;
+        $offset = $pageToDisplay * $reviewsPerPage;
+        $totalReviews = count($this->reviewRepo->findByEverything());
+        $totalPages = ceil($totalReviews / $reviewsPerPage);
+        return [$this->reviewRepo->findEverythingByOffset($offset, $reviewsPerPage), $totalPages];
     }
 }
