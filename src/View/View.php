@@ -27,8 +27,8 @@ final class View
         $loader = new FilesystemLoader('../templates');
         $this->twig = new Environment($loader);
         $this->twig->addGlobal('session', $this->session);
-        $this->twig->addGlobal('usersList', $this->userManager->showAll());
-        $this->twig->addGlobal('reviewsListTwo', $this->reviewManager->showAllFromStatus(2));
+        //$this->twig->addGlobal('usersList', $this->userManager->showAll());
+        //$this->twig->addGlobal('reviewsListTwo', $this->reviewManager->showAllFromStatus(2));
         $this->filter = new \Twig\TwigFilter('htmlspecialchars_decode', 'htmlspecialchars_decode');
         $this->twig->addFilter($this->filter);
     }

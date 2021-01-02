@@ -28,8 +28,7 @@ final class ReviewManager
     {
         // renvoie les 6 dernières reviews
         
-        $reviews = $this->reviewRepo->findByDate();
-        return $reviews;
+        return $this->reviewRepo->findByDate();
     }
 
     public function showOne(int $id): ?Review

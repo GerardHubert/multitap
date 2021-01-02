@@ -19,7 +19,7 @@
                         <h3 class="review_title">{{ review.reviewTitle|htmlspecialchars_decode }}</h3>
                         <span class="comments_number"><i class="fas fa-comments"></i>2</span>
                     </div>
-                    <span class="author_date">De {{ review.username }} | {{ review.reviewDate }}</span>
+                    <span class="author_date">De {{ review.username }} | {{ review.reviewDate|date('d/m/Y - H:i:s') }}</span>
                     <div class="review_extract">
                         {{ review.content|htmlspecialchars_decode }}...
                     </div>

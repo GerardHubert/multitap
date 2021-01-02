@@ -22,7 +22,7 @@
                     <td>{{ review.username }}</td>
                     <td>{{ review.reviewTitle|raw }}</td>
                     <td>{{ review.gameTitle|raw }}</td>
-                    <td>{{ review.reviewDate }}</td>
+                    <td>{{ review.reviewDate|date('d/m/Y - H:i:s') }}</td>
                     <td>{% if review.reviewStatus == 0 %}
                             Publiée
                             {% elseif review.reviewStatus == 1 %}

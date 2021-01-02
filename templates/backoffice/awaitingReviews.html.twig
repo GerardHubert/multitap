@@ -20,7 +20,7 @@
                 <tr class='review_line'>
                     <td>{{ review.reviewTitle|raw }}</td>
                     <td>{{ review.gameTitle|raw }}</td>
-                    <td>{{ review.reviewDate }}</td>
+                    <td>{{ review.reviewDate|date('d/m/Y - H:i:s') }}</td>
                     <td><a href="index.php?action=delete_review&id={{ review.reviewId }}"><button class='dash_button'>Supprimer</button></a></td>
                     <td><a href="index.php?action=update_review_page&id={{ review.reviewId }}"><button class='dash_button'>Modifier</button></a></td>
                 </tr>

@@ -8,7 +8,7 @@ use \DateTime;
 
 final class Comment
 {
-    private $id;
+    private $commentId;
     private $userId;
     private $content;
     private $reviewId;
@@ -17,9 +17,9 @@ final class Comment
     private $commentDate;
     private $commentStatus;
 
-    public function getId(): int
+    public function getCommentId(): int
     {
-        return (int) $this->id;
+        return (int) $this->commentId;
     }
 
     public function setId(int $id): self

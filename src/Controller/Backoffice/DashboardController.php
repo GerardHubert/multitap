@@ -31,6 +31,7 @@ class DashboardController
     private $token;
     private $session;
     private $accessControl;
+    private $reviewsListToValidate;
 
     public function __construct(ReviewManager $reviewManager, View $view, Request $request, CommentManager $commentManager, Token $token, Session $session, AccessControl $accessControl)
     {
@@ -41,6 +42,7 @@ class DashboardController
         $this->token = $token;
         $this->session = $session;
         $this->accessControl = $accessControl;
+        $this->reviewsListToValidate = $this->reviewManager->showAllFromStatus(2);
     }
 
     public function checkAccess(): void
@@ -73,7 +75,8 @@ class DashboardController
             'path' => 'backoffice',
             'template' => 'allReviews',
             'data' => [
-                'reviews' => $reviews
+                'reviews' => $reviews,
+                'reviewsListTwo' => $this->reviewsListToValidate
             ]
         ]);
     }
@@ -88,7 +91,8 @@ class DashboardController
             'path' => 'backoffice',
             'template' => 'awaitingReviews',
             'data' => [
-                'reviews' => $reviews
+                'reviews' => $reviews,
+                'reviewsListTwo' => $this->reviewsListToValidate
             ]
         ]);
     }
@@ -100,7 +104,9 @@ class DashboardController
         $this->view->render([
             'path' => 'backoffice',
             'template' => 'reviewEditor',
-            'data' => []
+            'data' => [
+                'reviewsListTwo' => $this->reviewsListToValidate
+            ]
         ]);
     }
 
@@ -121,7 +127,8 @@ class DashboardController
             'path' => 'backoffice',
             'template' => 'reviewsToAuthorize',
             'data' => [
-                'reviews' => $reviews
+                'reviews' => $reviews,
+                'reviewsListTwo' => $this->reviewsListToValidate
             ]
         ]);
     }
@@ -143,7 +150,7 @@ class DashboardController
                 if ($this->session->getUserRank() === 'ROLE_REVIEWER') {
                     header('Location: index.php?action=show_waiting_reviews&status=2');
                     exit;
-                } elseif ($this->session->getUserRank() === 'ROLE_ADMIN' || $this->session->getUSerRank() === 'ROLE_EDITOR') {
+                } elseif ($this->session->getUserRank() === 'ROLE_ADMIN' || $this->session->getUserRank() === 'ROLE_EDITOR') {
                     header('Location: index.php?action=show_reviews_to_validate');
                     exit;
                 }
@@ -229,7 +236,8 @@ class DashboardController
             'path' => 'backoffice',
             'template' => 'editReviewPage',
             'data' => [
-                'review' => $review
+                'review' => $review,
+                'reviewsListTwo' => $this->reviewsListToValidate
             ]
         ]);
     }
@@ -277,7 +285,8 @@ class DashboardController
             'path' => 'backoffice',
             'template' => 'commentsModeration',
             'data' => [
-                'flagComments' => $flagComments
+                'flagComments' => $flagComments,
+                'reviewsListTwo' => $this->reviewsListToValidate
             ]
         ]);
     }
@@ -291,8 +300,8 @@ class DashboardController
             header('Location: index.php?action=logInPage');
             exit;
         }
-
-        $this->commentManager->deleteFromId((int) $this->request->cleanGet()['id']);
+        $commentToDelete = $this->commentManager->showOneFromId((int) $this->request->cleanGet()['id']);
+        $this->commentManager->deleteFromId($commentToDelete);
         
         header('Location: index.php?action=show_comments_to_moderate');
         exit;
@@ -336,7 +345,8 @@ class DashboardController
             'data' => [
                 'reviews' => $reviews[0],
                 'totalPages' => $reviews[1],
-                'page' => $page
+                'page' => $page,
+                'reviewsListTwo' => $this->reviewsListToValidate
             ]
         ]);
     }

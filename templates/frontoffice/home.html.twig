@@ -18,7 +18,7 @@
                     <div class='thumbnail_infos'>
                         <h3 class="thumbnail_title">{{ post.reviewTitle|raw }}</h3>
                         <div class="author_comments">
-                            <span class='pseudo_date'>{{ post.username }} | {{ post.reviewDate }}</span>
+                            <span class='pseudo_date'>{{ post.username }} | {{ post.reviewDate|date('d/m/Y - H:i:s') }}</span>
                             <span class="comments_number"><i class="fas fa-comments"></i>
                                 {{ post.nbComments }}
                             </span>

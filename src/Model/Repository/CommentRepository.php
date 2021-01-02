@@ -38,6 +38,8 @@ final class CommentRepository
     {
         $request = $this->database->prepare("SELECT *, DATE_FORMAT(commentDate, '%d-%b-%Y à %H:%i:%s') AS commentDate
             FROM comments
+            INNER JOIN users
+            ON users.userId = comments.userId
             WHERE commentStatus = :commentStatus
             ORDER BY commentDate DESC");
         $request->bindParam(':commentStatus', $status);
@@ -52,7 +54,9 @@ final class CommentRepository
     {
         $request = $this->database->prepare("SELECT *
             FROM comments
-            WHERE id = :id");
+            INNER JOIN users
+            ON users.userId = comments.userId
+            WHERE commentId = :id");
         $request->bindParam(':id', $id);
         $request->setFetchMode(PDO::FETCH_CLASS, Comment::class);
         $request->execute();
@@ -78,14 +82,14 @@ final class CommentRepository
 
     public function update(Comment $comment) : bool
     {
-        $id = $comment->getId();
+        $id = $comment->getCommentId();
         $likes = $comment->getThumbsUp();
         $dislikes = $comment->getThumbsDown();
         $status = $comment->getCommentStatus();
 
         $request = $this->database->prepare('UPDATE comments
             SET thumbsUp = :newThumbsUp, thumbsDown = :newThumbsDown, commentStatus = :commentStatus
-            WHERE id = :id');
+            WHERE commentId = :id');
         $request->bindParam(':newThumbsUp', $likes);
         $request->bindParam(':newThumbsDown', $dislikes);
         $request->bindParam(':id', $id);
@@ -96,9 +100,9 @@ final class CommentRepository
 
     public function delete(Comment $comment) : bool
     {
-        $id = $comment->getId();
+        $id = $comment->getCommentId();
         $request = $this->database->prepare("DELETE FROM comments
-            WHERE id = :id");
+            WHERE commentId = :id");
         $request->bindParam(':id', $id);
         
         return $request->execute();

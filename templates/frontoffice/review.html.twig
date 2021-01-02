@@ -9,7 +9,7 @@
 {% block reviewTitle %}
     {% autoescape false %}
         <h1 id="review_title">{{ post.reviewTitle }}</h1>
-        <span id="author_date">De {{ post.username }}, le {{ post.reviewDate }}</span>
+        <span id="author_date">De {{ post.username }}, le {{ post.reviewDate|date('d/m/Y - H:i:s')}}</span>
     {% endautoescape %}
 {% endblock %}
 

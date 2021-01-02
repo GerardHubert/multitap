@@ -19,7 +19,7 @@ final class ReviewRepository
 
     public function findById(int $id): ?Review
     {
-        $request = $this->database->prepare("SELECT *, DATE_FORMAT(reviewDate, '%d/%m/%Y - %H:%i:%s') AS reviewDate
+        $request = $this->database->prepare("SELECT *, DATE_FORMAT(reviewDate, '%d/%m/%Y - %H:%i:%s')
             FROM reviews
             INNER JOIN users
             ON users.userId = reviews.userId
@@ -39,7 +39,7 @@ final class ReviewRepository
 
     public function findByDate(): ?array
     {
-        $request = $this->database->prepare("SELECT *, DATE_FORMAT(reviewDate, '%d/%m/%Y - %H:%i:%s') AS reviewDate
+        $request = $this->database->prepare("SELECT *, DATE_FORMAT(reviewDate, '%d/%m/%Y - %H:%i:%s')
             FROM reviews
             INNER JOIN users
             ON users.userId = reviews.userId
@@ -59,7 +59,7 @@ final class ReviewRepository
 
     public function findByOffset(int $offset, int $reviewsPerPage) : array
     {
-        $request = $this->database->prepare("SELECT *, substring(content, 1, 300) AS content, DATE_FORMAT(reviewDate, '%d/%m/%Y - %H:%i:%s') AS reviewDate
+        $request = $this->database->prepare("SELECT *, substring(content, 1, 300) AS content, DATE_FORMAT(reviewDate, '%d/%m/%Y - %H:%i:%s')
             FROM reviews
             INNER JOIN users
             ON users.userId = reviews.userId
@@ -75,7 +75,7 @@ final class ReviewRepository
 
     public function findByAll(int $status): ?array
     {
-        $request = $this->database->prepare("SELECT *, DATE_FORMAT(reviewDate, '%d/%m/%Y - %H:%i:%s') AS reviewDate
+        $request = $this->database->prepare("SELECT *, DATE_FORMAT(reviewDate, '%d/%m/%Y - %H:%i:%s')
             FROM reviews
             INNER JOIN users
             ON users.userId = reviews.userId
@@ -95,7 +95,7 @@ final class ReviewRepository
 
     public function findByUserId(int $userId, $status): ?array
     {
-        $request = $this->database->prepare("SELECT *, DATE_FORMAT(reviewDate, '%d/%m/%Y - %H:%i:%s') AS reviewDate
+        $request = $this->database->prepare("SELECT *, DATE_FORMAT(reviewDate, '%d/%m/%Y - %H:%i:%s')
             FROM reviews
             WHERE userId = :id AND reviewStatus = :reviewStatus
             ORDER BY reviewDate DESC");
@@ -114,7 +114,7 @@ final class ReviewRepository
 
     public function findByEverything(): ?array
     {
-        $request = $this->database->prepare("SELECT *, DATE_FORMAT(reviewDate, '%d/%m/%Y - %H:%i:%s') AS reviewDate
+        $request = $this->database->prepare("SELECT *, DATE_FORMAT(reviewDate, '%d/%m/%Y - %H:%i:%s')
             FROM reviews
             INNER JOIN users
             ON users.userId = reviews.userId
@@ -132,7 +132,7 @@ final class ReviewRepository
 
     public function findEverythingByOffset(int $offset, int $reviewsPerPage): ?array
     {
-        $request = $this->database->prepare("SELECT *, DATE_FORMAT(reviewDate, '%d/%m/%Y - %H:%i:%s') AS reviewDate
+        $request = $this->database->prepare("SELECT *, DATE_FORMAT(reviewDate, '%d/%m/%Y - %H:%i:%s')
             FROM reviews
             INNER JOIN users
             ON users.userId = reviews.userId
@@ -164,8 +164,7 @@ final class ReviewRepository
         $request->bindParam(':content', $content);
         $request->bindParam(':reviewStatus', $reviewStatus);
         
-        $creation = $request->execute();
-        return $creation;
+        return $request->execute();
     }
 
     public function update(Review $review, int $reviewId) : bool
@@ -210,13 +209,12 @@ final class ReviewRepository
         $request->bindParam(':content', $content);
         $request->bindParam(':reviewStatus', $status);
         
-        $creation = $request->execute();
-        return $creation;
+        return $request->execute();
     }
 
     public function findByStatus(int $reviewStatus, int $userId): ?array
     {
-        $request = $this->database->prepare("SELECT *, DATE_FORMAT(reviewDate, '%d/%m/%Y - %H:%i:%s') AS reviewDate
+        $request = $this->database->prepare("SELECT *, DATE_FORMAT(reviewDate, '%d/%m/%Y - %H:%i:%s')
             FROM reviews
             WHERE reviewStatus = :reviewStatus AND userId = :userId
             ORDER BY reviewDate DESC");

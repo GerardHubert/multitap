@@ -105,10 +105,14 @@ final class CommentManager
         return $this->commentRepo->findAllByStatus($commentStatus);
     }
 
-    public function deleteFromId(int $id): bool
+    public function showOneFromId(int $id): ?Comment
     {
-        $commentToDelete = $this->commentRepo->findOneById($id);
-        return $this->commentRepo->delete($commentToDelete, $id);
+        return $this->commentRepo->findOneById($id);
+    }
+
+    public function deleteFromId(Comment $commentToDelete): bool
+    {
+        return $this->commentRepo->delete($commentToDelete);
     }
 
     public function flagFromId(int $id, int $commentStatus, int $likes, int $dislikes): bool
@@ -119,7 +123,7 @@ final class CommentManager
         $comment->setThumbsUp($likes);
         $comment->setThumbsDown($dislikes);
 
-
+        var_dump($comment);
         return $this->commentRepo->update($comment);
     }
 
