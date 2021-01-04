@@ -10,13 +10,13 @@
 <p>Un email a été envoyé à l'adresse indiquée.
     Copiez-collez le jeton qui y figure ci-dessous afin de valider votre inscription.
     Celui-ci ne sera plus valide au bout de 5 minutes.
-</p>
 
-<form action='index.php?action=check_token' method='post' id='token_verification_form'>
+<form action='index.php?action=check_token&id={{ newUser.userId }}' method='post' id='token_verification_form'>
     <input type='text' class='token_check' name='token_check' placeholder='Collez le jeton reçu par email ici'>
     <input type="submit" class='submit_button' value='Envoyer'>
     <input type='hidden' class='hidden_input' name='hidden_input_token' value={{ session.token }}>
 </form>
+<p>{{ session.flashMessage }}</p>
 </section>
 
 {% endblock %}

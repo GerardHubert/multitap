@@ -6,6 +6,7 @@ namespace  App\Controller\Backoffice;
 
 use App\Model\Manager\CommentManager;
 use App\Model\Manager\ReviewManager;
+use App\Model\Manager\UserManager;
 use App\Service\Http\Request;
 use App\Service\Http\Session;
 use App\Service\Security\AccessControl;
@@ -32,10 +33,12 @@ class DashboardController
     private $session;
     private $accessControl;
     private $reviewsListToValidate;
+    private $usersList;
 
-    public function __construct(ReviewManager $reviewManager, View $view, Request $request, CommentManager $commentManager, Token $token, Session $session, AccessControl $accessControl)
+    public function __construct(ReviewManager $reviewManager, View $view, Request $request, CommentManager $commentManager, Token $token, Session $session, AccessControl $accessControl, UserManager $userManager)
     {
         $this->reviewManager = $reviewManager;
+        $this->userManager = $userManager;
         $this->view = $view;
         $this->request = $request;
         $this->commentManager = $commentManager;
@@ -43,6 +46,7 @@ class DashboardController
         $this->session = $session;
         $this->accessControl = $accessControl;
         $this->reviewsListToValidate = $this->reviewManager->showAllFromStatus(2);
+        $this->usersList = $this->userManager->showAll();
     }
 
     public function checkAccess(): void
@@ -76,7 +80,8 @@ class DashboardController
             'template' => 'allReviews',
             'data' => [
                 'reviews' => $reviews,
-                'reviewsListTwo' => $this->reviewsListToValidate
+                'reviewsListTwo' => $this->reviewsListToValidate,
+                'usersList' => $this->usersList
             ]
         ]);
     }
@@ -92,7 +97,8 @@ class DashboardController
             'template' => 'awaitingReviews',
             'data' => [
                 'reviews' => $reviews,
-                'reviewsListTwo' => $this->reviewsListToValidate
+                'reviewsListTwo' => $this->reviewsListToValidate,
+                'usersList' => $this->usersList
             ]
         ]);
     }
@@ -105,7 +111,8 @@ class DashboardController
             'path' => 'backoffice',
             'template' => 'reviewEditor',
             'data' => [
-                'reviewsListTwo' => $this->reviewsListToValidate
+                'reviewsListTwo' => $this->reviewsListToValidate,
+                'usersList' => $this->usersList
             ]
         ]);
     }
@@ -128,7 +135,8 @@ class DashboardController
             'template' => 'reviewsToAuthorize',
             'data' => [
                 'reviews' => $reviews,
-                'reviewsListTwo' => $this->reviewsListToValidate
+                'reviewsListTwo' => $this->reviewsListToValidate,
+                'usersList' => $this->usersList
             ]
         ]);
     }
@@ -237,7 +245,8 @@ class DashboardController
             'template' => 'editReviewPage',
             'data' => [
                 'review' => $review,
-                'reviewsListTwo' => $this->reviewsListToValidate
+                'reviewsListTwo' => $this->reviewsListToValidate,
+                'usersList' => $this->usersList
             ]
         ]);
     }
@@ -286,7 +295,8 @@ class DashboardController
             'template' => 'commentsModeration',
             'data' => [
                 'flagComments' => $flagComments,
-                'reviewsListTwo' => $this->reviewsListToValidate
+                'reviewsListTwo' => $this->reviewsListToValidate,
+                'usersList' => $this->usersList
             ]
         ]);
     }
@@ -346,7 +356,8 @@ class DashboardController
                 'reviews' => $reviews[0],
                 'totalPages' => $reviews[1],
                 'page' => $page,
-                'reviewsListTwo' => $this->reviewsListToValidate
+                'reviewsListTwo' => $this->reviewsListToValidate,
+                'usersList' => $this->usersList
             ]
         ]);
     }

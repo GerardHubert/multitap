@@ -27,8 +27,6 @@ final class View
         $loader = new FilesystemLoader('../templates');
         $this->twig = new Environment($loader);
         $this->twig->addGlobal('session', $this->session);
-        //$this->twig->addGlobal('usersList', $this->userManager->showAll());
-        //$this->twig->addGlobal('reviewsListTwo', $this->reviewManager->showAllFromStatus(2));
         $this->filter = new \Twig\TwigFilter('htmlspecialchars_decode', 'htmlspecialchars_decode');
         $this->twig->addFilter($this->filter);
     }
@@ -36,5 +34,10 @@ final class View
     public function render(array $data): void
     {
         echo $this->twig->render("${data['path']}/${data['template']}.html.twig", $data['data']);
+    }
+
+    public function renderMail(array $data): string
+    {
+        return $this->twig->render("${data['path']}/${data['template']}.html.twig", $data['data']);
     }
 }

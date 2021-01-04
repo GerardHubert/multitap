@@ -52,63 +52,96 @@ class UserController
 
     public function confirmationPage(): void
     {
+        $username = $this->request->cleanPost()['username'];
+        $searchResult = $this->userManager->showOneFromUsername($username);
 
         /**
-         * on vérifier d'abord que le username n'est as déjà pris
+         * on vérifie d'abord que le username n'est pas déjà pris
          */
 
-        if ($this->userManager->showOneFromUsername($this->request->cleanPost()['username']) !== null) {
+        if ($searchResult !== null) {
             $this->session->setFlashMessage('Ce nom d\'utilisateur est déjà pris');
             header('Location: index.php?action=signInPage');
             exit;
         }
 
         /**
-         * methode pour créer un token a durée limitée et l'envoyer au user pour valider l'inscription
-         * les données du formulaire sont enregistrées en session en attendant la confirmation
+         * si le username choisi est dispo
+         * on crée le nouveau user et on envoie le token par mail
          */
 
         $this->session->deleteFlashMessage();
 
-        $creation = time();
+        /*$creation = time();
         $expiration = $creation + (60*5);
         $this->session->setTokenExpiration($expiration);
-        $this->session->setInscriptionForm($this->request->cleanPost());
+        $this->session->setInscriptionForm($this->request->cleanPost());*/
+        $this->userManager->saveNewUser($this->request->cleanPost());
+        $newUser = $this->userManager->showOneFromUsername($this->request->cleanPost()['username']);
         $this->email->sendInscriptionEmail($this->request->cleanPost());
 
         $this->view->render([
             'path' => 'frontoffice',
             'template' => 'confirmInscription',
-            'data' => []
+            'data' => [
+                'newUser' => $newUser
+            ]
         ]);
     }
 
     public function checkToken(): void
     {
+        $newUser = $this->userManager->showOneFromId((int) $this->request->cleanGet()['id']);
         $clickedAt = time();
+        $expiration = $newUser->getSignInDate() + 5;
 
-        if ($clickedAt > $this->session->getTokenExpiration()) {
-            // On vérifie ici que le user valide le token avant son expiration
+        /**
+         * Si le token a expiré : proposer l'envoi d'un nouveau token
+         * et passer le nouvel objet user créé
+         */
 
-            $this->session->setFlashMessage('Le token a expiré');
-            header('location: index.php?action=signInPage');
-            $this->session->endSession();
+        if ($clickedAt > $expiration) {
+
+            $this->session->setFlashMessage('Le token a expiré'); 
+            $this->sendNewToken($newUser);
+            //header('location: index.php?action=new_token_page&id=' . $newUser->getuserId());
+            //$this->session->endSession();
             exit;
-        } elseif ($this->request->cleanPost()['token_check'] === $this->session->getToken()) {
-            // si le token n'a pas expiré et que les tokens correspondent
 
-            $this->userManager->saveNewUser($this->session->getInscriptionForm());
+        /**
+         * si le token est OK 
+         */
+
+        } elseif ($this->request->cleanPost()['token_check'] === $newUser->getToken()) {
+
+            //$this->userManager->saveNewUser($this->session->getInscriptionForm());
+            $this->userManager->activateUser($newUser);
             $this->session->setFlashMessage('Votre compte a bien été créé. Veuillez vous connecter.');
             header('Location: index.php?action=logInPage');
             exit;
+
+        /**
+         * Si le token n'a pas expiré mais qu'ils ne correspondent pas
+         */
+
         } elseif ($this->request->cleanPost()['token_check'] !== $this->session->getToken()) {
-            // si le token n'a pas expiré mais qu'ils ne correspondent pas
 
             $this->session->setFlashMessage('Le token ne correspond pas');
             header('Location: index.php?action=signInPage');
             $this->session->endSession();
             exit;
         }
+    }
+
+    public function sendNewToken($newUser): void
+    {
+        $this->view->render([
+            'path' => 'frontoffice',
+            'template' => 'newTokenPage',
+            'data' => [
+                'newUser' => $newUser
+                ]
+        ]);
     }
 
     public function newUserAction(): void

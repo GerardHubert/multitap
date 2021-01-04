@@ -18,13 +18,14 @@ class UserManager
         $this->userRepo = $userRepo;
         $this->session = $session;
     }
+
     public function saveNewUser(array $form): void
     {
         $username = $form['username'];
         $email = $form['email'];
         $password = $form['password'];
         $passwordConfirm = $form['password_confirm'];
-             
+        $token = $form['hidden_input_token'];
         $this->session->deleteFlashMessage();
                 
         $user = new User();
@@ -32,8 +33,20 @@ class UserManager
         $user->setEmail($email);
         $user->setPass(password_hash($passwordConfirm, PASSWORD_BCRYPT));
         $user->setUserRank('ROLE_MEMBER');
+        $user->setIsActive('inactive');
+        $user->setToken($token);
+        $user->setSignInDate(time());
 
         $this->userRepo->create($user);
+    }
+
+    public function activateUser(User $newUser): void
+    {
+        $newUser->setIsActive('active');
+        $newUser->setSignInDate(0);
+        $newUser->setToken('');
+
+        $this->userRepo->updateIsActive($newUser);
     }
 
     public function logIn(array $logInForm): void
@@ -45,17 +58,23 @@ class UserManager
                 header('Location: index.php?action=logInPage');
             break;
             case is_object($user):
-                if (password_verify($logInForm['password'], $user->getPass()) === true) {
+                if (password_verify($logInForm['password'], $user->getPass()) === true && $user->getIsActive() === 'inactive') {
+                    $this->session->setFlashMessage('Votre compte est inactif, connextion interdite');
+                    header('Location: index.php?action=logInPage');
+                    exit;
+                } elseif ($user->getIsActive() === 'active' && password_verify($logInForm['password'], $user->getPass()) === true) {
                     $this->session->deleteFlashMessage();
                     $this->session->setUserId($user->getUserId());
                     $this->session->setUsername($user->getUsername());
                     $this->session->setUserRank($user->getUserRank());
                     header('Location: index.php?action=home');
                     exit;
-                }
+                } elseif (password_verify($logInForm['password'], $user->getPass()) === false) {
                     $this->session->setFlashMessage('Nom d\'utilisateur inconnu et/ou mot de passe incorrect');
                     header('Location: index.php?action=logInPage');
-                ;
+                    exit;
+                }
+                
             break;
         }
     }

@@ -2,15 +2,34 @@
 <html lang="fr">
 
     <head>
+
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel='stylesheet' href='css/style.css' />
         <title>Multitap: Confirmation d'inscription</title>
+
+        <style>
+        
+            #sent_email{
+                width: 800px;
+                margin: auto;
+                text-align: center;
+                background-color: rgba(249, 117, 88, 0.3);
+            }
+
+            #token_mail{
+                margin-top: 20px;
+                margin-bottom: 30px;
+                text-align: center;
+                width: 80%;
+            }
+        
+        </style>
+
     </head>
 
     <body id='sent_email'>
-        <p id='explanation'>Bonjour {{ form.username }}, <br>
-            Afin de finaliser votre inscription sur Multitap, copiez le jeton ci-dessous dans la page de confirmation dans les 5 minutes<br>
+        <h4>Bonjour {{ form.username }},</h4>
+        <p> Afin de finaliser votre inscription et d'activier votre compte utilisateur sur Multitap, copiez le jeton ci-dessous dans la page de confirmation dans les 5 minutes<br>
             A très bientôt !
         </p>
 

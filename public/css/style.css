@@ -729,7 +729,19 @@ button{
     margin-top: 50px;
 }
 
-#inscription_form fieldset, #login_form fieldset{
+#new_token_form{
+    width: 30%;
+    margin: auto;
+    height: 200px;
+    margin-top: 50px;
+}
+
+#new_token_form legend{
+    font-family: roboto_bold;
+    font-size: 1.2rem;
+}
+
+#inscription_form fieldset, #login_form fieldset, #new_token_form fieldset{
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -743,7 +755,7 @@ button{
     flex-direction: column;
 }
 
-#inscription_form input, #login_form input{
+#inscription_form input, #login_form input, #new_token_form input{
     height: 2rem;
     border: 1px solid black;
     border-radius: 5px;

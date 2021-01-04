@@ -30,15 +30,13 @@ class Email
         $to = $signInForm['email'];
         $subject = 'Multitap : Confirmation d\'inscription';
 
-        ob_start();
-        $this->view->render([
+        $message = $this->view->renderMail([
             'path' => 'frontoffice',
             'template' => 'inscriptionEmail',
             'data' => [
                 'form' => $signInForm
             ]
         ]);
-        $message = ob_get_clean();
 
         $headers = [$this->from, $this->version, $this->content];
         mail($to, $subject, $message, implode("\r\n", $headers));

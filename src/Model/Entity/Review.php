@@ -57,17 +57,6 @@ final class Review
         return $this;
     }
 
-    /*public function getReviewer(): string
-    {
-        return $this->reviewer;
-    }
-
-    public function setReviewer(string $reviewer): self
-    {
-        $this->reviewer = $reviewer;
-        return $this;
-    }*/
-
     public function setUserId(int $userId): self
     {
         $this->userId = $userId;

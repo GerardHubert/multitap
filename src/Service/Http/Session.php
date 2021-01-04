@@ -153,7 +153,7 @@ class Session
         $_SESSION['userRank'] = $rank;
     }
 
-    public function getUSerRank(): ?string
+    public function getUserRank(): ?string
     {
         return !empty($_SESSION['userRank']) ? $_SESSION['userRank'] : null;
     }

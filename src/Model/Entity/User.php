@@ -12,6 +12,9 @@ final class User
     private $pass;
     private $userRank;
     private $userDemand;
+    private $isActive;
+    private $token;
+    private $signInDate;
     
     public function getUserId(): int
     {
@@ -71,5 +74,38 @@ final class User
     public function getUserDemand(): string
     {
         return (string) $this->userDemand;
+    }
+
+    public function setIsActive(string $accountState): self
+    {
+        $this->isActive = $accountState;
+        return $this;
+    }
+
+    public function getIsActive(): string
+    {
+        return $this->isActive;
+    }
+
+    public function setToken(string $token): self
+    {
+        $this->token = $token;
+        return $this;
+    }
+
+    public function getToken(): string
+    {
+        return $this->token;
+    }
+
+    public function getSignInDate(): int
+    {
+        return (int) $this->signInDate;
+    }
+
+    public function setSignInDate(int $signInDate): self
+    {
+        $this->signInDate = $signInDate;
+        return $this;
     }
 }

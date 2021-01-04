@@ -23,13 +23,37 @@ final class UserRepository
         $email = $user->getEmail();
         $password = $user->getPass();
         $rank = $user->getUserRank();
+        $isActive = $user->getIsActive();
+        $token = $user->getToken();
+        $signInDate = $user->getSignInDate();
 
-        $request = $this->database->prepare('INSERT INTO users (username, email, pass, userRank)
-            VALUES (:username, :email, :pass, :user_rank)');
+        $request = $this->database->prepare('INSERT INTO users (username, email, pass, userRank, isActive, token, signInDate)
+            VALUES (:username, :email, :pass, :user_rank, :isActive, :token, :signInDate)');
         $request->bindParam(':username', $username);
         $request->bindParam(':email', $email);
         $request->bindParam(':pass', $password);
         $request->bindParam(':user_rank', $rank);
+        $request->bindParam(':isActive', $isActive);
+        $request->bindParam(':token', $token);
+        $request->bindParam(':signInDate', $signInDate);
+
+        return $request->execute();
+    }
+
+    public function updateIsActive(User $newUser): bool
+    {
+        $isActive = $newUser->getIsActive();
+        $userId = $newUser->getUserId();
+        $token = $newUser->getToken();
+        $signInDate = $newUser->getSignInDate();
+
+        $request = $this->database->prepare('UPDATE users
+            SET isActive = :isActive, token = :token, signInDate = :signInDate
+            WHERE userId = :id');
+        $request->bindParam(':isActive', $isActive);
+        $request->bindParam(':id', $userId);
+        $request->bindParam(':token', $token);
+        $request->bindParam(':signInDate', $signInDate);
 
         return $request->execute();
     }
