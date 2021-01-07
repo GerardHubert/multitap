@@ -15,6 +15,7 @@ final class User
     private $isActive;
     private $token;
     private $signInDate;
+    private $previousRank;
     
     public function getUserId(): int
     {
@@ -74,6 +75,17 @@ final class User
     public function getUserDemand(): string
     {
         return (string) $this->userDemand;
+    }
+
+    public function setPreviousRank(string $prevRank): self
+    {
+        $this->previousRank = $prevRank;
+        return $this;
+    }
+
+    public function getPreviousRank(): string
+    {
+        return $this->previousRank;
     }
 
     public function setIsActive(string $accountState): self

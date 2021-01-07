@@ -120,7 +120,7 @@ class Session
 
     public function getGrantedMessage(): ?string
     {
-        return !empty($_SESSION['granted_message']) ? $_SESSION['grantedMessage'] : null;
+        return !empty($_SESSION['grantedMessage']) ? $_SESSION['grantedMessage'] : null;
     }
 
     public function deleteGrantedMessage(): void

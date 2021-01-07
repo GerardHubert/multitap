@@ -40,6 +40,22 @@ final class UserRepository
         return $request->execute();
     }
 
+    public function updateToken(User $user): bool
+    {
+        $id = $user->getUserId();
+        $token = $user->getToken();
+        $newDate = $user->getSignInDate();
+
+        $request = $this->database->prepare('UPDATE users
+            SET token = :token, signInDate = :newDate
+            WHERE userId = :id');
+        $request->bindParam(':id', $id);
+        $request->bindParam(':token', $token);
+        $request->bindParam(':newDate', $newDate);
+
+        return $request->execute();
+    }
+
     public function updateIsActive(User $newUser): bool
     {
         $isActive = $newUser->getIsActive();
@@ -160,12 +176,15 @@ final class UserRepository
     public function updateRankRequest(User $user): bool
     {
         $userDemand = $user->getUserDemand();
+        $previousRank = $user->getPreviousRank();
+        
         $id = $user->getUserId();
 
         $request = $this->database->prepare('UPDATE users
-            SET userDemand = :userDemand
+            SET userDemand = :userDemand, previousRank = :previousRank
             WHERE userId = :userId');
         $request->bindParam(':userDemand', $userDemand);
+        $request->bindParam(':previousRank', $previousRank);
         $request->bindParam(':userId', $id);
 
         return $request->execute();

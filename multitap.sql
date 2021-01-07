@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3308
--- Généré le :  lun. 04 jan. 2021 à 00:57
+-- Généré le :  jeu. 07 jan. 2021 à 21:36
 -- Version du serveur :  8.0.18
 -- Version de PHP :  7.3.12
 
@@ -109,26 +109,23 @@ CREATE TABLE IF NOT EXISTS `users` (
   `pass` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
   `email` text CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
   `userRank` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+  `previousRank` varchar(50) NOT NULL,
   `userDemand` varchar(50) NOT NULL DEFAULT 'none',
   `isActive` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
   `signInDate` int(11) NOT NULL,
   `token` varchar(100) NOT NULL,
   PRIMARY KEY (`userId`)
-) ENGINE=InnoDB AUTO_INCREMENT=56 DEFAULT CHARSET=utf8 COMMENT='rank values = string = admin, reviewer, chief_editor';
+) ENGINE=InnoDB AUTO_INCREMENT=61 DEFAULT CHARSET=utf8 COMMENT='rank values = string = admin, reviewer, chief_editor';
 
 --
 -- Déchargement des données de la table `users`
 --
 
-INSERT INTO `users` (`userId`, `username`, `pass`, `email`, `userRank`, `userDemand`, `isActive`, `signInDate`, `token`) VALUES
-(6, 'papa_joueur', '$2y$10$G7a94K26Bvfx3S0toorgJ.ifT3C64XeaFqvKQNOZkr.zOwV2XfaNi', 'mikado@gmail.com', 'ROLE_ADMIN', 'none', 'active', 0, ''),
-(7, 'user01', '$2y$10$ijuMVMUH8qfI6HKTRV.GzujzRmw.YjGQAbncBx8XknpF/nTHg3Pxq', 'test1@test.com', 'ROLE_MEMBER', 'none', 'active', 0, ''),
-(12, 'user03', '$2y$10$jXXKlu.5PPxkJYUOkh42qOSbrG8QO2LKcMNOxOWj/jgaJh2wYyI5m', 'test3@test.com', 'ROLE_MEMBER', 'none', 'active', 0, ''),
-(14, 'Anonyme', '$2y$10$pJju4bUqOj2r4jvAmPEFRecRojGbTezecPu8VTtDofm0r28gi2Sz2', 'mikado842@gmail.com', 'ROLE_ANONYME', 'none', 'active', 0, ''),
-(33, 'le_joueur_du_dimanche', '$2y$10$gwGR.gge.K1Zn1q8I.yb6e4oTTbWiquV9NPHIsYDTGf11xZdhQGqy', 'mikado842@gmail.com', 'ROLE_MEMBER', 'none', 'active', 0, ''),
-(36, 'penolope_jolicoeur', '$2y$10$dzeo6M2ek.hjxcqKbRdFFejd8uPFGIvu14eyuz1bq/jJH43pumPZO', 'mikado842@gmail.com', 'ROLE_MEMBER', 'none', 'active', 0, ''),
-(37, 'gamer', '$2y$10$Na.9.qIJyQxWwHZPdAq5Eeg0zZTmDlHUap6um/C.oTUQgWwe5FYw2', 'mikado842@gmail.com', 'ROLE_REVIEWER', 'none', 'active', 0, ''),
-(55, 'jojo', '$2y$10$jPdl7iP65huo.ezvLMeI2.LmZAJJnJbijvwCOX9OcjxlYZu0vp90a', 'mikado842@gmail.com', 'ROLE_MEMBER', 'none', 'inactive', 1609720529, '$2y$10$NovE8sMUOdvyhmKCa3/Q4OUcMulK2NqvbSRyEOLyxAaSY8EJ4kpVm');
+INSERT INTO `users` (`userId`, `username`, `pass`, `email`, `userRank`, `previousRank`, `userDemand`, `isActive`, `signInDate`, `token`) VALUES
+(6, 'papa_joueur', '$2y$10$G7a94K26Bvfx3S0toorgJ.ifT3C64XeaFqvKQNOZkr.zOwV2XfaNi', 'mikado@gmail.com', 'ROLE_ADMIN', '', 'none', 'active', 0, ''),
+(7, 'user01', '$2y$10$ijuMVMUH8qfI6HKTRV.GzujzRmw.YjGQAbncBx8XknpF/nTHg3Pxq', 'test1@test.com', 'ROLE_MEMBER', '', 'none', 'active', 0, ''),
+(12, 'user03', '$2y$10$jXXKlu.5PPxkJYUOkh42qOSbrG8QO2LKcMNOxOWj/jgaJh2wYyI5m', 'test3@test.com', 'ROLE_MEMBER', '', 'none', 'active', 0, ''),
+(14, 'Anonyme', '$2y$10$pJju4bUqOj2r4jvAmPEFRecRojGbTezecPu8VTtDofm0r28gi2Sz2', 'mikado842@gmail.com', 'ROLE_ANONYME', '', 'none', 'active', 0, '');
 
 --
 -- Contraintes pour les tables déchargées

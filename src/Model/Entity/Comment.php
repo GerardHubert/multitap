@@ -24,7 +24,7 @@ final class Comment
 
     public function setId(int $id): self
     {
-        $this->id = $id;
+        $this->commentId = $id;
         return $this;
     }
 

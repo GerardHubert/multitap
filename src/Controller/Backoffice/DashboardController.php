@@ -34,6 +34,7 @@ class DashboardController
     private $accessControl;
     private $reviewsListToValidate;
     private $usersList;
+    private $userManager;
 
     public function __construct(ReviewManager $reviewManager, View $view, Request $request, CommentManager $commentManager, Token $token, Session $session, AccessControl $accessControl, UserManager $userManager)
     {

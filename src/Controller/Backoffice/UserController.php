@@ -7,7 +7,6 @@ namespace App\Controller\Backoffice;
 use App\Model\Manager\ReviewManager;
 use App\Model\Manager\UserManager;
 use App\Service\Email;
-use App\Service\Http\Cookies;
 use App\Service\Http\Request;
 use App\Service\Http\Session;
 use App\Service\Security\AccessControl;
@@ -24,9 +23,8 @@ class UserController
     private $reviewManager;
     private $accessControl;
     private $email;
-    private $cookies;
 
-    public function __construct(View $view, Request $request, Token $token, Session $session, UserManager $userManager, AccessControl $accessControl, ReviewManager $reviewManager, Email $email, Cookies $cookies)
+    public function __construct(View $view, Request $request, Token $token, Session $session, UserManager $userManager, AccessControl $accessControl, ReviewManager $reviewManager, Email $email)
     {
         $this->view = $view;
         $this->request = $request;
@@ -36,7 +34,6 @@ class UserController
         $this->accessControl = $accessControl;
         $this->reviewManager = $reviewManager;
         $this->email = $email;
-        $this->cookies = $cookies;
     }
 
     public function signInPage(): void
@@ -78,7 +75,7 @@ class UserController
         $this->session->setInscriptionForm($this->request->cleanPost());*/
         $this->userManager->saveNewUser($this->request->cleanPost());
         $newUser = $this->userManager->showOneFromUsername($this->request->cleanPost()['username']);
-        $this->email->sendInscriptionEmail($this->request->cleanPost());
+        $this->email->sendInscriptionEmail($newUser/*$this->request->cleanPost()*/);
 
         $this->view->render([
             'path' => 'frontoffice',
@@ -101,17 +98,15 @@ class UserController
          */
 
         if ($clickedAt > $expiration) {
-
-            $this->session->setFlashMessage('Le token a expiré'); 
-            $this->sendNewToken($newUser);
+            $this->session->setFlashMessage('Le token a expiré');
+            $this->newTokenPage($newUser);
             //header('location: index.php?action=new_token_page&id=' . $newUser->getuserId());
             //$this->session->endSession();
             exit;
 
         /**
-         * si le token est OK 
+         * si le token est OK
          */
-
         } elseif ($this->request->cleanPost()['token_check'] === $newUser->getToken()) {
 
             //$this->userManager->saveNewUser($this->session->getInscriptionForm());
@@ -123,9 +118,7 @@ class UserController
         /**
          * Si le token n'a pas expiré mais qu'ils ne correspondent pas
          */
-
         } elseif ($this->request->cleanPost()['token_check'] !== $this->session->getToken()) {
-
             $this->session->setFlashMessage('Le token ne correspond pas');
             header('Location: index.php?action=signInPage');
             $this->session->endSession();
@@ -133,8 +126,14 @@ class UserController
         }
     }
 
-    public function sendNewToken($newUser): void
+    public function newTokenPage($newUser): void
     {
+        /**
+         * Page pour générer et envoyer un nouveau token par mail
+         */
+
+        $this->token->setToken();
+
         $this->view->render([
             'path' => 'frontoffice',
             'template' => 'newTokenPage',
@@ -143,6 +142,21 @@ class UserController
                 ]
         ]);
     }
+
+    public function preFilledForm(): void
+    {
+        $newUser = $this->userManager->showOneFromId((int) $this->request->cleanGet()['id']);
+        $newTime = time();
+        $newToken = $this->request->cleanPost()['hidden_input_token'];
+        $this->userManager->newToken($newUser, $newToken, $newTime);
+
+        $this->email->sendInscriptionEmail($newUser);
+
+        header('Location: index.php?action=&id=' . $newUser->getUserId());
+        exit;
+    }
+
+
 
     public function newUserAction(): void
     {
@@ -187,6 +201,12 @@ class UserController
 
     public function logOutAction(): void
     {
+        $user = $this->userManager->showOneFromUsername($this->session->getUsername());
+
+        if ($user->getUserDemand() === 'none' && $user->getUserRank() !== $user->getPreviousRank()) {
+            $this->userManager->cancelRankDemand($user);
+        }
+
         $this->session->endSession();
         header('Location: index.php?action=home');
         exit;
@@ -249,21 +269,22 @@ class UserController
         }
 
         $user = $this->userManager->showOneFromId($this->session->getUserId());
+        $actualRole = $user->getUserRank();
+        $previousRole = $user->getPreviousRank();
+        $demand = $user->getUserDemand();
 
         /**
-         * on vérifie si le role actuel du user est différent de son role depuis sa dernière connexion, stockée dans un cookie
-         * si le rôle est différent, ça veut dire que sa demande de changement de role a été acceptée, et on affiche un message
+         * une demande de changement acceptée
+         * si userDemand est à none, et que previousRole !== du role actuel
          */
 
-        if ($this->cookies->getRole() !== null && $this->cookies->getRole() !== $this->session->getUserRank()) {
+        if ($demand === 'none' && !empty($previousRole) && $actualRole !== $previousRole) {
             $this->session->setGrantedMessage('Félicitations, votre rôle a évolué. Vous êtes désormais ' . mb_substr($this->session->getUserRank(), 5));
-            echo 'role en cookie : ' . $this->cookies->getRole() . '<br>';
-            echo 'role en session : ' . $this->session->getUserRank() . '<br>';
         }
 
         /**
          * si le user fait sa demande et reste dans la même session, message = 'demande prise en compte'
-         * si nouvelle session et demande toujours en cours, message = 'demande en cours'
+         * si nouvelle session et demande toujours en cours, message = 'demande en cours' en comparant userDemand, actualRank et PreviousRank
          */
 
         if ($this->session->getRecorded() === null) {
@@ -338,7 +359,7 @@ class UserController
 
         $this->userManager->saveUserRequest($this->request->cleanPost(), $this->userManager->showOneFromId((int) $this->request->cleanGet()['id']));
         $this->session->setRecorded('Demande vers rôle ' . mb_substr($this->request->cleanPost()['new_role'], 5) . ' enregistrée.');
-        $this->cookies->setRole((string) $this->session->getUserRank());
+        //$this->cookies->setRole((string) $this->session->getUserRank()); on sauvegarde dans la table users au lieu d'un cookie
         header('Location: index.php?action=user_parameters_page');
         exit;
     }

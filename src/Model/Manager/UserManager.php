@@ -40,6 +40,14 @@ class UserManager
         $this->userRepo->create($user);
     }
 
+    public function newToken(User $user, string $newToken, int $time): bool
+    {
+        $user->setToken($newToken);
+        $user->setSignInDate($time);
+
+        return $this->userRepo->updateToken($user);
+    }
+
     public function activateUser(User $newUser): void
     {
         $newUser->setIsActive('active');
@@ -167,7 +175,8 @@ class UserManager
     public function saveUserRequest(array $form, User $user): ?bool
     {
         $user->setUserDemand($form['new_role']);
-        
+        $user->setPreviousRank($user->getUserRank());
+
         return $this->userRepo->updateRankRequest($user);
     }
 
@@ -181,6 +190,7 @@ class UserManager
     public function cancelRankDemand(User $user): ?bool
     {
         $user->setUserDemand('none');
+        $user->setPreviousRank('');
         return $this->userRepo->updateRankRequest($user);
     }
 }

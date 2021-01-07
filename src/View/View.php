@@ -15,14 +15,10 @@ final class View
     private $twig;
     private $session;
     private $filter;
-    private $userManager;
-    private $reviewManager;
 
-    public function __construct(Session $session, UserManager $userManager, ReviewManager $reviewManager)
+    public function __construct(Session $session)
     {
         $this->session = $session;
-        $this->userManager = $userManager;
-        $this->reviewManager = $reviewManager;
 
         $loader = new FilesystemLoader('../templates');
         $this->twig = new Environment($loader);

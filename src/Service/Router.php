@@ -45,14 +45,12 @@ final class Router
     private $userRepository;
     private $accessControl;
     private $email;
-    private $cookies;
 
 
     public function __construct()
     {
         // dépendances
         $this->session = new Session();
-        $this->cookies = new Cookies();
         $this->accessControl = new AccessControl($this->session);
         $this->token = new Token($this->session);
         $this->database = new Database();
@@ -64,13 +62,13 @@ final class Router
         $this->draftManager = new draftManager($this->reviewRepo, $this->token);
         $this->commentManager = new CommentManager($this->commentRepo, $this->session, $this->token);
         $this->userManager = new UserManager($this->userRepository, $this->session);
-        $this->view = new View($this->session, $this->userManager, $this->reviewManager);
+        $this->view = new View($this->session);
         $this->email = new Email($this->view);
         $this->draftController = new draftController($this->draftManager, $this->request, $this->view, $this->session, $this->token, $this->accessControl);
         $this->reviewController = new ReviewController($this->reviewManager, $this->view, $this->commentManager, $this->token, $this->session, $this->request);
         $this->commentController = new CommentController($this->commentManager, $this->request);
         $this->dashboardController = new DashboardController($this->reviewManager, $this->view, $this->request, $this->commentManager, $this->token, $this->session, $this->accessControl, $this->userManager);
-        $this->userController = new UserController($this->view, $this->request, $this->token, $this->session, $this->userManager, $this->accessControl, $this->reviewManager, $this->email, $this->cookies);
+        $this->userController = new UserController($this->view, $this->request, $this->token, $this->session, $this->userManager, $this->accessControl, $this->reviewManager, $this->email);
     }
 
     public function run(): void
@@ -208,6 +206,9 @@ final class Router
             break;
             case 'all_reviews_all_users_all_status':
                 $this->dashboardController->showTotalReviews();
+            break;
+            case 'get_new_token':
+                $this->userController->preFilledForm();
             break;
         }
 
