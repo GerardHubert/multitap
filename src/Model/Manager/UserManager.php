@@ -48,6 +48,11 @@ class UserManager
         return $this->userRepo->updateToken($user);
     }
 
+    public function checkUsernameAndEmail(User $user, array $form): bool
+    {
+        return ($user->getUsername() === $form['username'] && $user->getEmail() === $form['email']);
+    }
+
     public function activateUser(User $newUser): void
     {
         $newUser->setIsActive('active');
@@ -67,8 +72,8 @@ class UserManager
             break;
             case is_object($user):
                 if (password_verify($logInForm['password'], $user->getPass()) === true && $user->getIsActive() === 'inactive') {
-                    $this->session->setFlashMessage('Votre compte est inactif, connextion interdite');
-                    header('Location: index.php?action=logInPage');
+                    $this->session->setFlashMessage('Votre compte est inactif, connexion interdite');
+                    header('Location: index.php?action=signInPage');
                     exit;
                 } elseif ($user->getIsActive() === 'active' && password_verify($logInForm['password'], $user->getPass()) === true) {
                     $this->session->deleteFlashMessage();

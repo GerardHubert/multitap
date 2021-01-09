@@ -162,7 +162,7 @@ final class Router
                 $this->userController->signInPage();
             break;
             case 'sign-in':
-                $this->userController->confirmationPage();
+                $this->userController->checkSignInForm();
                 //$this->userController->newUserAction();
             break;
             case 'check_token':
@@ -207,8 +207,17 @@ final class Router
             case 'all_reviews_all_users_all_status':
                 $this->dashboardController->showTotalReviews();
             break;
-            case 'get_new_token':
-                $this->userController->preFilledForm();
+            case 'new_token_at_validation':
+                $this->userController->sendNewToken();
+            break;
+            case 'new_token_page':
+                $this->userController->newTokenPage();
+            break;
+            case 'send_new_token_from_empty':
+                $this->userController->sendNewTokenFromEmpty();
+            break;
+            case 'send_token_from_prefilled':
+                $this->userController->sendTokenFromPreFilledForm();
             break;
         }
 

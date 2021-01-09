@@ -1,30 +1,32 @@
-{% extends "/frontoffice/layout.html.twig" %}
+{% extends "frontoffice/layout.html.twig" %}
 
 {% block title %}Nouveau jeton{% endblock %}
 
 {% block content %}
 
-<form action="index.php?action=get_new_token&id={{ newUser.userId }}" method='post' id="new_token_form">
-    <fieldset>
-        <legend>{{ session.flashMessage }}</legend>
-        <div class='label_and_input'>
-            <label for="username">Nom d'utilisateur</label>
-            <input class='username_input' type="text" name='username'
-                readonly
-                maxlength='50'
-                value='{{ newUser.username }}'>
-        </div>
-        <div class='label_and_input'>
-            <label for="email">Adresse mail</label>
-            <input class='email_input' 
-                type="email" 
-                name='email' 
-                readonly
-                value='{{ newUser.email }}'>
-        </div>
-        <input class='inscription_button' type="submit" value="Obtenir un nouveau jeton">
-        <input type="hidden" name='hidden_input_token' class="hidden_input_token" value={{ session.token }}>
-    </fieldset>
-</form>
+    <form action="index.php?action=send_new_token_from_empty" method='post' id="inscription_form">
+        <fieldset>
+            <legend>Activer mon compte</legend>
+            <div class='label_and_input'>
+                <label for="username">Nom d'utilisateur</label>
+                <input class='username_input' type="text" name='username'
+                    required
+                    maxlength='50'>
+            </div>
+            <div class='label_and_input'>
+                <label for="email">Adresse mail</label>
+                <input class='email_input' type="email" name='email' required>
+            </div>
+            <input class='inscription_button' type="submit" value="Recevoir un nouvel email d'activation" disabled>
+            <input type="hidden" name='hidden_input_token' class="hidden_input_token" value={{ session.token }}>
+        </fieldset>
+        {% if session.flashMessage %}
+            <p>{{ session.flashMessage }}</p>
+        {% endif %}
+    </form>
 
+{% endblock %}
+
+{% block script %}
+    <script src='js/NewTokenValidation.js'></script>
 {% endblock %}
