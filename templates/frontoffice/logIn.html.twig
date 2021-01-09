@@ -21,7 +21,7 @@
         </div>
         <input class='login_button' type="submit" formaction='index.php?action=log-in' value="Se connecter" disabled>
         <input type="hidden" name='hidden_input_token' class="hidden_input_token" value={{ session.token }}>
-        <a href='index.php?action=new_token_page'>Activer mon compte : recevoir un nouveau courrier de confirmation</a>
+        <a class='activate_account' href='index.php?action=new_token_page'>Recevoir un nouvel email et activer mon compte</a>
     </fieldset>
 
     {% if session.flashMessage == true %}

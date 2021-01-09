@@ -14,7 +14,7 @@
 <form method='post' id='token_verification_form'>
     <input type='text' class='token_check' name='token_check' placeholder='Collez le jeton reçu par email ici'>
     <input type="submit" formaction='index.php?action=check_token&id={{ newUser.userId }}' class='submit_button' value='Envoyer'>
-    <a href='index.php?action=new_token_at_validation&id={{ newUser.userId }}'>Email non reçu ? En recevoir un autre</a>'
+    <a href='index.php?action=new_token_at_validation&id={{ newUser.userId }}'>Recevoir un nouvel email avec un nouveau jeton</a>'
     <input type='hidden' class='hidden_input' name='hidden_input_token' value={{ session.token }}>
 </form>
 <p>{{ session.flashMessage }}</p>

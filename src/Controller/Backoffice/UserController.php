@@ -53,7 +53,7 @@ class UserController
          * méthode pour vérifier le formulaire d'inscription
          */
 
-         $signInForm = $this->request->cleanPost();
+        $signInForm = $this->request->cleanPost();
 
         if ($this->session->getToken() !== $signInForm['hidden_input_token']) {
             $this->session->setFlashMessage('Vous n\'avez pas l\'autorisation d\'accéder à cette page');
@@ -72,7 +72,7 @@ class UserController
         }
 
         /**
-         * si le username est dispo, 
+         * si le username est dispo,
          * on sauvegarde le user en bdd
          */
 
@@ -102,9 +102,18 @@ class UserController
     public function sendNewToken(): void
     {
         $user = $this->userManager->showOneFromId((int) $this->request->cleanGet()['id']);
-
+        $this->token->setToken();
         $this->userManager->newToken($user, $this->session->getToken(), time());
-        $this->sendToken($this->request->cleanPost());
+        
+        $this->email->sendInscriptionEmail($user);
+
+        $this->view->render([
+            'path' => 'frontoffice',
+            'template' => 'confirmInscription',
+            'data' => [
+                'newUser' => $user
+            ]
+        ]);
     }
 
     public function sendNewTokenFromEmpty(): void
@@ -121,11 +130,16 @@ class UserController
             $this->session->setFlashMessage('Utilisateur non trouvé');
             header('Location: index.php?action=new_token_page');
             exit;
+        } elseif ($user->getIsActive() === 'active') {
+            $this->session->setFlashMessage('Votre compte utilisateur est déjà actif, essayez de vous connecter');
+            header('Location: index.php?action=logInPage');
+            exit;
         }
 
         switch ($this->userManager->checkUsernameAndEmail($user, $this->request->cleanPost())) {
             case false:
-                echo 'Les noms utilisateurs / emails indiqués n\'ont pas été trouvés';
+                $this->session->setFlashMessage('L\'adresse email saisie n\'est pas la même que celle enregistrée dans nos données');
+                header('Location: index.php?action=new_token_page');
             break;
             case true:
                 $this->userManager->newToken($user, $this->session->getToken(), time());
@@ -139,7 +153,7 @@ class UserController
         $this->session->deleteFlashMessage();
         $newUser = $this->userManager->showOneFromId((int) $this->request->cleanGet()['id']);
         $clickedAt = time();
-        $expiration = $newUser->getSignInDate() + 60*5;
+        $expiration = $newUser->getSignInDate() + 60 * 5;
 
         /**
          * Si le token a expiré : proposer l'envoi d'un nouveau token
@@ -155,7 +169,6 @@ class UserController
          * si le token est OK
          */
         } elseif ($this->request->cleanPost()['token_check'] === $newUser->getToken()) {
-
             $this->userManager->activateUser($newUser);
             $this->session->setFlashMessage('Votre compte a bien été créé. Veuillez vous connecter.');
             header('Location: index.php?action=logInPage');
@@ -165,7 +178,7 @@ class UserController
          * Si le token n'a pas expiré mais qu'ils ne correspondent pas
          */
         } elseif ($this->request->cleanPost()['token_check'] !== $this->session->getToken()) {
-            $this->session->setFlashMessage('Le token ne correspond pas');
+            $this->session->setFlashMessage('Le jeton ne correspond pas');
             $this->newTokenFromPrefilledForm($newUser);
             exit;
         }
@@ -222,23 +235,6 @@ class UserController
             'template' => 'newTokenPage',
             'data' => []
         ]);
-    }
-
-    public function newUserAction(): void
-    {
-        $sessionToken = $this->session->getToken();
-        $inputToken = $this->request->cleanPost()['hidden_input_token'];
-
-        if ($sessionToken === $inputToken) {
-            $this->userManager->saveNewUser($this->request->cleanPost());
-
-            header('Location: index.php?action=home');
-            exit;
-        }
-        
-        $this->session->setFlashMessage("Vous n'êtes pas autorisé à ouvrir un compte");
-        header('Location: index.php?action=signInPage');
-        exit;
     }
 
     public function logInPage(): void

@@ -163,7 +163,6 @@ final class Router
             break;
             case 'sign-in':
                 $this->userController->checkSignInForm();
-                //$this->userController->newUserAction();
             break;
             case 'check_token':
                 $this->userController->checkToken();

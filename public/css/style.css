@@ -826,7 +826,7 @@ button{
     width: 30%;
     margin: auto;
     margin-top: 50px;
-    height: 200px;
+    height: 250px;
 }
 
 #login_form p, #token_check_container p{
@@ -834,12 +834,14 @@ button{
     text-align: center;
 }
 
-#login_form a{
-    color: black;
-}
-
 #login_form a:hover{
     color: rgba(249, 117, 88, 1)
+}
+
+#login_form .activate_account{
+    color: black;
+    font-family: roboto_medium;
+    text-align: center;
 }
 
 .username_input_neutral, .password_input_neutral, .email_input_neutral, .password_confirm_input_neutral{
@@ -853,6 +855,24 @@ button{
 .username_input_valid, .password_input_valid, .email_input_valid, .password_confirm_input_valid{
     background-color:rgba(0, 128, 0, 0.5);
     transition: background-color 1s;
+}
+
+/**
+* NEW TOKEN PAGE
+*/
+
+#new_token_demand{
+    width: 30%;
+    margin: auto;
+    height: 300px;
+    margin-top: 50px;
+}
+
+#new_token_demand fieldset{
+    height: 180px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
 }
 
 /**
