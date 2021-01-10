@@ -65,13 +65,20 @@ class UserManager
     public function logIn(array $logInForm): void
     {
         $user = $this->userRepo->findOneByUsername($logInForm['username']);
+
+        if ($user->getIsActive() == 'inactive') {
+            $this->session->setFlashMessage("Votre compte n'est pas actif. Activez-le en remplissant ce formulaire");
+            header('Location: index.php?action=new_token_page');
+            exit;
+        }
+
         switch ($user) {
             case null:
                 $this->session->setFlashMessage('Nom d\'utilisateur inconnu et/ou mot de passe incorrect');
                 header('Location: index.php?action=logInPage');
             break;
             case is_object($user):
-                if (password_verify($logInForm['password'], $user->getPass()) === true && $user->getIsActive() === 'inactive') {
+                if ($user->getIsActive() === 'inactive') {
                     $this->session->setFlashMessage('Votre compte est inactif, connexion interdite');
                     header('Location: index.php?action=signInPage');
                     exit;
@@ -100,6 +107,11 @@ class UserManager
     public function showOneFromUsername(string $username): ?User
     {
         return $this->userRepo->findOneByUsername($username);
+    }
+
+    public function showOneFromEmail(string $email): ?User
+    {
+        return $this->userRepo->findOneByEmail($email);
     }
 
     public function showAll(): ?array
@@ -197,5 +209,13 @@ class UserManager
         $user->setUserDemand('none');
         $user->setPreviousRank('');
         return $this->userRepo->updateRankRequest($user);
+    }
+
+    public function resetPass(User $user, array $form): bool
+    {
+        $user->setPass(password_hash($form['new_pass'], PASSWORD_BCRYPT));
+        $user->setSignInDate(0);
+        $user->setToken('');
+        return $this->userRepo->updatePassFromUser($user);
     }
 }

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+    <head>
+
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Multitap: Réinitialiser mon mot de passe</title>
+
+        <style>
+
+            #token_mail{
+                width: 30%;
+            }
+
+        </style>
+
+    </head>
+
+    <body id='sent_email'>
+        <h4>Bonjour {{ user.username }},</h4>
+        <p>Vous recevez cet email car vous avez oublié votre mot de passe</p>
+        <p>Pour reinitialiser votre mot de passe, suivez le lien suivant :</p>
+        <p><a href="http://localhost:8000/index.php?action=reset_pass_page&id={{ user.userId }}&token={{ user.token }}">Reinitialiser mon mot de passe</a></p>
+    </body>
+
+</html>

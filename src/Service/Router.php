@@ -218,6 +218,18 @@ final class Router
             case 'send_token_from_prefilled':
                 $this->userController->sendTokenFromPreFilledForm();
             break;
+            case 'forgotten_password':
+                $this->userController->newPassDemand();
+            break;
+            case 'reset_pass_link':
+                $this->userController->resetPassLink();
+            break;
+            case 'reset_pass_page':
+                $this->userController->resetPassPage();
+            break;
+            case 'reset_pass_action':
+                $this->userController->resetPassAction();
+            break;
         }
 
         /*if ($action === 'home') {

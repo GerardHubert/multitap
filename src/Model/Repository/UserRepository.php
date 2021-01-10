@@ -105,6 +105,20 @@ final class UserRepository
         return $user;
     }
 
+    public function findOneByEmail(string $email): ?User
+    {
+        $request = $this->database->prepare('SELECT *
+            FROM users
+            WHERE email = :email');
+        $request->bindParam(':email', $email);
+        $request->setFetchMode(PDO::FETCH_CLASS, User::class);
+        $request->execute();
+
+        $user = $request->fetch();
+
+        return $user === false ? null : $user;
+    }
+
     public function findByAll(): ?array
     {
         $request = $this->database->prepare("SELECT *
@@ -163,12 +177,16 @@ final class UserRepository
     {
         $userId = $user->getUserId();
         $newPass = $user->getPass();
+        $resetDate = $user->getSigninDate();
+        $resetToken = $user->getToken();
 
         $request =$this->database->prepare("UPDATE users
-            SET pass = :newPass
+            SET pass = :newPass, signinDate = :noDate, token = :noToken
             WHERE userId = :userId");
         $request->bindParam(':userId', $userId);
         $request->bindParam(':newPass', $newPass);
+        $request->bindParam(':noToken', $resetToken);
+        $request->bindParam('noDate', $resetDate);
 
         return $request->execute();
     }

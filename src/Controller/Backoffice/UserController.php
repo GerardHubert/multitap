@@ -76,6 +76,7 @@ class UserController
          * on sauvegarde le user en bdd
          */
 
+        $this->session->deleteFlashMessage();
         $this->userManager->saveNewUser($signInForm);
         $this->sendToken($signInForm);
     }
@@ -102,6 +103,12 @@ class UserController
     public function sendNewToken(): void
     {
         $user = $this->userManager->showOneFromId((int) $this->request->cleanGet()['id']);
+
+        if (empty($this->request->cleanPost()) || $user->getUsername() !== $this->request->cleanPost()['username']) {
+            header('Location: index.php?action=logInPage');
+            exit;
+        };
+
         $this->token->setToken();
         $this->userManager->newToken($user, $this->session->getToken(), time());
         
@@ -118,7 +125,10 @@ class UserController
 
     public function sendNewTokenFromEmpty(): void
     {
-        if ($this->session->getToken() !== $this->request->cleanPost()['hidden_input_token']) {
+        if (empty($this->request->cleanPost())) {
+            header('Location: index.php?action=logInPage');
+            exit;
+        } elseif ($this->session->getToken() !== $this->request->cleanPost()['hidden_input_token']) {
             $this->session->setFlashMessage('Accès interdit');
             header('Location: index.php?action=new_token_page');
             exit;
@@ -142,6 +152,7 @@ class UserController
                 header('Location: index.php?action=new_token_page');
             break;
             case true:
+                $this->session->deleteFlashMessage();
                 $this->userManager->newToken($user, $this->session->getToken(), time());
                 $this->sendToken($this->request->cleanPost());
             break;
@@ -209,6 +220,12 @@ class UserController
 
     public function sendTokenFromPreFilledForm(): void
     {
+        if ($this->request->cleanPost()['hidden_input_token'] !== $this->session->getToken()) {
+            $this->session->setFlashMessage('Accès à cette page non autorisée');
+            header('Location:');
+            exit;
+        }
+
         $this->session->deleteFlashMessage();
         
         $newUser = $this->userManager->showOneFromId((int) $this->request->cleanGet()['id']);
@@ -449,6 +466,104 @@ class UserController
 
         $this->userManager->cancelRankDemand($this->userManager->showOneFromId((int) $this->request->cleanGet()['id']));
         header('Location: index.php?action=members_management');
+        exit;
+    }
+
+    public function newPassDemand(): void
+    {
+        $this->token->setToken();
+
+        $this->view->render([
+            'path' => 'frontoffice',
+            'template' => 'forgottenPassword',
+            'data' => []
+        ]);
+    }
+
+    public function resetPassLink(): void
+    {
+        /**
+         * si le formulaire est accpeté, on cherche un utilisateur à partir de l'email saisi
+         */
+
+        if (empty($this->session->getToken()) || $this->request->cleanPost()['hidden_input_token'] !== $this->session->getToken()) {
+            $this->session->setFlashMessage('Accès interdit');
+            header('Location: index.php?action=forgotten_password');
+            exit;
+        }
+
+        $user = $this->userManager->showOneFromEmail($this->request->cleanPost()['email']);
+
+        switch ($user) {
+            case null:
+                $this->session->setFlashMessage('Aucun utilisateur trouvé avec cette adresse mail');
+                header('Location: index.php?action=forgotten_password');
+            break;
+            case is_object($user):
+                $this->userManager->newToken($user, $this->request->cleanPost()['hidden_input_token'], time());
+                $this->email->sendResetPassLink($user);
+                $this->session->setFlashMessage('Un email  pour réinitialiser votre mot de passe a été envoyé à l\'adresse indiquée');
+                header('Location: index.php?action=forgotten_password');
+            break;
+        }
+    }
+
+    public function resetPassPage(): void
+    {
+        /**
+         * on vérifie qu'au click, le token n'est pas périmé
+         * on vérifie que le token passé dans l'url correspond bien au token en bdd concernant ce user précis
+         */
+
+        $user = $this->userManager->showOneFromId((int) $this->request->cleanGet()['id']);
+
+        if (time() > $user->getSignInDate() + 60 * 5) {
+            $this->session->setFlashMessage('Le token a expiré. Demandez un nouvel email');
+            header('Location: index.php?action=forgotten_password');
+            exit;
+        }
+
+        switch ($user) {
+            case null:
+                $this->session->setFlashMessage('Aucun user trouvé avec cet Id');
+                header('Location: index.php?action=forgotten_password');
+            break;
+            case is_object($user):
+                $this->session->deleteFlashMessage();
+                $this->token->setToken();
+                $this->view->render([
+                    'path' => 'frontoffice',
+                    'template' => 'resetPassPage',
+                    'data' => [
+                        'user' => $user
+                    ]
+                ]);
+            break;
+        }
+    }
+
+    public function resetPassAction(): void
+    {
+        $user = $this->userManager->showOneFromId((int) $this->request->cleanGet()['id']);
+
+        if ($this->session->getToken() !== $this->request->cleanPost()['hidden_input_token']) {
+            $this->session->setFlashMessage('Accès interdit');
+            header('Location: index.php?action=reset_pass_page');
+            exit;
+        } elseif ($this->request->cleanPost()['new_pass'] !== $this->request->cleanPost()['confirm_new_pass']) {
+            $this->session->setFlashMessage('Les mots de passe ne correspondent pas');
+            header('Location: index.php?action=reset_pass_page&id='.$user->getUserId());
+            exit;
+        }
+
+        if ($this->userManager->resetPass($user, $this->request->cleanPost()) === false) {
+            $this->session->setFlashMessage('Une erreur est survenue');
+            header('Location: index.php?action=reset_pass_page&id='.$user->getUserId());
+            exit;
+        };
+
+        $this->session->endSession();
+        header('Location: index.php?action=logInPage');
         exit;
     }
 }

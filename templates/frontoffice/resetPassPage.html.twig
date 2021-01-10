@@ -1,0 +1,30 @@
+{% extends '/frontoffice/layout.html.twig' %}
+
+{% block title %}Nouveau mot de passe{% endblock %}
+
+{% block content %}
+
+    <form id="password_form" method='post' action='index.php?action=reset_pass_action&id={{ user.userId }}'>
+        <h5>DEFINIR UN NOUVEAU MOT DE PASSE</h5>
+        <div class="label_and_value">
+            <label class='update_label' for='new_pass'>Définir mon noveau mot de passe : </label>
+            <input type="password" class="password_input" min='6' name='new_pass'>
+        </div>
+        <div class="label_and_value">
+            <label class='update_label' for='confirm_new_pass'>Confimer mon nouveau mot de passe : </label>
+            <input type="password" class="password_confirm_input" min='6' name='confirm_new_pass'>
+        </div>
+        <input type='hidden' name='hidden_input_token' value={{ session.token }}>
+        <button class='update_pass_button' type='submit' disabled>Modifier</button>
+
+        {% if session.flashMessage %}
+            {{ session.flashMessage }}
+        {% endif %}
+
+    </form>
+
+{% endblock %}
+
+{% block script %}
+    <script src='js/ResetPassValidation.js'></script>
+{% endblock %}

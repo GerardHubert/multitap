@@ -25,10 +25,10 @@ class Email
     public function sendInscriptionEmail(/*array $signInForm*/User $user): void
     {
         /**
-         * Params : le formulaire d'inscription
+         * Params : l'entité user
          */
 
-        $to = /*$signInForm['email']*/$user->getEmail();
+        $to = $user->getEmail();
         $subject = 'Multitap : Confirmation d\'inscription';
 
         $message = $this->view->renderMail([
@@ -36,6 +36,23 @@ class Email
             'template' => 'inscriptionEmail',
             'data' => [
                 'form' => $user
+            ]
+        ]);
+
+        $headers = [$this->from, $this->version, $this->content];
+        mail($to, $subject, $message, implode("\r\n", $headers));
+    }
+
+    public function sendResetPassLink(User $user): void
+    {
+        $to = $user->getEmail();
+        $subject = 'Multitap : réinitialiser mon mot de passe';
+
+        $message = $this->view->RenderMail([
+            'path' => 'frontoffice',
+            'template' => 'resetPassMail',
+            'data' => [
+                'user' => $user
             ]
         ]);
 
