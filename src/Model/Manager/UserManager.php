@@ -66,7 +66,7 @@ class UserManager
     {
         $user = $this->userRepo->findOneByUsername($logInForm['username']);
 
-        if ($user->getIsActive() == 'inactive') {
+        if ($user->getIsActive() === 'inactive') {
             $this->session->setFlashMessage("Votre compte n'est pas actif. Activez-le en remplissant ce formulaire");
             header('Location: index.php?action=new_token_page');
             exit;
@@ -78,7 +78,7 @@ class UserManager
                 header('Location: index.php?action=logInPage');
             break;
             case is_object($user):
-                if ($user->getIsActive() === 'inactive') {
+                if ((string) $user->getIsActive() === 'inactive') {
                     $this->session->setFlashMessage('Votre compte est inactif, connexion interdite');
                     header('Location: index.php?action=signInPage');
                     exit;
