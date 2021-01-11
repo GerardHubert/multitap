@@ -826,7 +826,7 @@ button{
     width: 30%;
     margin: auto;
     margin-top: 50px;
-    height: 250px;
+    height: 180px;
 }
 
 #login_form p, #token_check_container p{

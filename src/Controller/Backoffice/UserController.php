@@ -62,18 +62,22 @@ class UserController
         }
 
         /**
-         * on vérifie d'abord que le username n'est pas déjà pris
+         * on vérifie d'abord que le username et l'adresse email ne figurent pas déjà en bdd
          */
 
         if ($this->userManager->showOneFromUsername($signInForm['username']) !== null) {
             $this->session->setFlashMessage('Ce nom d\'utilisateur est déjà pris');
             header('Location: index.php?action=signInPage');
             exit;
+        } elseif ($this->userManager->showOneFromEmail($signInForm['email']) !== null) {
+            $this->session->setFlashMessage('Cette adresse mail est déjà associé à un compte');
+            header('Location: index.php?action=signInPage');
+            exit;
         }
 
         /**
-         * si le username est dispo,
-         * on sauvegarde le user en bdd
+         * si le username est dispo, et que l'adresse mail n'existe pas déjà dans la bdd
+         * on sauvegarde le user
          */
 
         $this->session->deleteFlashMessage();
@@ -102,12 +106,13 @@ class UserController
 
     public function sendNewToken(): void
     {
-        $user = $this->userManager->showOneFromId((int) $this->request->cleanGet()['id']);
-
-        if (empty($this->request->cleanPost()) || $user->getUsername() !== $this->request->cleanPost()['username']) {
+        if (empty($this->request->cleanPost()) || $this->request->cleanPost()['hidden_input_token'] !== $this->session->getToken()) {
+            $this->session->setFlashMessage('Accès interdit');
             header('Location: index.php?action=logInPage');
             exit;
-        };
+        }
+
+        $user = $this->userManager->showOneFromId((int) $this->request->cleanGet()['id']);
 
         $this->token->setToken();
         $this->userManager->newToken($user, $this->session->getToken(), time());
@@ -164,7 +169,7 @@ class UserController
         $this->session->deleteFlashMessage();
         $newUser = $this->userManager->showOneFromId((int) $this->request->cleanGet()['id']);
         $clickedAt = time();
-        $expiration = $newUser->getSignInDate() + 60 * 5;
+        $expiration = $newUser->getSignInDate() + 60*5;
 
         /**
          * Si le token a expiré : proposer l'envoi d'un nouveau token
@@ -181,7 +186,7 @@ class UserController
          */
         } elseif ($this->request->cleanPost()['token_check'] === $newUser->getToken()) {
             $this->userManager->activateUser($newUser);
-            $this->session->setFlashMessage('Votre compte a bien été créé. Veuillez vous connecter.');
+            $this->session->setFlashMessage('Votre compte est actif. Vous pouvez vous connecter.');
             header('Location: index.php?action=logInPage');
             exit;
 

@@ -5,7 +5,7 @@
 
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Multitap: Réinitialiser mon mot de passe</title>
+        <title>Multitap: Reset mon mot de passe</title>
 
         <style>
 
@@ -19,8 +19,8 @@
 
     <body id='sent_email'>
         <h4>Bonjour {{ user.username }},</h4>
-        <p>Vous recevez cet email car vous avez oublié votre mot de passe</p>
-        <p>Pour reinitialiser votre mot de passe, suivez le lien suivant :</p>
+        <p>Vous recevez cet email car vous ne vous souvenez plus de votre mot de passe</p>
+        <p>Pour le réinitialiser, suivez le lien suivant, et saisissez-en un nouveau. Ce lien est délide uniquement pendant 5 minutes :</p>
         <p><a href="http://localhost:8000/index.php?action=reset_pass_page&id={{ user.userId }}&token={{ user.token }}">Reinitialiser mon mot de passe</a></p>
     </body>
 
