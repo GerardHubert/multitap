@@ -313,6 +313,22 @@ class UserController
         }
     }
 
+    public function inactivateUserAction(): void 
+    {
+        $user = $this->userManager->showOneFromId((int) $this->request->cleanGet()['id']);
+        $this->userManager->inactivateUser($user);
+        header('Location: index.php?action=members_management');
+        exit;
+    }
+
+    public function activateUserAction(): void
+    {
+        $user = $this->userManager->showOneFromId((int) $this->request->cleanGet()['id']);
+        $this->userManager->activateUserFromAdmin($user);
+        header('Location: index.php?action=members_management');
+        exit;
+    }
+
     public function deleteUserAction(): void
     {
         //controle d'acces

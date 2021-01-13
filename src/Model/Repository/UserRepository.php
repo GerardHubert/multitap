@@ -135,6 +135,20 @@ final class UserRepository
         return $users;
     }
 
+    public function updateIsActiveByAdmin(User $user): bool
+    {
+        $id = $user->getUserId();
+        $isActive = $user->getIsActive();
+
+        $request = $this->database->prepare('UPDATE users
+            SET isActive = :isActive
+            WHERE userId = :id');
+        $request->bindParam(':id', $id);
+        $request->bindParam(':isActive', $isActive);
+        
+        return $request->execute();
+    }
+
     public function delete(User $userToDelete): bool
     {
         $userId = $userToDelete->getUSerId();

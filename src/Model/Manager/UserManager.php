@@ -119,6 +119,18 @@ class UserManager
         return $this->userRepo->findByAll();
     }
 
+    public function inactivateUser(User $user): bool
+    {
+        $user->setIsActive('inactive');
+        return $this->userRepo->updateIsActiveByAdmin($user);
+    }
+
+    public function activateUserFromAdmin(USer $user): bool
+    {
+        $user->setIsActive('active');
+        return $this->userRepo->updateisActiveByAdmin($user);
+    }
+
     public function deleteUser(int $userId): bool
     {
         return $this->userRepo->delete($this->showOneFromId($userId));
