@@ -4,16 +4,28 @@ declare(strict_types=1);
 
 namespace App\Service\Http;
 
-use DateTime;
+use \DateTime;
 
 class Session
 {
     public function __construct()
     {
-        session_set_cookie_params([
-            'lifetime' => 0
-        ]);
         session_start();
+    }
+
+    public function getSessionArray(): ?array
+    {
+        return !empty($_SESSION) ? $_SESSION : null;
+    }
+
+    public function setLastMove(int $lastMove): void
+    {
+        $_SESSION['lastMove'] = $lastMove;
+    }
+
+    public function getLastMove(): ?int
+    {
+        return !empty($_SESSION['lastMove']) ? $_SESSION['lastMove'] : null;
     }
 
     public function setToken(string $token): void

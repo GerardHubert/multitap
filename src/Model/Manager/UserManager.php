@@ -7,6 +7,8 @@ namespace App\Model\Manager;
 use App\Model\Entity\User;
 use App\Model\Repository\UserRepository;
 use App\Service\Http\Session;
+use \DateTime;
+use \DateTimeZone;
 
 class UserManager
 {
@@ -87,6 +89,10 @@ class UserManager
                     $this->session->setUserId($user->getUserId());
                     $this->session->setUsername($user->getUsername());
                     $this->session->setUserRank($user->getUserRank());
+                    /**
+                     * la vérification de l'activité commence au login de l'utilisateur
+                     */
+                    $this->session->setLastMove(time());
                     header('Location: index.php?action=home');
                     exit;
                 } elseif (password_verify($logInForm['password'], $user->getPass()) === false) {
