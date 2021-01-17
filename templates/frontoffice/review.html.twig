@@ -29,7 +29,7 @@
             <li>Sortie : <span class='out'></span></li>
             <li>Genre : <span class='genre'></span></li>
             <li>Machines : <span class='platforms'>PS4, XBOX, Switch, PC</span></li>
-            <li>Tags : <a class='tags' href="#">{{ post.gameTitle }}</a>, <a class='tags' href="#">{{ post.username }}</a></li>
+            <li>Tags : <a class='tags' href="index.php?action=all_reviews_of_one_game&id={{ post.apiGameId }}&title={{ post.gameTitle }}">{{ post.gameTitle }}</a>, <a class='tags' href="index.php?action=user_reviews&id={{ post.userId }}&username={{ post.username }}">{{ post.username }}</a></li>
         </ul>
         <span id='video_link'></span>
         <iframe id='video' width="383.31" height="300" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>

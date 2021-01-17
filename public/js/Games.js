@@ -63,6 +63,41 @@ class Games {
                 this.getGamesDetails(apiGameId);
             break;
 
+            case "Multitap : Reviews d'un membre":
+                const userReviews = Array.from(this.reviewsList.children);
+                let thumbnail = 0;
+
+                for (userReviews[thumbnail]; thumbnail < userReviews.length; thumbnail++) {
+                    let id = userReviews[thumbnail].querySelector('.api_game_id').value;
+                    let image = userReviews[thumbnail].querySelector('.reviewsListImage');
+
+                    let getData = async () => {
+                        let response = await fetch(this.url + 'games/' + id + this.apiKey);
+                        let details = await response.json();
+
+                        image.src = details.background_image;
+                    }
+                    getData()
+                }
+            break;
+
+            case "Multitap : Toutes les reviews d'un jeu":
+                const oneGameReviews = Array.from(this.reviewsList.children);
+                let blink = 0;
+
+                for (oneGameReviews[blink]; blink < oneGameReviews.length; blink++) {
+                    let id = oneGameReviews[blink].querySelector('.api_game_id').value;
+                    let image = oneGameReviews[blink].querySelector('.reviewsListImage');
+
+                    let getData = async () => {
+                        let response = await fetch(this.url + 'games/' + id + this.apiKey);
+                        let details = await response.json();
+
+                        image.src = details.background_image;
+                    }
+                    getData()
+                }
+            break;
         }
         
     }

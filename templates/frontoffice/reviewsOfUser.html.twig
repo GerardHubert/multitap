@@ -1,19 +1,13 @@
 {% extends '/frontoffice/layout.html.twig' %}
 
-{% block title %}Toutes les reviews{% endblock %}
-
-{% block banner %}
-    <img id='headband' alt="un tag d'un space inveder" src='images/space_invaders.jpg'/>
-{% endblock %}
-
-{% block sectionTitle %}<h1>Toutes les reviews</h1>{% endblock %}
+{% block title %}Reviews d'un membre{% endblock %}
+{% block sectionTitle %}<h1>Toutes les reviews publiées par {{ username }}</h1>{% endblock %}
 
 {% block content %}
-    <section id="reviews_list">
-
+    <section id='reviews_list'>
         {% for review in reviews %}
             {% autoescape false %}
-            <div class="review_card">
+            <div class='review_card'>
                 <input type='hidden' class="api_game_id" value={{ review.apiGameId }} />
                 <img class='reviewsListImage' alt='Image de {{ review.gameTitle }}' />
                 <div class="review_details">
@@ -21,7 +15,7 @@
                         <h3 class="review_title">{{ review.reviewTitle|htmlspecialchars_decode }}</h3>
                         <span class="comments_number"><i class="fas fa-comments"></i>2</span>
                     </div>
-                    <span class="author_date">De {{ review.username }} | {{ review.reviewDate|date('d/m/Y - H:i:s') }}</span>
+                    <span class="author_date">De {{ username }} | {{ review.reviewDate|date('d/m/Y - H:i:s') }}</span>
                     <div class="review_extract">
                         {{ review.content|htmlspecialchars_decode }}...
                     </div>
@@ -30,18 +24,5 @@
             </div>
             {% endautoescape %}
         {% endfor %}
-
-        <div id="pagination">
-            <span id="actual_total">Page {{ page }} / {{ totalPages }}</span>
-            <span id="navigation_buttons">
-                {% if page > 1 %}
-                    <a href='index.php?action=all_reviews&page={{ page - 1 }}'><i class='fas fa-arrow-circle-left'></i></a>
-                {% endif %}
-                {% if page < totalPages %}
-                    <a href='index.php?action=all_reviews&page={{ page + 1 }}'><i class='fas fa-arrow-circle-right'></i></a>
-                {% endif %}
-            </span>
-        </div>
     </section>
-
 {% endblock %}

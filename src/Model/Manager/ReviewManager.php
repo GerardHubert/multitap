@@ -47,6 +47,11 @@ final class ReviewManager
         return [$this->reviewRepo->findByOffset($offset, $reviewsPerPage), $totalPages];
     }
 
+    public function showAllFromGameId(int $gameId): ?array
+    {
+        return $this->reviewRepo->findByGameId($gameId);
+    }
+
     public function showAll(): array
     {
         $status = 0;

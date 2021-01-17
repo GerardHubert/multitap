@@ -101,4 +101,37 @@ final class ReviewController
             ],
         ]);
     }
+
+    public function showUserReviewsAction(): void
+    {
+        $username = $this->request->cleanGet()['username'];
+        $status = 0;
+        $reviews = $this->reviewManager->showUserReviews((int) $this->request->CleanGet()['id'], $status);
+
+        $this->view->render([
+            'path' => 'frontoffice',
+            'template' => 'reviewsOfUser',
+            'data' => [
+                'reviews' => $reviews,
+                'username' => $username
+            ],
+        ]);
+    }
+
+    public function oneGameReviewsAction(): void
+    {
+        $gameId = $this->request->cleanGet()['id'];
+        $reviews = $this->reviewManager->showAllFromGameId((int) $gameId);
+        $gameTitle = $this->request->cleanGet()['title'];
+        
+        $this->view->render([
+            'path' => 'frontoffice',
+            'template' => 'reviewsOfOneGame',
+            'data' => [
+                'reviews' => $reviews,
+                'gameTitle' => $gameTitle
+            ],
+        ]);
+    }
+    
 }

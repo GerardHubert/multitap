@@ -1,12 +1,7 @@
 {% extends '/frontoffice/layout.html.twig' %}
 
-{% block title %}Toutes les reviews{% endblock %}
-
-{% block banner %}
-    <img id='headband' alt="un tag d'un space inveder" src='images/space_invaders.jpg'/>
-{% endblock %}
-
-{% block sectionTitle %}<h1>Toutes les reviews</h1>{% endblock %}
+{% block title %}Toutes les reviews d'un jeu{% endblock %}
+{% block sectionTitle %}<h1>Toutes les reviews sur {{ gameTitle }}</h1>{% endblock %}
 
 {% block content %}
     <section id="reviews_list">
@@ -31,17 +26,5 @@
             {% endautoescape %}
         {% endfor %}
 
-        <div id="pagination">
-            <span id="actual_total">Page {{ page }} / {{ totalPages }}</span>
-            <span id="navigation_buttons">
-                {% if page > 1 %}
-                    <a href='index.php?action=all_reviews&page={{ page - 1 }}'><i class='fas fa-arrow-circle-left'></i></a>
-                {% endif %}
-                {% if page < totalPages %}
-                    <a href='index.php?action=all_reviews&page={{ page + 1 }}'><i class='fas fa-arrow-circle-right'></i></a>
-                {% endif %}
-            </span>
-        </div>
     </section>
-
 {% endblock %}

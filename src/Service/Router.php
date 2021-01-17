@@ -86,6 +86,12 @@ final class Router
             case 'all_reviews':
                 $this->reviewController->displayAllAction();
             break;
+            case 'user_reviews':
+                $this->reviewController->showUserReviewsAction();
+            break;
+            case 'all_reviews_of_one_game':
+                $this->reviewController->oneGameReviewsAction();
+            break;
             case 'new_comment':
                 $this->commentController->newComment();
             break;
