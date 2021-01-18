@@ -95,7 +95,7 @@ final class ReviewRepository
 
     public function findByUserId(int $userId, $status): ?array
     {
-        $request = $this->database->prepare("SELECT *, DATE_FORMAT(reviewDate, '%d/%m/%Y - %H:%i:%s')
+        $request = $this->database->prepare("SELECT *, substring(content, 1, 300) AS content, DATE_FORMAT(reviewDate, '%d/%m/%Y - %H:%i:%s')
             FROM reviews
             WHERE userId = :id AND reviewStatus = :reviewStatus
             ORDER BY reviewDate DESC");
@@ -114,7 +114,7 @@ final class ReviewRepository
 
     public function findByGameId(int $gameId): array
     {
-        $request = $this->database->prepare("SELECT *, DATE_FORMAT(reviewDate, '%d/%m/%Y - %H:%i:%s')
+        $request = $this->database->prepare("SELECT *, substring(content, 1, 300) AS content, DATE_FORMAT(reviewDate, '%d/%m/%Y - %H:%i:%s')
             FROM reviews
             INNER JOIN users
             ON users.userId = reviews.userId

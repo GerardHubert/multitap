@@ -81,8 +81,8 @@ final class ReviewController
             'path' => 'frontoffice',
             'template' => 'home',
             'data' => [
-                'posts' => $posts,
-            ],
+                'posts' => $posts
+            ]
         ]);
     }
 

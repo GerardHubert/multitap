@@ -5,11 +5,11 @@
 {% block banner %}
     <img id="headband" src="images/headband.jpg" alt="Bannière : Figurines de Mario, Luigi et Yoshi" />
 {% endblock %}
+{% block sectionTitle %}<h1 id='section_title'>LES DERNIERES REVIEWS</h1>{% endblock %}
 
 {% block content %}
 
 <section id='latest_reviews'>
-    <h2>LES DERNIERES REVIEWS</h2>
         <div id="cards">
             {% for post in posts %}
                 <section class="card">
@@ -19,9 +19,6 @@
                         <h3 class="thumbnail_title">{{ post.reviewTitle|raw }}</h3>
                         <div class="author_comments">
                             <span class='pseudo_date'>{{ post.username }} | {{ post.reviewDate|date('d/m/Y - H:i:s') }}</span>
-                            <span class="comments_number"><i class="fas fa-comments"></i>
-                                {{ post.nbComments }}
-                            </span>
                         </div>
                     </div>
                 </section>

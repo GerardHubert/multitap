@@ -25,10 +25,11 @@ html{
 
 body{
     margin: 0;
+    margin-bottom: 150px;
 }
 
-main{
-    margin-bottom: 50px;
+#section_title{
+    text-align: center;
 }
 
 button:hover{
@@ -167,7 +168,9 @@ nav{
 }
 
 .thumbnail_title{
-    margin: 0px;
+    vertical-align: middle;
+    font-size: 1rem;
+    margin: 0;
     padding: 0px;
     height: 50px;
     width: 100%;
@@ -959,4 +962,223 @@ button{
 
 #account_form button{
     float: right;
+}
+
+/*--------------breakpoint tablette (width = 768px)--------------*/
+
+@media screen and (min-width:768) and (max-width:1023px) {
+
+    nav{
+        flex-direction: column-reverse;
+        justify-content: space-around;
+    }
+
+    nav a{
+        align-self: flex-end;
+    }
+
+    .navbar{
+        width: 100%;
+    }
+
+    #headband{
+        height: 350px;
+    }
+
+    #section_title{
+        font-size: 1.3rem;
+    }
+
+    .card{
+        width: 48%;
+    }
+
+    #additional_image{
+        display: none;
+    }
+
+    #game_info h2{
+        font-size: 1rem;
+    }
+
+    #game_info iframe{
+        width: 100%;
+        height: 200px;
+    }
+
+    .comment_header .comment_rank{
+        width: 20%;
+    }
+
+    .review_card .reviewsListImage{
+        height: 150px;
+    }
+
+    #member_info .forms{
+        height: 1300px;
+        justify-content: space-between;
+        flex-direction: column;
+        width: 100%;
+    }
+
+    #username_email_forms{
+        height: 450px;
+    }
+
+    #password_form{
+        height: 300px;
+    }
+
+    #rank_and_account_form{
+        height: 450px;
+    }
+
+    #username_email_forms, #password_form, #rank_and_account_form{
+        width: 100%;
+    }
+}
+
+@media screen and (min-width: 432px) and (max-width: 767px) {
+
+    header{
+        width: 100%;
+    }
+
+    nav{
+        display: flex;
+        flex-direction: column-reverse;
+    }
+
+    .navbar i{
+        display: none;
+    }
+
+    .navbar{
+        width: 100%;
+    }
+
+    .navbar a{
+        font-size: 1rem;
+    }
+
+    nav #rawg{
+        align-self: flex-end;
+    }
+
+    #headband{
+        height: 300px;
+    }
+
+    #reviews_list{
+        width: 100%;
+    }
+
+    .review_card .reviewsListImage{
+        height: 130px;
+    }
+
+    #review_title{
+        text-align: center;
+        margin-bottom: 0;
+    }
+
+    #author_date{
+        display: block;
+        text-align: center;
+        margin-bottom: 10px;
+    }
+
+    #review_container{
+        width: 100%;
+        flex-direction: column-reverse;
+    }
+
+    #additional_image{
+        display: none;
+    }
+
+    #review, #game_info{
+        width: 100%;
+    }
+
+    #game_info iframe{
+        width: 100%;
+    }
+
+    .game_title{
+        margin-bottom: 0;
+    }
+
+    #comments_area{
+        width: 100%;
+    }
+
+    .comment_rank{
+        width: 30%;
+    }
+
+    #login_form, #inscription_form{
+        width: 80%;
+        margin: auto;
+        margin-top: 30px;
+    }
+
+    #latest_reviews, #cards, .card, #member_info {
+        width: 100%;
+    }
+
+    /*.card{
+        width: 90%;
+        margin-left: auto;
+        margin-right: auto;
+    }*/
+
+    #latest_reviews .show_all{
+        width: 30%;
+    }
+
+    #comment_form{
+        width: 90%;
+    }
+
+    #comment_form #submit_btn{
+        width: 30%;
+    }
+
+    .read_full{
+        width: 40%;
+    }
+
+    #member_info{
+        height: 1300px;
+    }
+
+    #member_info h3{
+        text-align: center;
+    }
+
+    #member_info .forms{
+        flex-direction: column;
+        width: 95%;
+        margin-left: auto;
+        margin-right: auto;
+        height: 100%;
+    }
+
+    #username_email_forms, #password_form, #rank_and_account_form{
+        width: 95%;
+    }
+
+    #password_form{
+        height: 300px;
+    }
+
+    #username_email_forms{
+        height: 430px;
+    }
+
+    #rank_and_account_form{
+    height: 550px;
+    }
+
 }

@@ -1,7 +1,7 @@
 {% extends '/frontoffice/layout.html.twig' %}
 
 {% block title %}Reviews d'un membre{% endblock %}
-{% block sectionTitle %}<h1>Toutes les reviews publiées par {{ username }}</h1>{% endblock %}
+{% block sectionTitle %}<h1 id='section_title'>Toutes les reviews publiées par {% autoescape false %}{{ username }}{% endautoescape %}</h1>{% endblock %}
 
 {% block content %}
     <section id='reviews_list'>
@@ -13,7 +13,6 @@
                 <div class="review_details">
                     <div class="title_comments">
                         <h3 class="review_title">{{ review.reviewTitle|htmlspecialchars_decode }}</h3>
-                        <span class="comments_number"><i class="fas fa-comments"></i>2</span>
                     </div>
                     <span class="author_date">De {{ username }} | {{ review.reviewDate|date('d/m/Y - H:i:s') }}</span>
                     <div class="review_extract">
