@@ -10,6 +10,7 @@ use App\Service\Http\Session;
 use App\Service\Security\AccessControl;
 use App\Service\Security\Token;
 use App\View\View;
+use App\Service\Security\CheckActivity;
 
 class DraftController
 {
@@ -28,30 +29,11 @@ class DraftController
         $this->session = $session;
         $this->token = $token;
         $this->accessControl = $accessControl;
-        $this->checkActivity();
-    }
-
-    public function checkActivity(): void
-    {
-        /**
-         * fonction pour vérifier quand a été faite la derniere requete de l'utilisateur
-         * si la dernière requete a lieu un certain laps de temps après la précédente, 
-         * on considère la session expirée, et on la détruit
-         */
-
-        if ($this->session->getLastMove() !== null && time() > $this->session->getLastMove() + 1800) {
-                $this->session->endSession();
-                header('Location: http://localhost:8000'.$_SERVER['REQUEST_URI']);
-                exit;
-        } elseif ($this->session->getLastMove() !== null && time() < $this->session->getLastMove() + 1800) {
-            $this->session->setLastMove(time());
-        }
     }
 
     public function checkAccess(): void
     {
         if ($this->accessControl->isConnected() === false || $this->accessControl->getUsername() === null) {
-            $this->session->endSession();
             header('Location: index.php?action=logInPage');
             exit;
         }

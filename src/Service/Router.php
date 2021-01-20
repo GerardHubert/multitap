@@ -23,6 +23,7 @@ use App\Service\Http\Session;
 use App\Service\Security\AccessControl;
 use App\Service\Security\Token;
 use App\View\View;
+use App\Service\Security\CheckActivity;
 
 final class Router
 {
@@ -45,12 +46,14 @@ final class Router
     private $userRepository;
     private $accessControl;
     private $email;
+    private $checkActivity;
 
 
     public function __construct()
     {
         // dépendances
         $this->session = new Session();
+        $this->checkActivity = new CheckActivity($this->session);
         $this->accessControl = new AccessControl($this->session);
         $this->token = new Token($this->session);
         $this->database = new Database();
@@ -65,7 +68,7 @@ final class Router
         $this->view = new View($this->session);
         $this->email = new Email($this->view);
         $this->draftController = new draftController($this->draftManager, $this->request, $this->view, $this->session, $this->token, $this->accessControl);
-        $this->reviewController = new ReviewController($this->reviewManager, $this->view, $this->commentManager, $this->token, $this->session, $this->request);
+        $this->reviewController = new ReviewController($this->reviewManager, $this->view, $this->commentManager, $this->token, $this->session, $this->request, $this->checkActivity);
         $this->commentController = new CommentController($this->commentManager, $this->request, $this->session);
         $this->dashboardController = new DashboardController($this->reviewManager, $this->view, $this->request, $this->commentManager, $this->token, $this->session, $this->accessControl, $this->userManager);
         $this->userController = new UserController($this->view, $this->request, $this->token, $this->session, $this->userManager, $this->accessControl, $this->reviewManager, $this->email);
