@@ -68,11 +68,15 @@ class UserManager
     {
         $user = $this->userRepo->findOneByUsername($logInForm['username']);
 
-        if ($user->getIsActive() === 'inactive') {
+        /*if ($user->getIsActive() === 'inactive') {
             $this->session->setFlashMessage("Votre compte n'est pas actif. Activez-le en remplissant ce formulaire");
             header('Location: index.php?action=new_token_page');
             exit;
-        }
+        } elseif ($user->getIsActive() === 'banned') {
+            $this->session->setFlashMessage("Votre compte a été suspendu par l'administrateur");
+            header('Location: index.php?action=liginPage');
+            exit;
+        }*/
 
         switch ($user) {
             case null:
@@ -83,6 +87,10 @@ class UserManager
                 if ((string) $user->getIsActive() === 'inactive') {
                     $this->session->setFlashMessage('Votre compte est inactif, connexion interdite');
                     header('Location: index.php?action=signInPage');
+                    exit;
+                } elseif ($user->getIsActive() === 'banned') {
+                    $this->session->setFlashMessage("Votre compte a été suspendu par l'administrateur");
+                    header('Location: index.php?action=logInPage');
                     exit;
                 } elseif ($user->getIsActive() === 'active' && password_verify($logInForm['password'], $user->getPass()) === true) {
                     $this->session->deleteFlashMessage();
@@ -100,7 +108,6 @@ class UserManager
                     header('Location: index.php?action=logInPage');
                     exit;
                 }
-                
             break;
         }
     }
@@ -125,16 +132,28 @@ class UserManager
         return $this->userRepo->findByAll();
     }
 
-    public function inactivateUser(User $user): bool
+    /*public function inactivateUser(User $user): bool
     {
         $user->setIsActive('inactive');
         return $this->userRepo->updateIsActiveByAdmin($user);
+    }*/
+
+    public function banUSer(User $user): bool
+    {
+        $user->setIsActive('banned');
+        return $this->userRepo->banUserById($user);
     }
 
-    public function activateUserFromAdmin(USer $user): bool
+    /*public function activateUserFromAdmin(USer $user): bool
     {
         $user->setIsActive('active');
         return $this->userRepo->updateisActiveByAdmin($user);
+    }*/
+
+    public function cancelBan(User $user): bool
+    {
+        $user->setIsActive('active');
+        return $this->userRepo->banUserById($user);
     }
 
     public function deleteUser(int $userId): bool

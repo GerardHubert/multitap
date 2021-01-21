@@ -34,7 +34,11 @@
                     <li><a href='index.php?action=new_review'>Nouvelle review</a></li>
                     <li><a href='index.php?action=show_drafts'>Mes brouillons</a></li>
                     {% if (session.userRank == 'ROLE_ADMIN') or (session.userRank == 'ROLE_EDITOR') %}
-                        <li><a href='index.php?action=show_comments_to_moderate'>Les commentaires à modérer</a></li>
+                        <li><a href='index.php?action=show_comments_to_moderate'>Les commentaires à modérer</a>
+                            {% if flagCommentsCount > 0 %}
+                                <span class='dashboard_alert'>{{ flagCommentsCount }}</span>
+                            {% endif %}
+                        </li>
                         <li><a href='index.php?action=show_reviews_to_validate'>Les Reviews à valider</a>
                             {% set reviewCount = 0 %}
                             {% for review in reviewsListTwo %}

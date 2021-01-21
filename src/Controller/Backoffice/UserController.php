@@ -145,6 +145,10 @@ class UserController
             $this->session->setFlashMessage('Utilisateur non trouvé');
             header('Location: index.php?action=new_token_page');
             exit;
+        } elseif ($user->getIsActive() === 'banned') {
+            $this->session->setFlashMessage('Votre compte a été suspendu par l\'administrateur');
+            header('location: index.php?action=logInPage');
+            exit;
         } elseif ($user->getIsActive() === 'active') {
             $this->session->setFlashMessage('Votre compte utilisateur est déjà actif, essayez de vous connecter');
             header('Location: index.php?action=logInPage');
@@ -313,7 +317,7 @@ class UserController
         }
     }
 
-    public function inactivateUserAction(): void 
+    /*public function inactivateUserAction(): void 
     {
         $user = $this->userManager->showOneFromId((int) $this->request->cleanGet()['id']);
         $this->userManager->inactivateUser($user);
@@ -325,6 +329,22 @@ class UserController
     {
         $user = $this->userManager->showOneFromId((int) $this->request->cleanGet()['id']);
         $this->userManager->activateUserFromAdmin($user);
+        header('Location: index.php?action=members_management');
+        exit;
+    }*/
+
+    public function banUserAction(): void
+    {
+        $user = $this->userManager->showOneFromId((int) $this->request->cleanGet()['id']);
+        $this->userManager->banUser($user);
+        header('Location: index.php?action=members_management');
+        exit;
+    }
+
+    public function cancelBanAction(): void
+    {
+        $user = $this->userManager->showOneFromId((int) $this->request->cleanGet()['id']);
+        $this->userManager->cancelBan($user);
         header('Location: index.php?action=members_management');
         exit;
     }
@@ -521,6 +541,11 @@ class UserController
                 header('Location: index.php?action=forgotten_password');
             break;
             case is_object($user):
+                if ($user->getIsActive() === 'banned') {
+                    $this->session->setFlashMessage("Votre compte a été suspendu par l'administrateur");
+                    header('Location: index.php?action=forgotten_password');
+                    exit;
+                }
                 $this->userManager->newToken($user, $this->request->cleanPost()['hidden_input_token'], time());
                 $this->email->sendResetPassLink($user);
                 $this->session->setFlashMessage('Un email  pour réinitialiser votre mot de passe a été envoyé à l\'adresse indiquée');

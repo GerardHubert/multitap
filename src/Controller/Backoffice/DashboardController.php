@@ -36,6 +36,7 @@ class DashboardController
     private $reviewsListToValidate;
     private $usersList;
     private $userManager;
+    private $flagCommentsCount;
 
     public function __construct(ReviewManager $reviewManager, View $view, Request $request, CommentManager $commentManager, Token $token, Session $session, AccessControl $accessControl, UserManager $userManager)
     {
@@ -49,6 +50,7 @@ class DashboardController
         $this->accessControl = $accessControl;
         $this->reviewsListToValidate = $this->reviewManager->showAllFromStatus(2);
         $this->usersList = $this->userManager->showAll();
+        $this->flagCommentsCount = count($this->commentManager->showAllFromStatus(1));
     }
 
     public function checkAccess(): void
@@ -70,7 +72,8 @@ class DashboardController
             'data' => [
                 'reviews' => $reviews,
                 'reviewsListTwo' => $this->reviewsListToValidate,
-                'usersList' => $this->usersList
+                'usersList' => $this->usersList,
+                'flagCommentsCount' => $this->flagCommentsCount
             ]
         ]);
     }
@@ -87,7 +90,8 @@ class DashboardController
             'data' => [
                 'reviews' => $reviews,
                 'reviewsListTwo' => $this->reviewsListToValidate,
-                'usersList' => $this->usersList
+                'usersList' => $this->usersList,
+                'flagCommentsCount' => $this->flagCommentsCount
             ]
         ]);
     }
@@ -101,7 +105,8 @@ class DashboardController
             'template' => 'reviewEditor',
             'data' => [
                 'reviewsListTwo' => $this->reviewsListToValidate,
-                'usersList' => $this->usersList
+                'usersList' => $this->usersList,
+                'flagCommentsCount' => $this->flagCommentsCount
             ]
         ]);
     }
@@ -125,7 +130,8 @@ class DashboardController
             'data' => [
                 'reviews' => $reviews,
                 'reviewsListTwo' => $this->reviewsListToValidate,
-                'usersList' => $this->usersList
+                'usersList' => $this->usersList,
+                'flagCommentsCount' => $this->flagCommentsCount
             ]
         ]);
     }
@@ -235,7 +241,8 @@ class DashboardController
             'data' => [
                 'review' => $review,
                 'reviewsListTwo' => $this->reviewsListToValidate,
-                'usersList' => $this->usersList
+                'usersList' => $this->usersList,
+                'flagCommentsCount' => $this->flagCommentsCount
             ]
         ]);
     }
@@ -285,7 +292,8 @@ class DashboardController
             'data' => [
                 'flagComments' => $flagComments,
                 'reviewsListTwo' => $this->reviewsListToValidate,
-                'usersList' => $this->usersList
+                'usersList' => $this->usersList,
+                'flagCommentsCount' => $this->flagCommentsCount
             ]
         ]);
     }
@@ -346,7 +354,8 @@ class DashboardController
                 'totalPages' => $reviews[1],
                 'page' => $page,
                 'reviewsListTwo' => $this->reviewsListToValidate,
-                'usersList' => $this->usersList
+                'usersList' => $this->usersList,
+                'flagCommentsCount' => $this->flagCommentsCount
             ]
         ]);
     }

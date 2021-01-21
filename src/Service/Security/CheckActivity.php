@@ -22,9 +22,9 @@ class CheckActivity
 
     public function checkActivity(): void
     {  
-        if ($this->session->getLastMove() !== null && time() > $this->session->getLastMove() + 10) {
+        if ($this->session->getLastMove() !== null && time() > $this->session->getLastMove() + 1200) {
             $this->session->endSession();
-        } elseif ($this->session->getLastMove() !== null && time() < $this->session->getLastMove() + 10) {
+        } elseif ($this->session->getLastMove() !== null && time() < $this->session->getLastMove() + 1200) {
             $this->session->setLastMove(time());
         }
     }

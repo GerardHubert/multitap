@@ -135,7 +135,7 @@ final class UserRepository
         return $users;
     }
 
-    public function updateIsActiveByAdmin(User $user): bool
+    public function banUserById(User $user): bool
     {
         $id = $user->getUserId();
         $isActive = $user->getIsActive();

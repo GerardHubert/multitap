@@ -263,6 +263,10 @@ button{
  #video_link{
      display: none;
  }
+ 
+ #video{
+     width: 100%;
+ }
 
  .developers, .out, .genre, .platforms, .tags{
      font-family: roboto;

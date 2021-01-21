@@ -188,11 +188,17 @@ final class Router
             case 'members_management':
                 $this->userController->membersManagementPage();
             break;
-            case 'inactivate_user':
+            /*case 'inactivate_user':
                 $this->userController->inactivateUserAction();
             break;
             case 'activate_user':
                 $this->userController->activateUserAction();
+            break;*/
+            case 'bannishment':
+                $this->userController->banUserAction();
+            break;
+            case 'cancel_banishment':
+                $this->userController->cancelBanAction();
             break;
             case 'deleteUser':
                 $this->userController->deleteUSerAction();
