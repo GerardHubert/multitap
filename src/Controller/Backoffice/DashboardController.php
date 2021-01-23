@@ -61,6 +61,11 @@ class DashboardController
         }
     }
 
+    /**
+     * Accueil du dashboard
+     * le user voit ses reviews publiées
+     */
+
     public function displayUserReviewsAction(): void
     {
         $this->checkAccess();
@@ -77,6 +82,11 @@ class DashboardController
             ]
         ]);
     }
+
+    /**
+     * Le user voit ses reviews soumises à validation
+     * en attente de publication
+     */
 
     public function showAwaitingReviewsAction(): void
     {
@@ -96,6 +106,10 @@ class DashboardController
         ]);
     }
 
+    /**
+     * methode menant à la page pour créer une nouvelle review
+     */
+
     public function reviewEditor(): void
     {
         $this->checkAccess();
@@ -110,6 +124,11 @@ class DashboardController
             ]
         ]);
     }
+
+    /**
+     * Methode pour roles > reviewer
+     * Affiche les reviews à valider, soumises par les reviewers
+     */
 
     public function showReviewsToValidate(): void
     {
@@ -135,6 +154,10 @@ class DashboardController
             ]
         ]);
     }
+
+    /**
+     * Validation d'une review
+     */
 
     public function validateReviewAction(): void
     {
@@ -165,6 +188,10 @@ class DashboardController
         }
     }
 
+    /**
+     * Soumettre une review à la validation depuis la page d'édition
+     */
+
     public function submitReviewAction(): void
     {
         $this->checkAccess();
@@ -183,6 +210,10 @@ class DashboardController
         }
     }
 
+    /**
+     * Soumettre les modifications apportées à une review déjà publiée
+     */
+
     public function submitUpdateAction(): void
     {
         $this->checkAccess();
@@ -200,6 +231,10 @@ class DashboardController
             break;
         }
     }
+
+    /**
+     * Ajouter création d'une review
+     */
 
     public function addReviewAction(): void
     {
@@ -228,6 +263,10 @@ class DashboardController
         exit;
     }
 
+    /**
+     * Page modification d'une review
+     */
+
     public function updateReviewPage(): void
     {
         $this->checkAccess();
@@ -246,6 +285,10 @@ class DashboardController
             ]
         ]);
     }
+
+    /**
+     * Enregistrement des modifications
+     */
 
     public function updateReviewAction(): void
     {

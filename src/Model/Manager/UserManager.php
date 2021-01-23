@@ -68,16 +68,6 @@ class UserManager
     {
         $user = $this->userRepo->findOneByUsername($logInForm['username']);
 
-        /*if ($user->getIsActive() === 'inactive') {
-            $this->session->setFlashMessage("Votre compte n'est pas actif. Activez-le en remplissant ce formulaire");
-            header('Location: index.php?action=new_token_page');
-            exit;
-        } elseif ($user->getIsActive() === 'banned') {
-            $this->session->setFlashMessage("Votre compte a été suspendu par l'administrateur");
-            header('Location: index.php?action=liginPage');
-            exit;
-        }*/
-
         switch ($user) {
             case null:
                 $this->session->setFlashMessage('Nom d\'utilisateur inconnu et/ou mot de passe incorrect');
@@ -86,7 +76,7 @@ class UserManager
             case is_object($user):
                 if ((string) $user->getIsActive() === 'inactive') {
                     $this->session->setFlashMessage('Votre compte est inactif, connexion interdite');
-                    header('Location: index.php?action=signInPage');
+                    header('Location: index.php?action=logInPage');
                     exit;
                 } elseif ($user->getIsActive() === 'banned') {
                     $this->session->setFlashMessage("Votre compte a été suspendu par l'administrateur");

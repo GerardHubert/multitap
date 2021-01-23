@@ -28,9 +28,4 @@ class Request
 
         return $clean;
     }
-
-    public function cleanUrl(): string
-    {
-        return $cleanRequest = filter_var_array($this->requestUrl, FILTER_SANITIZE_SPECIAL_CHARS);
-    }
 }

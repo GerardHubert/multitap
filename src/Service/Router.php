@@ -140,6 +140,9 @@ final class Router
             case 'show_drafts':
                 $this->draftController->displayDraftsAction();
             break;
+            case 'submit_draft_to_validation':
+                $this->draftController->submitDraftToValidation();
+            break;
             case 'publish_draft':
                 $this->draftController->publishDraftAction();
             break;
@@ -188,12 +191,6 @@ final class Router
             case 'members_management':
                 $this->userController->membersManagementPage();
             break;
-            /*case 'inactivate_user':
-                $this->userController->inactivateUserAction();
-            break;
-            case 'activate_user':
-                $this->userController->activateUserAction();
-            break;*/
             case 'bannishment':
                 $this->userController->banUserAction();
             break;
@@ -250,6 +247,9 @@ final class Router
             break;
             case 'reset_pass_action':
                 $this->userController->resetPassAction();
+            break;
+            case 'legal_notice':
+                $this->reviewController->legalNotice();
             break;
         }
 

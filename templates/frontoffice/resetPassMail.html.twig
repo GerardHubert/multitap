@@ -17,11 +17,13 @@
 
     </head>
 
+    {% autoescape false %}
     <body id='sent_email'>
         <h4>Bonjour {{ user.username }},</h4>
-        <p>Vous recevez cet email car vous ne vous souvenez plus de votre mot de passe</p>
-        <p>Pour le réinitialiser, suivez le lien suivant, et saisissez-en un nouveau. Ce lien est délide uniquement pendant 5 minutes :</p>
+        <p>Vous recevez cet email car vous avez demandé à réinitialiser votre mot de passe</p>
+        <p>Pour le réinitialiser, suivez le lien suivant, et saisissez-en un nouveau. Ce lien est valide uniquement pendant 5 minutes :</p>
         <p><a href="http://localhost:8000/index.php?action=reset_pass_page&id={{ user.userId }}&token={{ user.token }}">Reinitialiser mon mot de passe</a></p>
     </body>
+    {% endautoescape %}
 
 </html>

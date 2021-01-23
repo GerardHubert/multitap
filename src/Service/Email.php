@@ -19,10 +19,10 @@ class Email
         $this->view = $view;
         $this->from = 'FROM: gerard.hubert@yahoo.fr';
         $this->version = 'MIME-Version: 1.0';
-        $this->content = "Content-type: text/html; charset=iso-8859-1\n";
+        $this->content = "Content-type: text/html; charset=UTF-8";//charset=iso-8859-1\n";
     }
 
-    public function sendInscriptionEmail(/*array $signInForm*/User $user): void
+    public function sendInscriptionEmail(User $user): void
     {
         /**
          * Params : l'entité user
@@ -46,7 +46,7 @@ class Email
     public function sendResetPassLink(User $user): void
     {
         $to = $user->getEmail();
-        $subject = 'Multitap : réinitialiser mon mot de passe';
+        $subject = 'Multitap : reinitialiser mon mot de passe';
 
         $message = $this->view->RenderMail([
             'path' => 'frontoffice',

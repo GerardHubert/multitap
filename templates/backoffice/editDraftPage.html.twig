@@ -25,8 +25,21 @@
                     {{ draft.content }}
                 {% endautoescape %}
             </textarea>
-            <input type='submit' formaction='index.php?action=publish_draft&id={{ draft.reviewId }}' name='publish' value='Publier'/>
-            <input type='submit' formaction='index.php?action=update_draft&id={{ draft.reviewId }}' name='edit' value='Enregistrer les modifications'/>
+            {% if session.userRank == 'ROLE_REVIEWER' %}
+                <input type='submit'
+                    formaction='index.php?action=submit_draft_to_validation&id={{ draft.reviewId }}'
+                    name='submit'
+                    value='Soumettre à validation'>         
+                {% elseif session.userRank != 'ROLE_REVIEWER' %}
+                    <input type='submit'
+                    formaction='index.php?action=publish'
+                    name="publish"
+                    value='Publier'>
+            {% endif %}
+            <input type='submit'
+                formaction='index.php?action=update_draft&id={{ draft.reviewId }}'
+                name='edit'
+                value='Enregistrer les modifications'/>
         </form>
     
     </section>

@@ -37,6 +37,7 @@
                         <td>
                             {% if user.isActive == 'active' %}<a href='index.php?action=bannishment&id={{ user.userId }}'><button class='members_button'>Bannir membre</button></a>
                             {% elseif user.isActive == 'banned' %}<a href='index.php?action=cancel_banishment&id={{ user.userId }}'><button class='members_button'>Lever le ban</button></a>
+                            {% elseif user.isActive == 'inactive' %}<button class='members_button' disabled>Compte inactif</button>
                             {% endif %}
                         </td>
                         <td><a href='index.php?action=deleteUser&id={{ user.userId }}'><button class='members_button'>Supprimer le compte</button></a></td>

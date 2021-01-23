@@ -117,5 +117,14 @@ final class ReviewController
             ],
         ]);
     }
+
+    public function legalNotice(): void
+    {
+        $this->view->render([
+            'path' => 'frontoffice',
+            'template' => 'legalNotice',
+            'data' => []
+        ]);
+    }
     
 }

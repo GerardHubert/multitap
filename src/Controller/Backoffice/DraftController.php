@@ -64,7 +64,7 @@ class DraftController
         switch ($inputToken === $sessionToken) {
             case true:
                 $this->draftManager->saveAsDraft($this->request->cleanPost());
-                header('Location: index.php?action=dashboard');
+                header('Location: index.php?action=show_drafts');
             break;
             case false:
                 header('Location: index.php?action=home');
@@ -77,8 +77,28 @@ class DraftController
         $this->checkAccess();
 
         $this->draftManager->publishDraftAsReview((int) $this->request->cleanGet()['id']);
-        header('Location: index.php?action=dashboard');
+        header('Location: index.php?action=dashboard&status=1');
         exit;
+    }
+
+    /**
+     * Le reviewer veut transmettre son brouillon à validation pour publication
+     */
+
+    public function submitDraftToValidation(): void
+    {
+        $this->checkAccess();
+        $token = $this->request->cleanPost()['hidden_input_token'];
+
+        switch ($token === $this->session->getToken()) {
+            case false:
+                header('Location: index.php?action=home');
+            exit;
+            case true:
+                $this->draftManager->submitDraftToValidation($this->request->cleanPost(), (int) $this->request->cleanGet()['id']);
+                header('Location: index.php?action=show_drafts');
+            break;           
+        }
     }
 
     public function publishDraftAction(): void
@@ -92,7 +112,7 @@ class DraftController
             case true:
                 $update = $this->draftManager->updateDraft($this->request->cleanPost(), (int) $this->request->cleanGet()['id']);
             $this->draftManager->publishDraftAsReview((int) $this->request->cleanGet()['id']);
-                header('Location: index.php?action=dashboard');
+                header('Location: index.php?action=dashboard&status=1');
             break;
             case false:
                 header('Location: index.php?action=home');
@@ -146,7 +166,7 @@ class DraftController
         $suppression = $this->draftManager->deleteDraft((int) $this->request->cleanGet()['id']);
         switch ($suppression) {
             case true:
-                header('Location: index.php?action=dashboard');
+                header('Location: index.php?action=dashboard&status=1');
             break;
             case false:
                 header('Location: index.php?action=show_drafts');

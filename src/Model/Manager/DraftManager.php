@@ -43,6 +43,16 @@ class DraftManager
         return $this->reviewRepo->findById($id);
     }
 
+    public function submitDraftToValidation(array $draftForm, int $id): bool
+    {
+        $review = new Review();
+        $review->setReviewTitle($draftForm['draft_title']);
+        $review->setContent($draftForm['draft_modification']);
+        $review->setReviewStatus(2);
+
+        return $this->reviewRepo->updateToValidate($review, $id);
+    }
+
     public function publishDraftAsReview(int $id): bool
     {
         //On récupère d'abord un objet Review selon l'id du brouillon qu'on veut publier

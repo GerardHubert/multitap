@@ -16,16 +16,19 @@
                 </tr>
             </thead>
             <tbody>
+                {% autoescape false %}
                 {% for draft in drafts %}
                 <tr class='review_line'>
                     <td>{{ draft.reviewTitle|raw }}</td>
                     <td>{{ draft.gameTitle|raw }}</td>
-                    <!--<td>{{ draft.reviewDate|date('d/m/Y - H:i:s') }}</td>-->
-                    <td><a href="index.php?action=publish_draft_from_list&id={{ draft.reviewId }}"><button class='dash_button'>Publier</button></a></td>
+                    {% if session.userRank == 'ROLE_EDITOR' or session.userRank == 'ROLE_ADMIN' %}
+                        <td><a href="index.php?action=publish_draft_from_list&id={{ draft.reviewId }}"><button class='dash_button'>Publier</button></a></td>
+                    {% endif %}
                     <td><a href="index.php?action=delete_draft&id={{ draft.reviewId }}"><button class='dash_button'>Supprimer</button></a></td>
                     <td><a href="index.php?action=update_draft_page&id={{ draft.reviewId }}"><button class='dash_button'>Modifier</button></a></td>
                 </tr>
                 {% endfor %}
+                {% endautoescape %}
             </tbody>
         </table>
     </div>

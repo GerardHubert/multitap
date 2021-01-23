@@ -317,22 +317,6 @@ class UserController
         }
     }
 
-    /*public function inactivateUserAction(): void 
-    {
-        $user = $this->userManager->showOneFromId((int) $this->request->cleanGet()['id']);
-        $this->userManager->inactivateUser($user);
-        header('Location: index.php?action=members_management');
-        exit;
-    }
-
-    public function activateUserAction(): void
-    {
-        $user = $this->userManager->showOneFromId((int) $this->request->cleanGet()['id']);
-        $this->userManager->activateUserFromAdmin($user);
-        header('Location: index.php?action=members_management');
-        exit;
-    }*/
-
     public function banUserAction(): void
     {
         $user = $this->userManager->showOneFromId((int) $this->request->cleanGet()['id']);
@@ -444,11 +428,12 @@ class UserController
             $user = $this->userManager->showOneFromId((int) $this->request->cleanGet()['id']);
             $this->userManager->updateUsername($user, $this->request->cleanPost());
             $this->session->endSession();
-            header('Location: index.php?action=user_parameters_page');
+            header('Location: index.php?action=logInPage');
             exit;
         } elseif (!empty($this->request->cleanpost()['new_email'])) {
             $user = $this->userManager->showOneFromId((int) $this->request->cleanGet()['id']);
             $this->userManager->updateEmail($user, $this->request->cleanPost());
+            $this->session->setMailMessage('Votre adresse mail a bien été modifiée');
             header('Location: index.php?action=user_parameters_page');
             exit;
         }

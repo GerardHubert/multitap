@@ -25,7 +25,7 @@ html{
 
 body{
     margin: 0;
-    margin-bottom: 150px;
+    margin-bottom: 10px;
 }
 
 #section_title{
@@ -46,13 +46,19 @@ footer{
     height: 60px;
     display: flex;
     align-items: center;
-    background-color: rgba(0, 0, 0, 0.6)
+    background-color: black;
 }
 
-#footer_container{
-    width: 20%;
-    display: flex;
-    justify-content: space-between;
+footer a{
+    font-family: roboto_medium;
+    color: white;
+    margin-left: 10px;
+}
+
+#mentions{
+    width: 85%;
+    margin: auto;
+    margin-top: 50px;
 }
 
 a{
@@ -158,8 +164,9 @@ nav{
     margin-top: 20px;
 }
 
-.card:hover {
+.card:hover .thumbnail_title{
     cursor: pointer;
+    color:rgba(249, 117, 88, 1);
 }
 
 .thumbnail_image_home{
@@ -169,13 +176,16 @@ nav{
 
 .thumbnail_title{
     vertical-align: middle;
-    font-size: 1rem;
+    font-size: 1.2rem;
     margin: 0;
     padding: 0px;
     height: 50px;
     width: 100%;
     background-color: rgba(0, 0, 0, 0.6);
     color: white;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
 }
 
 .thumbnail_infos{
@@ -880,6 +890,27 @@ button{
     display: flex;
     flex-direction: column;
     justify-content: space-evenly;
+}
+
+#reset_pass_demand_form{
+    height: 150px;
+    width: 40%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 80px;
+}
+
+#reset_pass_demand_form fieldset{
+    height: 150px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+#reset_pass_demand_form p{
+    margin: 0;
+    text-align: center;
 }
 
 /**
