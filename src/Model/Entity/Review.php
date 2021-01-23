@@ -12,7 +12,6 @@ final class Review
     private $reviewTitle;
     private $gameTitle;
     private $content;
-    //private $reviewer;
     private $userId;
     private $reviewDate;
     private $apiGameId;

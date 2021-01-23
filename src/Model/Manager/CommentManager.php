@@ -123,7 +123,6 @@ final class CommentManager
         $comment->setThumbsUp($likes);
         $comment->setThumbsDown($dislikes);
 
-        var_dump($comment);
         return $this->commentRepo->update($comment);
     }
 

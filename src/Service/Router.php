@@ -17,7 +17,6 @@ use App\Model\Repository\CommentRepository;
 use App\Model\Repository\ReviewRepository;
 use App\Model\Repository\UserRepository;
 use App\Service\Email;
-use App\Service\Http\Cookies;
 use App\Service\Http\Request;
 use App\Service\Http\Session;
 use App\Service\Security\AccessControl;
@@ -252,29 +251,5 @@ final class Router
                 $this->reviewController->legalNotice();
             break;
         }
-
-        /*if ($action === 'home') {
-            //injection des dépendances et instanciation du controller
-            $postRepo = new PostRepository($this->database);
-            $postManager = new PostManager($postRepo);
-            $controller = new PostController($postManager, $this->view);
-
-            // route http://localhost:8000/?action=posts
-            $this->postController->displayHomeAction();
-        } elseif ($action === 'post' && isset($this->get['id'])) {
-            //injection des dépendances et instanciation du controller
-            $postRepo = new PostRepository($this->database);
-            $postManager = new PostManager($postRepo);
-            $controller = new PostController($postManager, $this->view);
-
-            $commentRepo = new CommentRepository($this->database);
-            $commentManager = new CommentManager($commentRepo);
-
-
-            // route http://localhost:8000/?action=post&id=5
-            $this->postController->displayOneAction((int)$this->get['id'], $this->commentManager);
-        } else {
-            echo "Error 404 - cette page n'existe pas<br><a href='index.php?action=posts'>Aller Ici</a>";
-        }*/
     }
 }

@@ -742,7 +742,7 @@ button{
 #inscription_form{
     width: 30%;
     margin: auto;
-    height: 300px;
+    height: 500px;
     margin-top: 50px;
 }
 
@@ -763,8 +763,6 @@ button{
     flex-direction: column;
     justify-content: space-between;
     margin-top: 50px;
-    height: 100%;
-    margin: 0;
 }
 
 .label_and_input{
@@ -778,6 +776,7 @@ button{
     border-radius: 5px;
     padding-left: 10px;
     padding-right: 10px;
+    margin-bottom: 10px;
 }
 
 #inscription_form input:focus, #login_form input:focus{
@@ -843,7 +842,8 @@ button{
     width: 30%;
     margin: auto;
     margin-top: 50px;
-    height: 180px;
+    height: 300px;
+    margin-bottom: 50px;
 }
 
 #login_form p, #token_check_container p{
@@ -893,7 +893,7 @@ button{
 }
 
 #reset_pass_demand_form{
-    height: 150px;
+    height: 400px;
     width: 40%;
     margin-left: auto;
     margin-right: auto;
@@ -926,6 +926,28 @@ button{
     height: 450px;
     display: flex;
     justify-content: space-between;
+}
+
+#resetPass{
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 50px;
+}
+
+#resetPass h2{
+    text-align: center;
+}
+
+#resetPass #password_form{
+    margin: auto;
+    height: 250px;
+    display: flex;
+    justify-content: space-evenly;
+}
+
+#resetPass .update_pass_button{
+    width: 25%;
 }
 
 #username_form, #email_form, #password_form, #rank_form, #account_form{
@@ -1157,6 +1179,8 @@ button{
         margin: auto;
         margin-top: 30px;
     }
+
+
 
     #latest_reviews, #cards, .card, #member_info {
         width: 100%;

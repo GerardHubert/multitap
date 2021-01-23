@@ -3,7 +3,8 @@
 {% block title %}Nouveau mot de passe{% endblock %}
 
 {% block content %}
-
+<section id="resetPass">
+    <h2>Réinitialiser mon mot de passe</h2>
     <form id="password_form" method='post' action='index.php?action=reset_pass_action&id={{ user.userId }}'>
         <h5>DEFINIR UN NOUVEAU MOT DE PASSE</h5>
         <div class="label_and_value">
@@ -22,7 +23,7 @@
         {% endif %}
 
     </form>
-
+</section>
 {% endblock %}
 
 {% block script %}

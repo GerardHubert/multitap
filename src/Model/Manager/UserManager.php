@@ -7,8 +7,6 @@ namespace App\Model\Manager;
 use App\Model\Entity\User;
 use App\Model\Repository\UserRepository;
 use App\Service\Http\Session;
-use \DateTime;
-use \DateTimeZone;
 
 class UserManager
 {
@@ -122,23 +120,11 @@ class UserManager
         return $this->userRepo->findByAll();
     }
 
-    /*public function inactivateUser(User $user): bool
-    {
-        $user->setIsActive('inactive');
-        return $this->userRepo->updateIsActiveByAdmin($user);
-    }*/
-
     public function banUSer(User $user): bool
     {
         $user->setIsActive('banned');
         return $this->userRepo->banUserById($user);
     }
-
-    /*public function activateUserFromAdmin(USer $user): bool
-    {
-        $user->setIsActive('active');
-        return $this->userRepo->updateisActiveByAdmin($user);
-    }*/
 
     public function cancelBan(User $user): bool
     {

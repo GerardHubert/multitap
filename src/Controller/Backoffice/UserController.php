@@ -464,7 +464,6 @@ class UserController
 
         $this->userManager->saveUserRequest($this->request->cleanPost(), $this->userManager->showOneFromId((int) $this->request->cleanGet()['id']));
         $this->session->setRecorded('Demande vers rôle ' . mb_substr($this->request->cleanPost()['new_role'], 5) . ' enregistrée.');
-        //$this->cookies->setRole((string) $this->session->getUserRank()); on sauvegarde dans la table users au lieu d'un cookie
         header('Location: index.php?action=user_parameters_page');
         exit;
     }
