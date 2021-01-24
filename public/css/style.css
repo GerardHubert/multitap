@@ -102,10 +102,6 @@ nav{
     text-decoration: none;
 }
 
-.dropdown_menu{
-    display: relative;
-}
-
 .dropdown_link{
     position: absolute;
     z-index: 999;
@@ -1023,7 +1019,7 @@ button{
 
 /*--------------breakpoint tablette (width = 768px)--------------*/
 
-@media screen and (min-width:768) and (max-width:1023px) {
+@media screen and (min-width:768px) and (max-width:1023px) {
 
     nav{
         flex-direction: column-reverse;

@@ -35,6 +35,7 @@ class Games {
                         let details = await response.json();
                         
                         image.src = details.background_image;
+                        image.alt = details.name;
                     }
                     getData()
                 }
@@ -53,6 +54,7 @@ class Games {
                         let details = await response.json();
 
                         image.src = details.background_image;
+                        image.alt = details.name;
                     }
                     getData()
                 }
@@ -76,6 +78,7 @@ class Games {
                         let details = await response.json();
 
                         image.src = details.background_image;
+                        image.alt = details.name;
                     }
                     getData()
                 }
@@ -94,6 +97,7 @@ class Games {
                         let details = await response.json();
 
                         image.src = details.background_image;
+                        image.alt = details.name;
                     }
                     getData()
                 }

@@ -84,7 +84,7 @@ final class CommentManager
         $dislikesRate = floor(($newDislikes * 100) / $totalReactions);
 
         $comment = new Comment();
-        if ($likes >= 20 && $dislikesRate >= 20 && $actualStatus === 0) {
+        if ($totalReactions >= 20 && $dislikesRate >= 20 && $actualStatus === 0) {
             $status = 1;
             $comment->setCommentStatus($status);
             $comment->setId($id);
