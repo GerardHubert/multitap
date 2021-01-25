@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace App\Model\Entity;
 
-use DateTime;
-
 final class Review
 {
     private $reviewId;
@@ -16,7 +14,6 @@ final class Review
     private $reviewDate;
     private $apiGameId;
     private $reviewStatus;
-    private $nbComments;
 
     public function getReviewId(): int
     {

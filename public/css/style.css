@@ -1091,7 +1091,7 @@ button{
     }
 }
 
-@media screen and (min-width: 432px) and (max-width: 767px) {
+@media screen and /*(min-width: 432px) and */(max-width: 767px) {
 
     header{
         width: 100%;

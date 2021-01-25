@@ -67,8 +67,7 @@
                     value='Soumettre à validation'>         
                 {% elseif session.userRank != 'ROLE_REVIEWER' %}
                     <input type='submit' formaction='index.php?action=publish' name="publish" value='Publier'>
-            {% endif %}      
-            <input type='button' class='back_to_results' value='Retour aux résultats' />
+            {% endif %}
         </div>
     </form>
 </section>
