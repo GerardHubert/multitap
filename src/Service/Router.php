@@ -47,7 +47,6 @@ final class Router
     private $email;
     private $checkActivity;
 
-
     public function __construct()
     {
         // dépendances
